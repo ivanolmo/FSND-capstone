@@ -22,10 +22,20 @@ def setup_db(app, database_path=database_path):
 class Player(db.Model):
     __tablename__ = 'players'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    number = Column(Integer)
-    position = Column(String)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    number = db.Column(db.Integer)
+    position = db.Column(db.String)
+
+    playerstats_id = db.Column(db.Integer, db.ForeignKey(
+        'player_stats.id'), nullable=False)
+    player_stats = db.relationship(
+        'PlayerStats', backref=db.backref('stats', cascade='all, delete'))
+
+    playerdetails_id = db.Column(db.Integer, db.ForeignKey(
+        'player_details.id'), nullable=False)
+    player_details = db.relationship(
+        'PlayerDetails', backref=db.backref('details', cascade='all, delete'))
 
     def __init__(self, name, number, position):
         self.name = name
@@ -33,7 +43,8 @@ class Player(db.Model):
         self.position = position
 
     def __repr__(self, name, number, position):
-        return f'{name} is a player on this team. His number is {number} and his position is {position}.'
+        return f'{name} is a player on this team. His number is {number} and' \
+               f' his position is {position}.'
 
     def add(self):
         db.session.add(self)
@@ -55,12 +66,12 @@ class Player(db.Model):
 class PlayerStats(db.Model):
     __tablename__ = 'player_stats'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    batting_avg = Column(Integer)
-    on_base = Column(Integer)
-    strikeouts = Column(Integer)
-    walks = Column(Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    batting_avg = db.Column(db.Integer)
+    on_base = db.Column(db.Integer)
+    strikeouts = db.Column(db.Integer)
+    walks = db.Column(db.Integer)
 
     def __init__(self, name, batting_avg, on_base, strikeouts, walks):
         self.name = name
