@@ -30,12 +30,12 @@ class Player(db.Model):
     playerstats_id = db.Column(db.Integer, db.ForeignKey(
         'player_stats.id'), nullable=False)
     player_stats = db.relationship(
-        'PlayerStats', backref=db.backref('stats', cascade='all, delete'))
+        'Player_stats', backref=db.backref('stats', cascade='all, delete'))
 
     playerdetails_id = db.Column(db.Integer, db.ForeignKey(
         'player_details.id'), nullable=False)
     player_details = db.relationship(
-        'PlayerDetails', backref=db.backref('details', cascade='all, delete'))
+        'Player_details', backref=db.backref('details', cascade='all, delete'))
 
     def __init__(self, name, number, position):
         self.name = name
@@ -100,4 +100,44 @@ class PlayerStats(db.Model):
             'on_base_percentage': self.on_base,
             'strikeouts': self.strikeouts,
             'walks': self.walks
+        }
+
+
+class PlayerDetails(db.Model):
+    __tablename__ = 'player_details'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    birthplace = db.Column(db.String)
+    birthdate = db.Column(db.Integer)
+    lives_in = db.Column(db.String)
+    hobby = db.Column(db.String)
+
+    def __init__(self, name, birthplace, birthdate, lives_in, hobby):
+        self.name = name
+        self.birthplace = birthplace
+        self.birthdate = birthdate
+        self.lives_in = lives_in
+        self.hobby = hobby
+
+    def __repr__(self, name, birthplace, birthdate, lives_in, hobby):
+        return f'{name} was born in {birthplace} on {birthdate}. In addition' \
+               f'to long walks on the beach, he really likes {hobby}.'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'birthplace': self.birthplace,
+            'birthdate': self.birthdate,
+            'lives_in': self.lives_in,
+            'hobby': self.hobby
         }
