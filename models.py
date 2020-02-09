@@ -1,22 +1,33 @@
 import os
 
+from flask import Flask
 from dotenv import load_dotenv
 from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 
-load_dotenv()
+# load_dotenv()
 
-database_path = os.environ['DATABASE_URL']
+# database_path = os.environ['DATABASE_URL']
 
-db = SQLAlchemy()
+database_name = 'baseball'
+database_path = 'postgres://{}:{}@{}/{}'.format(
+    'postgres', 'asdf', 'localhost:5432', database_name)
+
+app = Flask(__name__)
+db = SQLAlchemy(app)
 
 
 def setup_db(app, database_path=database_path):
-    app.config['SQLALCHEMY_DATABASE_URL'] = database_path
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_path
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
     db.create_all()
+
+
+def create_app(test_config=None):
+    app = Flask(__name__)
+    setup_db(app)
 
 
 class Player(db.Model):
@@ -141,3 +152,17 @@ class PlayerDetails(db.Model):
             'lives_in': self.lives_in,
             'hobby': self.hobby
         }
+
+
+class TeamStats(db.Model):
+    __tablename__ = 'team_stats'
+
+    id = db.Column(db.Integer, primary_key=True)
+    total_wins = db.Column(db.Integer)
+    total_losses = db.Column(db.Integer)
+    total_players = db.Column(db.Integer)
+    player_list = db.Column(db.String)
+
+
+if __name__ == '__main__':
+    create_app()
