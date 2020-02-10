@@ -42,12 +42,12 @@ class Player(db.Model):
     playerstats_id = db.Column(db.Integer, db.ForeignKey(
         'player_stats.id'), nullable=False)
     player_stats = db.relationship(
-        'Player_stats', backref=db.backref('stats', cascade='all, delete'))
+        'PlayerStats', backref=db.backref('stats', cascade='all, delete'))
 
     playerdetails_id = db.Column(db.Integer, db.ForeignKey(
         'player_details.id'), nullable=False)
     player_details = db.relationship(
-        'Player_details', backref=db.backref('details', cascade='all, delete'))
+        'PlayerDetails', backref=db.backref('details', cascade='all, delete'))
 
     def __init__(self, name, number, position):
         self.name = name

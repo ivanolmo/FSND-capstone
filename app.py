@@ -4,6 +4,8 @@ from flask import Flask, request, jsonify, abort
 from models import Player, PlayerDetails, PlayerStats, TeamStats, setup_db, \
     db_drop_and_create_all
 
+from auth.auth import requires_auth
+
 # db_drop_and_create_all()
 
 app = Flask(__name__)
@@ -13,6 +15,14 @@ CORS(app)
 """
 API endpoints
 """
+
+
+@app.route('/', methods=['GET'])
+def index():
+    return jsonify({
+        'success': True,
+        'message': 'Cool, it works'
+    }), 200
 
 
 @app.route('/players', methods=['GET'])
