@@ -1,8 +1,7 @@
-import os
+# import os
 
-from flask import Flask
-from dotenv import load_dotenv
-from sqlalchemy import Column, String, Integer
+# from dotenv import load_dotenv
+# from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 
 # load_dotenv()
@@ -13,8 +12,8 @@ database_name = 'baseball'
 database_path = 'postgres://{}:{}@{}/{}'.format(
     'postgres', 'asdf', 'localhost:5432', database_name)
 
-app = Flask(__name__)
-db = SQLAlchemy(app)
+
+db = SQLAlchemy()
 
 
 def setup_db(app, database_path=database_path):
@@ -25,9 +24,11 @@ def setup_db(app, database_path=database_path):
     db.create_all()
 
 
-def create_app(test_config=None):
-    app = Flask(__name__)
-    setup_db(app)
+def db_drop_and_create_all():
+    """used to reinitialize database. calling this will delete existing db
+    data, so make sure it's what you want to do."""
+    db.drop_all()
+    db.create_all()
 
 
 class Player(db.Model):
@@ -92,8 +93,9 @@ class PlayerStats(db.Model):
         self.walks = walks
 
     def __repr__(self, name, batting_avg, on_base, strikeouts, walks):
-        return f'{name} is currently batting {batting_avg}. His OBP is {on_base}. He\'s struck out {strikeouts} ' \
-               f'times, and has {walks} walks.'
+        return f'{name} is currently batting {batting_avg}. His OBP is ' \
+               f'{on_base}. He\'s struck out {strikeouts} times, and has' \
+               f' {walks} walks.'
 
     def add(self):
         db.session.add(self)
@@ -162,7 +164,3 @@ class TeamStats(db.Model):
     total_losses = db.Column(db.Integer)
     total_players = db.Column(db.Integer)
     player_list = db.Column(db.String)
-
-
-if __name__ == '__main__':
-    create_app()
