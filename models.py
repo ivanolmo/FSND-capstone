@@ -40,14 +40,14 @@ class Player(db.Model):
     position = db.Column(db.String)
 
     playerstats_id = db.Column(db.Integer, db.ForeignKey(
-        'player_stats.id'), nullable=False)
-    player_stats = db.relationship(
-        'PlayerStats', backref=db.backref('stats', cascade='all, delete'))
+        'stats.id'), nullable=False)
+    stats = db.relationship(
+        'Stats', backref=db.backref('playerstats', cascade='all, delete'))
 
     playerdetails_id = db.Column(db.Integer, db.ForeignKey(
-        'player_details.id'), nullable=False)
-    player_details = db.relationship(
-        'PlayerDetails', backref=db.backref('details', cascade='all, delete'))
+        'details.id'), nullable=False)
+    details = db.relationship(
+        'Details', backref=db.backref('playerdetails', cascade='all, delete'))
 
     def __init__(self, name, number, position):
         self.name = name
@@ -75,8 +75,8 @@ class Player(db.Model):
         }
 
 
-class PlayerStats(db.Model):
-    __tablename__ = 'player_stats'
+class Stats(db.Model):
+    __tablename__ = 'stats'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -116,8 +116,8 @@ class PlayerStats(db.Model):
         }
 
 
-class PlayerDetails(db.Model):
-    __tablename__ = 'player_details'
+class Details(db.Model):
+    __tablename__ = 'details'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -156,11 +156,11 @@ class PlayerDetails(db.Model):
         }
 
 
-class TeamStats(db.Model):
-    __tablename__ = 'team_stats'
-
-    id = db.Column(db.Integer, primary_key=True)
-    total_wins = db.Column(db.Integer)
-    total_losses = db.Column(db.Integer)
-    total_players = db.Column(db.Integer)
-    player_list = db.Column(db.String)
+# class TeamStats(db.Model):
+#     __tablename__ = 'team_stats'
+#
+#     id = db.Column(db.Integer, primary_key=True)
+#     total_wins = db.Column(db.Integer)
+#     total_losses = db.Column(db.Integer)
+#     total_players = db.Column(db.Integer)
+#     player_list = db.Column(db.String)
