@@ -1,4 +1,4 @@
-# import os
+import os
 
 # from dotenv import load_dotenv
 # from sqlalchemy import Column, String, Integer
@@ -12,6 +12,11 @@ database_name = 'baseball'
 database_path = 'postgres://{}:{}@{}/{}'.format(
     'postgres', 'asdf', 'localhost:5432', database_name)
 
+# database_filename = 'baseball.db'
+# project_dir = os.path.dirname(os.path.abspath(__file__))
+# database_path = 'sqlite:///{}'.format(
+#     os.path.join(project_dir, database_filename)
+# )
 
 db = SQLAlchemy()
 
@@ -39,15 +44,11 @@ class Player(db.Model):
     number = db.Column(db.Integer)
     position = db.Column(db.String)
 
-    playerstats_id = db.Column(db.Integer, db.ForeignKey(
-        'stats.id'), nullable=False)
     stats = db.relationship(
-        'Stats', backref=db.backref('playerstats', cascade='all, delete'))
+        'Stats', backref=db.backref('player', cascade='all,delete'))
 
-    playerdetails_id = db.Column(db.Integer, db.ForeignKey(
-        'details.id'), nullable=False)
     details = db.relationship(
-        'Details', backref=db.backref('playerdetails', cascade='all, delete'))
+        'Details', backref=db.backref('player', cascade='all,delete'))
 
     def __init__(self, name, number, position):
         self.name = name
@@ -79,23 +80,24 @@ class Stats(db.Model):
     __tablename__ = 'stats'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
     batting_avg = db.Column(db.Integer)
     on_base = db.Column(db.Integer)
     strikeouts = db.Column(db.Integer)
     walks = db.Column(db.Integer)
+    player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
+                          nullable=False)
 
-    def __init__(self, name, batting_avg, on_base, strikeouts, walks):
-        self.name = name
+    def __init__(self, batting_avg, on_base, strikeouts, walks):
         self.batting_avg = batting_avg
         self.on_base = on_base
         self.strikeouts = strikeouts
         self.walks = walks
 
-    def __repr__(self, name, batting_avg, on_base, strikeouts, walks):
-        return f'{name} is currently batting {batting_avg}. His OBP is ' \
-               f'{on_base}. He\'s struck out {strikeouts} times, and has' \
-               f' {walks} walks.'
+    def __repr__(self, batting_avg, on_base, strikeouts, walks):
+        return f'avg:{batting_avg},' \
+               f'obp:{on_base},' \
+               f'so:{strikeouts},' \
+               f'walks:{walks}'
 
     def add(self):
         db.session.add(self)
@@ -108,7 +110,6 @@ class Stats(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'name': self.name,
             'batting_avg': self.batting_avg,
             'on_base_percentage': self.on_base,
             'strikeouts': self.strikeouts,
@@ -120,22 +121,24 @@ class Details(db.Model):
     __tablename__ = 'details'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
     birthplace = db.Column(db.String)
     birthdate = db.Column(db.Integer)
     lives_in = db.Column(db.String)
     hobby = db.Column(db.String)
+    player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
+                          nullable=False)
 
-    def __init__(self, name, birthplace, birthdate, lives_in, hobby):
-        self.name = name
+    def __init__(self, birthplace, birthdate, lives_in, hobby):
         self.birthplace = birthplace
         self.birthdate = birthdate
         self.lives_in = lives_in
         self.hobby = hobby
 
-    def __repr__(self, name, birthplace, birthdate, lives_in, hobby):
-        return f'{name} was born in {birthplace} on {birthdate}. In addition' \
-               f'to long walks on the beach, he really likes {hobby}.'
+    def __repr__(self, birthplace, birthdate, lives_in, hobby):
+        return f'birthplace: {birthplace},' \
+               f'birth date: {birthdate},' \
+               f'lives_in: {lives_in},' \
+               f'hobby: {hobby}'
 
     def add(self):
         db.session.add(self)
@@ -148,7 +151,6 @@ class Details(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'name': self.name,
             'birthplace': self.birthplace,
             'birthdate': self.birthdate,
             'lives_in': self.lives_in,
