@@ -2,6 +2,7 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify, abort
 
 from models import Player, Stats, setup_db, db_drop_and_create_all
+from errors import *
 
 # from auth.auth import requires_auth
 
@@ -57,6 +58,39 @@ def create_app(test_config=None):
                 'success': True,
                 'players': players
             }), 200
+
+        except Exception as error:
+            raise error
+
+    @app.route('/players', methods=['POST'])
+    def add_player():
+        # will require authentication
+        try:
+            body = request.get_json()
+            name = body.get('name', None)
+            number = body.get('number', None)
+            position = body.get('position', None)
+
+            if name is None or number is None or position is None:
+                abort(400)
+            if len(name) == 0 or len(position) == 0 or not isinstance(
+                    number, int):
+                abort(400)
+
+            new_player = Player(name=name, number=number, position=position)
+            new_player.insert()
+
+            current_players = paginate_players(request,
+                                               Player.query.order_by(
+                                                   Player.id).all())
+
+            return jsonify({
+                'success': True,
+                'created_id': new_player.id,
+                'new_player': new_player.format(),
+                'players': current_players,
+                'total_players': len(Player.query.all())
+            }), 201
 
         except Exception as error:
             raise error
