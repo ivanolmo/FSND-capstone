@@ -95,6 +95,24 @@ def create_app(test_config=None):
         except Exception as error:
             raise error
 
+    @app.route('/players/<int:player_id>', methods=['DELETE'])
+    def delete_player(player_id):
+        # will require authentication
+        try:
+            player = Player.query.filter(Player.id == player_id).one_or_none()
+            if player is None:
+                abort(404)
+            player.delete()
+
+            return jsonify({
+                'success': True,
+                'deleted_id': player.id,
+                'total_players': len(Player.query.all())
+            })
+
+        except Exception as error:
+            raise error
+
     return app
 
 
