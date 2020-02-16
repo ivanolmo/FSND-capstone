@@ -2,7 +2,6 @@ from flask_cors import CORS
 from flask import Flask, request, jsonify, abort
 
 from models import Player, Stats, setup_db, db_drop_and_create_all
-from errors import *
 
 # from auth.auth import requires_auth
 

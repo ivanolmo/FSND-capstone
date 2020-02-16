@@ -62,6 +62,23 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['created_id'], data['new_player']['id'])
         self.assertTrue(data['total_players'])
 
+    def test_delete_player(self):
+        # add a mock player to test delete player
+        test_player = Player(name='Dude', number=0, position='TestPlayer')
+        test_player.insert()
+        test_player_id = test_player.id
+
+        res = self.client().delete(f'/players/{test_player_id}')
+        data = json.loads(res.data)
+
+        player = Player.query.filter(Player.id == test_player_id).one_or_none()
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted_id'], test_player_id)
+        self.assertEqual(player, None)
+        self.assertTrue(data['total_players'])
+
 
 if __name__ == '__main__':
     unittest.main()
