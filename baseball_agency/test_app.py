@@ -3,8 +3,8 @@ import json
 
 from flask_sqlalchemy import SQLAlchemy
 
-from app import create_app
-from .models import setup_db, Player
+from __init__ import create_app
+from baseball_agency.models import setup_db, Player
 
 
 class BaseballTestCase(unittest.TestCase):

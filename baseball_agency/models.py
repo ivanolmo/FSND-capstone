@@ -30,8 +30,10 @@ def setup_db(app, database_path=database_path):
 
 
 def db_drop_and_create_all():
-    """used to reinitialize database. calling this will delete existing db
-    data, so make sure it's what you want to do."""
+    """
+    used to reinitialize database. calling this will delete existing db
+    data, so make sure it's what you want to do.
+    """
     db.drop_all()
     db.create_all()
 
@@ -47,8 +49,8 @@ class Player(db.Model):
     stats = db.relationship(
         'Stats', backref=db.backref('player', cascade='all,delete'))
 
-    details = db.relationship(
-        'Details', backref=db.backref('player', cascade='all,delete'))
+    # details = db.relationship(
+    #     'Details', backref=db.backref('player', cascade='all,delete'))
 
     def __init__(self, name, number, position):
         self.name = name
@@ -59,7 +61,7 @@ class Player(db.Model):
         return f'{name} is a player on this team. His number is {number} and' \
                f' his position is {position}.'
 
-    def add(self):
+    def insert(self):
         db.session.add(self)
         db.session.commit()
 
@@ -80,8 +82,8 @@ class Stats(db.Model):
     __tablename__ = 'stats'
 
     id = db.Column(db.Integer, primary_key=True)
-    batting_avg = db.Column(db.Integer)
-    on_base = db.Column(db.Integer)
+    batting_avg = db.Column(db.Float)
+    on_base = db.Column(db.Float)
     strikeouts = db.Column(db.Integer)
     walks = db.Column(db.Integer)
     player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
@@ -99,7 +101,7 @@ class Stats(db.Model):
                f'so:{strikeouts},' \
                f'walks:{walks}'
 
-    def add(self):
+    def insert(self):
         db.session.add(self)
         db.session.commit()
 
@@ -117,52 +119,42 @@ class Stats(db.Model):
         }
 
 
-class Details(db.Model):
-    __tablename__ = 'details'
-
-    id = db.Column(db.Integer, primary_key=True)
-    birthplace = db.Column(db.String)
-    birthdate = db.Column(db.Integer)
-    lives_in = db.Column(db.String)
-    hobby = db.Column(db.String)
-    player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
-                          nullable=False)
-
-    def __init__(self, birthplace, birthdate, lives_in, hobby):
-        self.birthplace = birthplace
-        self.birthdate = birthdate
-        self.lives_in = lives_in
-        self.hobby = hobby
-
-    def __repr__(self, birthplace, birthdate, lives_in, hobby):
-        return f'birthplace: {birthplace},' \
-               f'birth date: {birthdate},' \
-               f'lives_in: {lives_in},' \
-               f'hobby: {hobby}'
-
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def format(self):
-        return {
-            'id': self.id,
-            'birthplace': self.birthplace,
-            'birthdate': self.birthdate,
-            'lives_in': self.lives_in,
-            'hobby': self.hobby
-        }
-
-
-# class TeamStats(db.Model):
-#     __tablename__ = 'team_stats'
+# class Details(db.Model):
+#     __tablename__ = 'details'
 #
 #     id = db.Column(db.Integer, primary_key=True)
-#     total_wins = db.Column(db.Integer)
-#     total_losses = db.Column(db.Integer)
-#     total_players = db.Column(db.Integer)
-#     player_list = db.Column(db.String)
+#     birthplace = db.Column(db.String)
+#     birthdate = db.Column(db.Integer)
+#     lives_in = db.Column(db.String)
+#     hobby = db.Column(db.String)
+#     player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
+#                           nullable=False)
+#
+#     def __init__(self, birthplace, birthdate, lives_in, hobby):
+#         self.birthplace = birthplace
+#         self.birthdate = birthdate
+#         self.lives_in = lives_in
+#         self.hobby = hobby
+#
+#     def __repr__(self, birthplace, birthdate, lives_in, hobby):
+#         return f'birthplace: {birthplace},' \
+#                f'birth date: {birthdate},' \
+#                f'lives_in: {lives_in},' \
+#                f'hobby: {hobby}'
+#
+#     def add(self):
+#         db.session.add(self)
+#         db.session.commit()
+#
+#     def delete(self):
+#         db.session.delete(self)
+#         db.session.commit()
+#
+#     def format(self):
+#         return {
+#             'id': self.id,
+#             'birthplace': self.birthplace,
+#             'birthdate': self.birthdate,
+#             'lives_in': self.lives_in,
+#             'hobby': self.hobby
+#         }
