@@ -42,7 +42,19 @@ def get_players():
 @players.route('/players/<int:player_id>', methods=['GET'])
 def get_specific_player(player_id):
     # requires no authentication
-    pass
+    try:
+        player = Player.query.filter(Player.id == player_id).one_or_none()
+        if player is None:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'player_id': player.id,
+            'player_name': player.name,
+            'total_players': len(Player.query.all())
+        }), 200
+    except Exception as error:
+        raise error
 
 
 @players.route('/players', methods=['POST'])

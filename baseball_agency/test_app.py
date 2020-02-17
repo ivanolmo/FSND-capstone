@@ -4,7 +4,7 @@ import json
 from flask_sqlalchemy import SQLAlchemy
 
 from baseball_agency import app
-from baseball_agency.models import setup_db, Player
+from baseball_agency.models import setup_db, db_drop_and_create_all, Player
 
 
 class BaseballTestCase(unittest.TestCase):
@@ -37,7 +37,7 @@ class BaseballTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['message'], 'Cool, it works')
+        self.assertEqual(data['message'], 'index page works')
 
     def test_get_all_players(self):
         res = self.client().get('/players')
@@ -47,6 +47,16 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['players'])
         self.assertTrue(len(data['players']))
+
+    def test_get_player_by_id(self):
+        res = self.client().get(f'/players/2')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['player_id'], 2)
+        self.assertEqual(data['player_name'], 'Kris Bryant')
+        self.assertTrue(data['total_players'])
 
     def test_add_player(self):
         # add a mock player to test add player
