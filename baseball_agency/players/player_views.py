@@ -1,7 +1,9 @@
-from flask import jsonify, request, abort
+from flask import Blueprint, jsonify, request, abort
 
 from .. import app
 from ..models import Player
+
+players = Blueprint('players', __name__)
 
 PLAYERS_PER_PAGE = 10
 
@@ -17,7 +19,7 @@ def paginate_players(request, selection):
     return current_players
 
 
-@app.route('/players', methods=['GET'])
+@players.route('/players', methods=['GET'])
 def get_players():
     # requires no authentication
     try:
@@ -37,7 +39,13 @@ def get_players():
         raise error
 
 
-@app.route('/players', methods=['POST'])
+@players.route('/players/<int:player_id>', methods=['GET'])
+def get_specific_player(player_id):
+    # requires no authentication
+    pass
+
+
+@players.route('/players', methods=['POST'])
 def add_player():
     # will require authentication
     try:
@@ -71,7 +79,7 @@ def add_player():
         raise error
 
 
-@app.route('/players/<int:player_id>', methods=['DELETE'])
+@players.route('/players/<int:player_id>', methods=['DELETE'])
 def delete_player(player_id):
     # will require authentication
     try:

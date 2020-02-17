@@ -3,19 +3,20 @@ import json
 
 from flask_sqlalchemy import SQLAlchemy
 
-from __init__ import create_app
+from baseball_agency import app
 from baseball_agency.models import setup_db, Player
 
 
 class BaseballTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = create_app()
+        self.app = app
         self.client = self.app.test_client
         self.database_name = 'baseball_test'
         self.database_path = "postgres://{}:{}@{}/{}".format(
             'postgres', 'asdf', 'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
+        # mock player to test database functions
         self.new_player = {
             'name': 'Kris Bryant',
             'number': 17,

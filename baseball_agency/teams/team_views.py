@@ -1,7 +1,9 @@
-from flask import jsonify, request, abort
+from flask import Blueprint, jsonify, request, abort
 
 from .. import app
 from ..models import Player
+
+teams = Blueprint('teams', __name__)
 
 TEAMS_PER_PAGE = 10
 
