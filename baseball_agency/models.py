@@ -96,7 +96,7 @@ class Team(db.Model):
     team_short = db.Column(db.String)
     city = db.Column(db.String)
     state = db.Column(db.String)
-    players = db.Column(db.ARRAY(db.String))
+    players = db.Column(db.ARRAY(db.String), default=[])
 
     def __init__(self, team_name, team_short, city, state):
         self.team_name = team_name
@@ -127,32 +127,32 @@ class Team(db.Model):
         }
 
 
-# class Agent(db.Model):
-#     __tablename__ = 'agents'
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String)
-#     clients = db.Column(db.ARRAY(db.String))
-#
-#     def __init__(self, name):
-#         self.name = name
-#
-#     def __repr__(self, name):
-#         return f'{name} is a baseball player agent with a total of ' \
-#                f'{len(self.clients)} clients. They are: ' \
-#                f'{[client for client in self.clients]}'
-#
-#     def add(self):
-#         db.session.add(self)
-#         db.session.commit()
-#
-#     def delete(self):
-#         db.session.delete(self)
-#         db.session.commit()
-#
-#     def format(self):
-#         return {
-#             'id': self.id,
-#             'name': self.name,
-#             'clients': [client for client in self.clients]
-#         }
+class Agent(db.Model):
+    __tablename__ = 'agents'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    clients = db.Column(db.ARRAY(db.String), default=[])
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self, name):
+        return f'{name} is a baseball player agent with a total of ' \
+               f'{len(self.clients)} clients. They are: ' \
+               f'{[client for client in self.clients]}'
+
+    def add(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'clients': [client for client in self.clients]
+        }
