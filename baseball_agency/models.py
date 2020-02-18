@@ -45,10 +45,12 @@ class Player(db.Model):
     name = db.Column(db.String)
     number = db.Column(db.Integer)
     position = db.Column(db.String)
-    current_team = db.Column(db.String)
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
-    current_agent = db.Column(db.String)
-    agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
+    # current_team = db.Column(db.String)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.id'),
+                        nullable=False)
+    # current_agent = db.Column(db.String)
+    agent_id = db.Column(db.Integer, db.ForeignKey('agents.id'),
+                         nullable=False)
 
     team = db.relationship(
         'Team', backref=db.backref('player', cascade='all,delete'))
@@ -86,67 +88,59 @@ class Player(db.Model):
         }
 
 
-# class Stats(db.Model):
-#     __tablename__ = 'teams'
-#
-#     id = db.Column(db.Integer, primary_key=True)
-#     team_name = db.Column(db.String)
-#     team_abv = db.Column(db.String)
-#     player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
-#                           nullable=False)
-#
-#     def __init__(self, batting_avg, on_base, strikeouts, walks):
-#         self.batting_avg = batting_avg
-#         self.on_base = on_base
-#         self.strikeouts = strikeouts
-#         self.walks = walks
-#
-#     def __repr__(self, batting_avg, on_base, strikeouts, walks):
-#         return f'avg:{batting_avg},' \
-#                f'obp:{on_base},' \
-#                f'so:{strikeouts},' \
-#                f'walks:{walks}'
-#
-#     def insert(self):
-#         db.session.add(self)
-#         db.session.commit()
-#
-#     def delete(self):
-#         db.session.delete(self)
-#         db.session.commit()
-#
-#     def format(self):
-#         return {
-#             'id': self.id,
-#             'batting_avg': self.batting_avg,
-#             'on_base_percentage': self.on_base,
-#             'strikeouts': self.strikeouts,
-#             'walks': self.walks
-#         }
+class Team(db.Model):
+    __tablename__ = 'teams'
+
+    id = db.Column(db.Integer, primary_key=True)
+    team_name = db.Column(db.String)
+    team_short = db.Column(db.String)
+    city = db.Column(db.String)
+    state = db.Column(db.String)
+    players = db.Column(db.ARRAY(db.String))
+
+    def __init__(self, team_name, team_short, city, state):
+        self.team_name = team_name
+        self.team_short = team_short
+        self.city = city
+        self.state = state
+
+    def __repr__(self, team_name, team_short, city, state, players):
+        return f'The {team_name} (abbreviated {team_short}) are based in ' \
+               f'{city}, {state}. There are currently {len(players)} on the ' \
+               f'roster.'
+
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def format(self):
+        return {
+            'team_name': self.team_name,
+            'team_short': self.team_short,
+            'team_city': self.city,
+            'team_state': self.state,
+            'players': [player.format() for player in self.players]
+        }
 
 
-# class Details(db.Model):
-#     __tablename__ = 'details'
+# class Agent(db.Model):
+#     __tablename__ = 'agents'
 #
 #     id = db.Column(db.Integer, primary_key=True)
-#     birthplace = db.Column(db.String)
-#     birthdate = db.Column(db.Integer)
-#     lives_in = db.Column(db.String)
-#     hobby = db.Column(db.String)
-#     player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
-#                           nullable=False)
+#     name = db.Column(db.String)
+#     clients = db.Column(db.ARRAY(db.String))
 #
-#     def __init__(self, birthplace, birthdate, lives_in, hobby):
-#         self.birthplace = birthplace
-#         self.birthdate = birthdate
-#         self.lives_in = lives_in
-#         self.hobby = hobby
+#     def __init__(self, name):
+#         self.name = name
 #
-#     def __repr__(self, birthplace, birthdate, lives_in, hobby):
-#         return f'birthplace: {birthplace},' \
-#                f'birth date: {birthdate},' \
-#                f'lives_in: {lives_in},' \
-#                f'hobby: {hobby}'
+#     def __repr__(self, name):
+#         return f'{name} is a baseball player agent with a total of ' \
+#                f'{len(self.clients)} clients. They are: ' \
+#                f'{[client for client in self.clients]}'
 #
 #     def add(self):
 #         db.session.add(self)
@@ -159,8 +153,6 @@ class Player(db.Model):
 #     def format(self):
 #         return {
 #             'id': self.id,
-#             'birthplace': self.birthplace,
-#             'birthdate': self.birthdate,
-#             'lives_in': self.lives_in,
-#             'hobby': self.hobby
+#             'name': self.name,
+#             'clients': [client for client in self.clients]
 #         }
