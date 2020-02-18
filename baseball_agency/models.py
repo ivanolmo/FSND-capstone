@@ -45,17 +45,23 @@ class Player(db.Model):
     name = db.Column(db.String)
     number = db.Column(db.Integer)
     position = db.Column(db.String)
+    current_team = db.Column(db.String)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    current_agent = db.Column(db.String)
+    agent_id = db.Column(db.Integer, db.ForeignKey('agent.id'), nullable=False)
 
-    stats = db.relationship(
-        'Stats', backref=db.backref('player', cascade='all,delete'))
+    team = db.relationship(
+        'Team', backref=db.backref('player', cascade='all,delete'))
 
-    # details = db.relationship(
-    #     'Details', backref=db.backref('player', cascade='all,delete'))
+    agent = db.relationship(
+        'Agent', backref=db.backref('player', cascade='all,delete'))
 
-    def __init__(self, name, number, position):
+    def __init__(self, name, number, position, current_team, current_agent):
         self.name = name
         self.number = number
         self.position = position
+        self.current_team = current_team
+        self.current_agent = current_agent
 
     def __repr__(self, name, number, position):
         return f'{name} is a player on this team. His number is {number} and' \
@@ -74,49 +80,49 @@ class Player(db.Model):
             'id': self.id,
             'name': self.name,
             'number': self.number,
-            'position': self.position
+            'position': self.position,
+            'current_team': self.current_team,
+            'current_agent': self.current_agent
         }
 
 
-class Stats(db.Model):
-    __tablename__ = 'stats'
-
-    id = db.Column(db.Integer, primary_key=True)
-    batting_avg = db.Column(db.Float)
-    on_base = db.Column(db.Float)
-    strikeouts = db.Column(db.Integer)
-    walks = db.Column(db.Integer)
-    player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
-                          nullable=False)
-
-    def __init__(self, batting_avg, on_base, strikeouts, walks):
-        self.batting_avg = batting_avg
-        self.on_base = on_base
-        self.strikeouts = strikeouts
-        self.walks = walks
-
-    def __repr__(self, batting_avg, on_base, strikeouts, walks):
-        return f'avg:{batting_avg},' \
-               f'obp:{on_base},' \
-               f'so:{strikeouts},' \
-               f'walks:{walks}'
-
-    def insert(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def delete(self):
-        db.session.delete(self)
-        db.session.commit()
-
-    def format(self):
-        return {
-            'id': self.id,
-            'batting_avg': self.batting_avg,
-            'on_base_percentage': self.on_base,
-            'strikeouts': self.strikeouts,
-            'walks': self.walks
-        }
+# class Stats(db.Model):
+#     __tablename__ = 'teams'
+#
+#     id = db.Column(db.Integer, primary_key=True)
+#     team_name = db.Column(db.String)
+#     team_abv = db.Column(db.String)
+#     player_id = db.Column(db.Integer, db.ForeignKey('players.id'),
+#                           nullable=False)
+#
+#     def __init__(self, batting_avg, on_base, strikeouts, walks):
+#         self.batting_avg = batting_avg
+#         self.on_base = on_base
+#         self.strikeouts = strikeouts
+#         self.walks = walks
+#
+#     def __repr__(self, batting_avg, on_base, strikeouts, walks):
+#         return f'avg:{batting_avg},' \
+#                f'obp:{on_base},' \
+#                f'so:{strikeouts},' \
+#                f'walks:{walks}'
+#
+#     def insert(self):
+#         db.session.add(self)
+#         db.session.commit()
+#
+#     def delete(self):
+#         db.session.delete(self)
+#         db.session.commit()
+#
+#     def format(self):
+#         return {
+#             'id': self.id,
+#             'batting_avg': self.batting_avg,
+#             'on_base_percentage': self.on_base,
+#             'strikeouts': self.strikeouts,
+#             'walks': self.walks
+#         }
 
 
 # class Details(db.Model):
