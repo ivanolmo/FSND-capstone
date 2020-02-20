@@ -63,9 +63,9 @@ class Player(db.Model):
         self.current_team = team_id
         self.current_agent = agent_id
 
-    def __repr__(self, name, number, position):
-        return f'{name} is a player on this team. His number is {number} and' \
-               f' his position is {position}.'
+    def __repr__(self):
+        return f'{self.name} is a player on this team. His number is' \
+               f' {self.number} and his position is {self.position}.'
 
     def insert(self):
         db.session.add(self)
@@ -101,10 +101,9 @@ class Team(db.Model):
         self.city = city
         self.state = state
 
-    def __repr__(self, team_name, team_short, city, state, players):
-        return f'The {team_name} (abbreviated {team_short}) are based in ' \
-               f'{city}, {state}. There are currently {len(players)} on the ' \
-               f'roster.'
+    def __repr__(self):
+        return f'The {self.team_name} (abbreviated {self.team_short}) are ' \
+               f'based in {self.city}, {self.state}.'
 
     def insert(self):
         db.session.add(self)
@@ -133,8 +132,8 @@ class Agent(db.Model):
     def __init__(self, name):
         self.name = name
 
-    def __repr__(self, name):
-        return f'{name} is a baseball player agent.'
+    def __repr__(self):
+        return f'{self.name} is a baseball player agent.'
 
     def add(self):
         db.session.add(self)
