@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, abort
 
 from .. import app
-from ..models import Player
+from ..models import Player, Agent, Team
 
 players = Blueprint('players', __name__)
 
@@ -24,6 +24,7 @@ def get_players():
     # requires no authentication
     try:
         players = Player.query.all()
+        paginated_players = paginate_players(request, players)
 
         if not players:
             abort(404)
@@ -32,7 +33,7 @@ def get_players():
 
         return jsonify({
             'success': True,
-            'players': players
+            'players': paginated_players
         }), 200
 
     except Exception as error:
@@ -40,10 +41,13 @@ def get_players():
 
 
 @players.route('/players/<int:player_id>', methods=['GET'])
-def get_specific_player(player_id):
-    # requires no authentication
+def get_specific_player_details(player_id):
+    # will require authentication
     try:
         player = Player.query.filter(Player.id == player_id).one_or_none()
+        agent = Agent.query.filter(Agent.id ==
+                                          player.agent_id).one_or_none()
+
         if player is None:
             abort(404)
 
@@ -51,8 +55,11 @@ def get_specific_player(player_id):
             'success': True,
             'player_id': player.id,
             'player_name': player.name,
-            'total_players': len(Player.query.all())
+            'agent_id': player.agent_id,
+            'team_id': player.team_id,
+            'agent': agent.name
         }), 200
+
     except Exception as error:
         raise error
 
