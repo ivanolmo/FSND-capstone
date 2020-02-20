@@ -45,25 +45,23 @@ class Player(db.Model):
     name = db.Column(db.String)
     number = db.Column(db.Integer)
     position = db.Column(db.String)
-    # current_team = db.Column(db.String)
+
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'),
                         nullable=False)
-    # current_agent = db.Column(db.String)
     agent_id = db.Column(db.Integer, db.ForeignKey('agents.id'),
                          nullable=False)
 
     team = db.relationship(
         'Team', backref=db.backref('player', cascade='all,delete'))
-
     agent = db.relationship(
         'Agent', backref=db.backref('player', cascade='all,delete'))
 
-    def __init__(self, name, number, position, current_team, current_agent):
+    def __init__(self, name, number, position, team_id, agent_id):
         self.name = name
         self.number = number
         self.position = position
-        self.current_team = current_team
-        self.current_agent = current_agent
+        self.current_team = team_id
+        self.current_agent = agent_id
 
     def __repr__(self, name, number, position):
         return f'{name} is a player on this team. His number is {number} and' \
@@ -83,8 +81,8 @@ class Player(db.Model):
             'name': self.name,
             'number': self.number,
             'position': self.position,
-            'current_team': self.current_team,
-            'current_agent': self.current_agent
+            'team_id': self.team_id,
+            'agent_id': self.agent_id
         }
 
 
@@ -96,7 +94,6 @@ class Team(db.Model):
     team_short = db.Column(db.String)
     city = db.Column(db.String)
     state = db.Column(db.String)
-    players = db.Column(db.ARRAY(db.String), default=[])
 
     def __init__(self, team_name, team_short, city, state):
         self.team_name = team_name
@@ -132,15 +129,12 @@ class Agent(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    clients = db.Column(db.ARRAY(db.String), default=[])
 
     def __init__(self, name):
         self.name = name
 
     def __repr__(self, name):
-        return f'{name} is a baseball player agent with a total of ' \
-               f'{len(self.clients)} clients. They are: ' \
-               f'{[client for client in self.clients]}'
+        return f'{name} is a baseball player agent.'
 
     def add(self):
         db.session.add(self)
@@ -153,6 +147,5 @@ class Agent(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'clients': [client for client in self.clients]
+            'name': self.name
         }
