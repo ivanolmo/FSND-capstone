@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, abort
 
 from .. import app
 from ..models import Player, Agent, Team
+from .helpers import valid_player_body
 
 players = Blueprint('players', __name__)
 
@@ -24,7 +25,7 @@ def get_players():
     # requires no authentication
     try:
         players = Player.query.all()
-        paginated_players = paginate_players(request, players)
+        # paginated_players = paginate_players(request, players)
 
         if not players:
             abort(404)
@@ -33,7 +34,7 @@ def get_players():
 
         return jsonify({
             'success': True,
-            'players': paginated_players
+            'players': players
         }), 200
 
     except Exception as error:
@@ -44,9 +45,10 @@ def get_players():
 def get_specific_player_details(player_id):
     # will require authentication
     try:
-        player = Player.query.filter(Player.id == player_id).one_or_none()
+        player = Player.query.filter(Player.id ==
+                                     player_id).one_or_none()
         agent = Agent.query.filter(Agent.id ==
-                                          player.agent_id).one_or_none()
+                                   player.agent_id).one_or_none()
 
         if player is None:
             abort(404)
@@ -57,6 +59,7 @@ def get_specific_player_details(player_id):
             'player_name': player.name,
             'agent_id': player.agent_id,
             'team_id': player.team_id,
+            'salary': player.salary,
             'agent': agent.name
         }), 200
 
@@ -72,14 +75,15 @@ def add_player():
         name = body.get('name', None)
         number = body.get('number', None)
         position = body.get('position', None)
+        salary = body.get('salary', None)
+        agent_id = body.get('agent_id')
+        team_id = body.get('team_id')
 
-        if name is None or number is None or position is None:
-            abort(400)
-        if len(name) == 0 or len(position) == 0 or not isinstance(
-                number, int):
-            abort(400)
+        if not valid_player_body():
+            abort(404)
 
-        new_player = Player(name=name, number=number, position=position)
+        new_player = Player(name=name, number=number, position=position,
+                            salary=salary, agent_id=agent_id, team_id=team_id)
         new_player.insert()
 
         current_players = paginate_players(request,
@@ -88,8 +92,8 @@ def add_player():
 
         return jsonify({
             'success': True,
-            'created_id': new_player.id,
-            'new_player': new_player.format(),
+            'new_player_id': new_player.id,
+            'new_player': new_player.format_extended(),
             'players': current_players,
             'total_players': len(Player.query.all())
         }), 201
