@@ -45,6 +45,7 @@ class Player(db.Model):
     name = db.Column(db.String)
     number = db.Column(db.Integer)
     position = db.Column(db.String)
+    salary = db.Column(db.String)
 
     team_id = db.Column(db.Integer, db.ForeignKey('teams.id'),
                         nullable=False)
@@ -56,15 +57,16 @@ class Player(db.Model):
     agent = db.relationship(
         'Agent', backref=db.backref('player', cascade='all,delete'))
 
-    def __init__(self, name, number, position, team_id, agent_id):
+    def __init__(self, name, number, position, salary, team_id, agent_id):
         self.name = name
         self.number = number
         self.position = position
+        self.salary = salary
         self.current_team = team_id
         self.current_agent = agent_id
 
     def __repr__(self):
-        return f'{self.name} is a player on this team. His number is' \
+        return f'{self.name} is a baseball player. His number is' \
                f' {self.number} and his position is {self.position}.'
 
     def insert(self):
@@ -81,8 +83,7 @@ class Player(db.Model):
             'name': self.name,
             'number': self.number,
             'position': self.position,
-            'team_id': self.team_id,
-            'agent_id': self.agent_id
+            'team_id': self.team_id
         }
 
 
