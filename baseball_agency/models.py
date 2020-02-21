@@ -62,8 +62,8 @@ class Player(db.Model):
         self.number = number
         self.position = position
         self.salary = salary
-        self.current_team = team_id
-        self.current_agent = agent_id
+        self.team_id = team_id
+        self.agent_id = agent_id
 
     def __repr__(self):
         return f'{self.name} is a baseball player. His number is' \
@@ -84,6 +84,17 @@ class Player(db.Model):
             'number': self.number,
             'position': self.position,
             'team_id': self.team_id
+        }
+
+    def format_extended(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'number': self.number,
+            'position': self.position,
+            'team_id': self.team_id,
+            'agent_id': self.agent_id,
+            'salary': self.salary
         }
 
 
