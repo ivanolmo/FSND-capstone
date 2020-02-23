@@ -1,3 +1,5 @@
+import json
+
 from flask import Blueprint, jsonify, request, abort
 
 from .. import app
@@ -24,13 +26,12 @@ def paginate_players(request, selection):
 def get_players():
     # requires no authentication
     try:
-        players = Player.query.all()
-        # paginated_players = paginate_players(request, players)
+        all_players = Player.query.all()
 
-        if not players:
+        if not all_players:
             abort(404)
 
-        players = [player.format() for player in players]
+        players = [player.format() for player in all_players]
 
         return jsonify({
             'success': True,
@@ -71,19 +72,12 @@ def get_specific_player_details(player_id):
 def add_player():
     # will require authentication
     try:
-        body = request.get_json()
-        name = body.get('name', None)
-        number = body.get('number', None)
-        position = body.get('position', None)
-        salary = body.get('salary', None)
-        agent_id = body.get('agent_id')
-        team_id = body.get('team_id')
+        body = json.loads(request.data)
 
-        if not valid_player_body():
-            abort(404)
+        if not valid_player_body(body):
+            abort(422)
 
-        new_player = Player(name=name, number=number, position=position,
-                            salary=salary, agent_id=agent_id, team_id=team_id)
+        new_player = Player(**body)
         new_player.insert()
 
         current_players = paginate_players(request,
@@ -98,6 +92,10 @@ def add_player():
             'total_players': len(Player.query.all())
         }), 201
 
+    except json.decoder.JSONDecodeError:
+        abort(400)
+    # except KeyError:
+    #     abort(400)
     except Exception as error:
         raise error
 
