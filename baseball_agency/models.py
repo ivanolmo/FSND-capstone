@@ -31,8 +31,8 @@ def setup_db(app, database_path=database_path):
 
 def db_drop_and_create_all():
     """
-    used to reinitialize database. calling this will delete existing db
-    data, so make sure it's what you want to do.
+    used to reinitialize database.
+    calling this will delete existing db data!
     """
     db.drop_all()
     db.create_all()
@@ -43,7 +43,7 @@ class Player(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    number = db.Column(db.Integer)
+    number = db.Column(db.String)
     position = db.Column(db.String)
     salary = db.Column(db.String)
 
