@@ -47,21 +47,16 @@ def get_specific_player_details(player_id):
     # will require authentication
     try:
         player = Player.query.filter(Player.id ==
-                                     player_id).one_or_none()
+                                     player_id).first_or_404()
         agent = Agent.query.filter(Agent.id ==
-                                   player.agent_id).one_or_none()
+                                   player.agent_id).first_or_404()
 
         if player is None:
             abort(404)
 
         return jsonify({
             'success': True,
-            'player_id': player.id,
-            'player_name': player.name,
-            'agent_id': player.agent_id,
-            'team_id': player.team_id,
-            'salary': player.salary,
-            'agent': agent.name
+            'player_details': player.format_extended()
         }), 200
 
     except Exception as error:
