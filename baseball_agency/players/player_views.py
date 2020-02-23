@@ -56,7 +56,8 @@ def get_specific_player_details(player_id):
 
         return jsonify({
             'success': True,
-            'player_details': player.format_extended()
+            'player_details': player.format_extended(),
+            'total_players': len(Player.query.all())
         }), 200
 
     except Exception as error:

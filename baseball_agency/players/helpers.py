@@ -16,7 +16,7 @@ def valid_player_body(body):
     valid_team_ids = [team.id for team in Team.query.all()]
 
     try:
-        if int(body['number']) != type(int):
+        if not isinstance(int(body['number']), int):
             raise ValueError
 
         for key in string_keys:

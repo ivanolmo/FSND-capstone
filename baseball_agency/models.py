@@ -147,7 +147,7 @@ class Agent(db.Model):
     def __repr__(self):
         return f'{self.name} is a baseball player agent.'
 
-    def add(self):
+    def insert(self):
         db.session.add(self)
         db.session.commit()
 
