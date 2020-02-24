@@ -27,10 +27,9 @@ class BaseballTestCase(unittest.TestCase):
             "agent_id": 1
         }
 
-        #
-        # self.test_agent = {
-        #     'name': 'Test Agent'
-        # }
+        self.test_agent = {
+            'name': 'Test Agent'
+        }
         #
         # self.test_team = {
         #     'team_name': 'Test Team',
@@ -136,6 +135,17 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['agent']['name'], 'Test Agent')
         self.assertEqual(data['agent']['id'], 1)
+
+    def test_add_agent(self):
+        response = self.client().post('/agents', json=self.test_agent)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['new_agent']['name'], self.test_agent['name'])
+        self.assertTrue(data['new_agent_id'])
+        self.assertTrue(len(data['agents']))
+        self.assertTrue(data['total_agents'])
 
 
 if __name__ == '__main__':
