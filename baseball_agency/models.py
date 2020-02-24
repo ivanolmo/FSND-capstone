@@ -114,8 +114,8 @@ class Team(db.Model):
         self.state = state
 
     def __repr__(self):
-        return f'The {self.team_name} (abbreviated {self.team_short}) are ' \
-               f'based in {self.city}, {self.state}.'
+        return f'The {self.team_name} ({self.team_short}) are based in ' \
+               f'{self.city}, {self.state}.'
 
     def insert(self):
         db.session.add(self)
@@ -127,11 +127,11 @@ class Team(db.Model):
 
     def format(self):
         return {
+            'id': self.id,
             'team_name': self.team_name,
             'team_short': self.team_short,
             'team_city': self.city,
-            'team_state': self.state,
-            'players': [player.format() for player in self.players]
+            'team_state': self.state
         }
 
 

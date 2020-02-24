@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, abort
 
 from .. import app
-from ..models import Player
+from ..models import Player, Team
 
 teams = Blueprint('teams', __name__)
 
@@ -17,3 +17,15 @@ def paginate_players(request, selection):
     current_teams = teams[start:end]
 
     return current_teams
+
+
+@teams.route('/teams', methods=['GET'])
+def get_all_teams():
+    team_query = Team.query.all()
+
+    all_teams = [team.format() for team in team_query]
+
+    return jsonify({
+        'success': True,
+        'teams': all_teams
+    })

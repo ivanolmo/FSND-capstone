@@ -24,14 +24,14 @@ def paginate_players(request, selection):
 
 @players.route('/players', methods=['GET'])
 def get_players():
-    # requires no authentication
+    # requires no authentication, public
     try:
-        all_players = Player.query.all()
+        player_query = Player.query.all()
 
-        if not all_players:
+        if not player_query:
             abort(404)
 
-        players = [player.format() for player in all_players]
+        players = [player.format() for player in player_query]
 
         return jsonify({
             'success': True,
@@ -44,7 +44,7 @@ def get_players():
 
 @players.route('/players/<int:player_id>', methods=['GET'])
 def get_specific_player_details(player_id):
-    # will require authentication
+    # will require authentication level 1
     try:
         player = Player.query.filter(Player.id ==
                                      player_id).first_or_404()
@@ -66,7 +66,7 @@ def get_specific_player_details(player_id):
 
 @players.route('/players', methods=['POST'])
 def add_player():
-    # will require authentication
+    # will require authentication level 2
     try:
         body = json.loads(request.data)
 
@@ -98,7 +98,7 @@ def add_player():
 
 @players.route('/players/<int:player_id>', methods=['DELETE'])
 def delete_player(player_id):
-    # will require authentication
+    # will require authentication level 3
     try:
         player = Player.query.filter(Player.id == player_id).one_or_none()
         if player is None:
