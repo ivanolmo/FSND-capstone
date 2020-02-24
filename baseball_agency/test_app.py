@@ -34,8 +34,8 @@ class BaseballTestCase(unittest.TestCase):
         self.test_team = {
             'team_name': 'Test Team Delete',
             'team_short': 'TTD',
-            'city': 'Test City',
-            'state': 'Test State'
+            'team_city': 'Test City',
+            'team_state': 'Test State'
         }
 
         with self.app.app_context():
@@ -164,7 +164,7 @@ class BaseballTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['agent']['name'], 'Test Agent')
+        self.assertEqual(data['agent']['name'], 'Test Agent Delete')
         self.assertEqual(data['agent']['id'], 1)
 
     def test_add_agent(self):

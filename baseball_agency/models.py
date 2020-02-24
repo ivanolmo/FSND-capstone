@@ -104,18 +104,18 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     team_name = db.Column(db.String)
     team_short = db.Column(db.String)
-    city = db.Column(db.String)
-    state = db.Column(db.String)
+    team_city = db.Column(db.String)
+    team_state = db.Column(db.String)
 
-    def __init__(self, team_name, team_short, city, state):
+    def __init__(self, team_name, team_short, team_city, team_state):
         self.team_name = team_name
         self.team_short = team_short
-        self.city = city
-        self.state = state
+        self.team_city = team_city
+        self.team_state = team_state
 
     def __repr__(self):
         return f'The {self.team_name} ({self.team_short}) are based in ' \
-               f'{self.city}, {self.state}.'
+               f'{self.team_city}, {self.team_state}.'
 
     def insert(self):
         db.session.add(self)
@@ -130,8 +130,8 @@ class Team(db.Model):
             'id': self.id,
             'team_name': self.team_name,
             'team_short': self.team_short,
-            'team_city': self.city,
-            'team_state': self.state
+            'team_city': self.team_city,
+            'team_state': self.team_state
         }
 
 
