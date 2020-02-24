@@ -33,3 +33,22 @@ def get_all_teams():
 
     except Exception as error:
         raise error
+
+
+@teams.route('/teams/<int:team_id>', methods=['GET'])
+def get_specific_team_details(team_id):
+    # will require authentication level 1
+    try:
+        team = Team.query.filter(Team.id == team_id).first_or_404()
+
+        if team is None:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'team_details': team.format(),
+            'total_teams': len(Team.query.all())
+        }), 200
+
+    except Exception as error:
+        raise error

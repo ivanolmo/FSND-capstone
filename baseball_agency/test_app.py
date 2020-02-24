@@ -66,7 +66,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(data['players'])
 
     def test_get_player_by_id(self):
-        response = self.client().get(f'/players/2')
+        response = self.client().get('/players/2')
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -118,6 +118,19 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['teams'])
+
+    def test_get_team_by_id(self):
+        response = self.client().get('/teams/1')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['team_details']['id'], 1)
+        self.assertEqual(data['team_details']['team_name'], 'Test Team')
+        self.assertEqual(data['team_details']['team_short'], 'TTT')
+        self.assertEqual(data['team_details']['team_city'], 'Test City')
+        self.assertEqual(data['team_details']['team_state'], 'Test State')
+        self.assertTrue(data['total_teams'])
 
     def test_get_all_agents(self):
         response = self.client().get('/agents')
