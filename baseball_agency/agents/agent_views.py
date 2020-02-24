@@ -21,11 +21,34 @@ def paginate_players(request, selection):
 
 @agents.route('/agents', methods=['GET'])
 def get_all_agents():
-    agents_query = Agent.query.all()
+    try:
+        agents_query = Agent.query.all()
 
-    all_agents = [agent.format() for agent in agents_query]
+        all_agents = [agent.format() for agent in agents_query]
 
-    return jsonify({
-        'success': True,
-        'agents': all_agents
-    }), 200
+        return jsonify({
+            'success': True,
+            'agents': all_agents
+        }), 200
+
+    except Exception as error:
+        raise error
+
+
+@agents.route('/agents/<int:agent_id>', methods=['GET'])
+def get_specific_agent(agent_id):
+    # will require authentication level 1
+    try:
+        agent = Agent.query.filter(Agent.id ==
+                                   agent_id).first_or_404()
+
+        if agent is None:
+            abort(404)
+
+        return jsonify({
+            'success': True,
+            'agent': agent.format()
+        }), 200
+
+    except Exception as error:
+        raise error

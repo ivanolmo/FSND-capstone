@@ -21,11 +21,15 @@ def paginate_players(request, selection):
 
 @teams.route('/teams', methods=['GET'])
 def get_all_teams():
-    team_query = Team.query.all()
+    try:
+        team_query = Team.query.all()
 
-    all_teams = [team.format() for team in team_query]
+        all_teams = [team.format() for team in team_query]
 
-    return jsonify({
-        'success': True,
-        'teams': all_teams
-    })
+        return jsonify({
+            'success': True,
+            'teams': all_teams
+        }), 200
+
+    except Exception as error:
+        raise error

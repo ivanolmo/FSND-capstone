@@ -128,6 +128,15 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['agents'])
 
+    def test_get_agent_by_id(self):
+        response = self.client().get('/agents/1')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['agent']['name'], 'Test Agent')
+        self.assertEqual(data['agent']['id'], 1)
+
 
 if __name__ == '__main__':
     unittest.main()
