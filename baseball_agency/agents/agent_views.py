@@ -17,3 +17,15 @@ def paginate_players(request, selection):
     current_agents = agents[start:end]
 
     return current_agents
+
+
+@agents.route('/agents', methods=['GET'])
+def get_all_agents():
+    agents_query = Agent.query.all()
+
+    all_agents = [agent.format() for agent in agents_query]
+
+    return jsonify({
+        'success': True,
+        'agents': all_agents
+    }), 200
