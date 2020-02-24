@@ -19,7 +19,7 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player, team, and agent to test database functions
         self.test_player = {
-            "name": "Test Player",
+            "name": "Test Player Delete",
             "number": "1",
             "position": "Test Position",
             "salary": "Test Salary",
@@ -28,15 +28,15 @@ class BaseballTestCase(unittest.TestCase):
         }
 
         self.test_agent = {
-            'name': 'Test Agent'
+            'name': 'Test Agent Delete'
         }
-        #
-        # self.test_team = {
-        #     'team_name': 'Test Team',
-        #     'name_short': 'TTT',
-        #     'city': 'Test City',
-        #     'state': 'Test State'
-        # }
+
+        self.test_team = {
+            'team_name': 'Test Team Delete',
+            'team_short': 'TTD',
+            'city': 'Test City',
+            'state': 'Test State'
+        }
 
         with self.app.app_context():
             self.db = SQLAlchemy()
@@ -130,6 +130,24 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['team_details']['team_short'], 'TTT')
         self.assertEqual(data['team_details']['team_city'], 'Test City')
         self.assertEqual(data['team_details']['team_state'], 'Test State')
+        self.assertTrue(data['total_teams'])
+
+    def test_add_team(self):
+        # add a mock team to test add_team view
+        response = self.client().post('/teams', json=self.test_team)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['new_team']['team_name'],
+                         self.test_team['team_name'])
+        self.assertEqual(data['new_team']['team_short'],
+                         self.test_team['team_short'])
+        self.assertEqual(data['new_team']['team_city'],
+                         self.test_team['team_city'])
+        self.assertEqual(data['new_team']['team_state'],
+                         self.test_team['team_state'])
+        self.assertTrue(data['new_team_id'])
         self.assertTrue(data['total_teams'])
 
     def test_get_all_agents(self):
