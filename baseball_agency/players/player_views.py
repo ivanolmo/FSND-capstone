@@ -101,15 +101,17 @@ def delete_player(player_id):
     # will require authentication level 3
     try:
         player = Player.query.filter(Player.id == player_id).one_or_none()
+
         if player is None:
             abort(404)
+
         player.delete()
 
         return jsonify({
             'success': True,
             'deleted_id': player.id,
             'total_players': len(Player.query.all())
-        })
+        }), 200
 
     except Exception as error:
         raise error

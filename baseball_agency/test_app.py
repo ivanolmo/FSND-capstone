@@ -147,6 +147,22 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(len(data['agents']))
         self.assertTrue(data['total_agents'])
 
+    def test_delete_agent(self):
+        test_agent = Agent(name='Test Agent')
+        test_agent.insert()
+        test_agent_id = test_agent.id
+
+        response = self.client().delete(f'/agents/{test_agent_id}')
+        data = json.loads(response.data)
+
+        agent = Agent.query.filter(Agent.id == test_agent_id).one_or_none()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted_id'], test_agent_id)
+        self.assertEqual(agent, None)
+        self.assertTrue(data['total_agents'])
+
 
 if __name__ == '__main__':
     unittest.main()

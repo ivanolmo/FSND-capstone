@@ -84,3 +84,24 @@ def add_agent():
         abort(400)
     except Exception as error:
         raise error
+
+
+@agents.route('/agents/<int:agent_id>', methods=['DELETE'])
+def delete_agent(agent_id):
+    # will require authentication level 3
+    try:
+        agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
+
+        if agent is None:
+            abort(404)
+
+        agent.delete()
+
+        return jsonify({
+            'success': True,
+            'deleted_id': agent.id,
+            'total_agents': len(Agent.query.all())
+        }), 200
+
+    except Exception as error:
+        raise error

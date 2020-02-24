@@ -24,7 +24,7 @@ def get_all_teams():
     try:
         team_query = Team.query.all()
 
-        all_teams = [team.format() for team in team_query]
+        all_teams = [team.team_name for team in team_query]
 
         return jsonify({
             'success': True,
