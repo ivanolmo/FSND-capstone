@@ -35,6 +35,8 @@ def index():
 # set up flask blueprints
 from .players.player_views import players
 from .teams.team_views import teams
+from .agents.agent_views import agents
 
 app.register_blueprint(players)
 app.register_blueprint(teams)
+app.register_blueprint(agents)
