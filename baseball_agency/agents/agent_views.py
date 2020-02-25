@@ -99,6 +99,9 @@ def delete_agent(agent_id):
         if agent is None:
             abort(404)
 
+        player_query = Player.query.filter(Player.agent_id == agent.id)
+        client_list = [(client.id, client.name) for client in player_query]
+
         agent.delete()
 
         return jsonify({
@@ -110,8 +113,11 @@ def delete_agent(agent_id):
     except IntegrityError:
         return jsonify({
             'success': False,
-            'message': 'Please reassign the player to a new agent before '
-                       'performing this task!'
+            'message': 'This agent currently represents one or more players. '
+                       'Please reassign those players before deleting this '
+                       'agent!',
+            'client_ids': client_list,
+            'total_clients': len(client_list)
         })
     except Exception as error:
         raise error
