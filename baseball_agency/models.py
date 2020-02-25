@@ -53,9 +53,9 @@ class Player(db.Model):
                          nullable=False)
 
     team = db.relationship(
-        'Team', backref=db.backref('player', cascade='all,delete'))
+        'Team', backref=db.backref('player'))
     agent = db.relationship(
-        'Agent', backref=db.backref('player', cascade='all,delete'))
+        'Agent', backref=db.backref('player'))
 
     def __init__(self, name, number, position, salary, team_id, agent_id):
         self.name = name

@@ -23,7 +23,7 @@ def paginate_players(request, selection):
 
 
 @players.route('/players', methods=['GET'])
-def get_players():
+def get_all_players():
     # requires no authentication, public
     try:
         player_query = Player.query.all()

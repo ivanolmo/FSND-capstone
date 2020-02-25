@@ -1,6 +1,7 @@
 import json
 
 from flask import Blueprint, jsonify, request, abort
+from sqlalchemy.exc import IntegrityError
 
 from .. import app
 from ..models import Player, Team, Agent
@@ -27,6 +28,9 @@ def get_all_agents():
     try:
         agents_query = Agent.query.all()
 
+        if not agents_query:
+            abort(404)
+
         all_agents = [agent.format() for agent in agents_query]
 
         return jsonify({
@@ -39,7 +43,7 @@ def get_all_agents():
 
 
 @agents.route('/agents/<int:agent_id>', methods=['GET'])
-def get_specific_agent(agent_id):
+def get_specific_agent_details(agent_id):
     # will require authentication level 1
     try:
         agent = Agent.query.filter(Agent.id ==
@@ -103,5 +107,11 @@ def delete_agent(agent_id):
             'total_agents': len(Agent.query.all())
         }), 200
 
+    except IntegrityError:
+        return jsonify({
+            'success': False,
+            'message': 'Please reassign the player to a new agent before '
+                       'performing this task!'
+        })
     except Exception as error:
         raise error
