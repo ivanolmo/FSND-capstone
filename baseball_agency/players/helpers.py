@@ -1,6 +1,26 @@
 from ..models import Agent, Team
 
 
+def check_valid_agent_id(id):
+    is_valid = True
+    valid_agent_ids = [agent.id for agent in Agent.query.all()]
+
+    if not id in valid_agent_ids:
+        is_valid = False
+
+    return is_valid
+
+
+def check_valid_team_id(id):
+    is_valid = True
+    valid_team_ids = [team.id for team in Team.query.all()]
+
+    if not id in valid_team_ids:
+        is_valid = False
+
+    return is_valid
+
+
 def valid_player_body(body):
     is_valid = True
 
@@ -11,9 +31,6 @@ def valid_player_body(body):
     integer_keys = [
         'agent_id', 'team_id'
     ]
-
-    valid_agent_ids = [agent.id for agent in Agent.query.all()]
-    valid_team_ids = [team.id for team in Team.query.all()]
 
     try:
         if not isinstance(int(body['number']), int):
@@ -27,10 +44,10 @@ def valid_player_body(body):
             if key not in body.keys() or body[key] == 0:
                 is_valid = False
 
-        if body['agent_id'] not in valid_agent_ids:
+        if not check_valid_agent_id(body['agent_id']):
             is_valid = False
 
-        if body['team_id'] not in valid_team_ids:
+        if not check_valid_team_id(body['team_id']):
             is_valid = False
 
     except ValueError:
@@ -39,5 +56,22 @@ def valid_player_body(body):
         is_valid = False
     except Exception:
         raise Exception
+
+    return is_valid
+
+
+def valid_player_patch_body(body):
+    is_valid = True
+
+    possible_keys = [
+        'name', 'number', 'position', 'salary', 'team_id', 'agent_id'
+    ]
+
+    if body is None:
+        is_valid = False
+
+    for key in body.keys():
+        if key not in possible_keys:
+            is_valid = False
 
     return is_valid
