@@ -3,8 +3,8 @@ import json
 from flask import Blueprint, jsonify, request, abort
 
 from .. import app
-from ..models import Player, Agent, Team
-from .helpers import valid_player_body
+from ..models import Player, Agent, Team, db
+from .helpers import valid_player_body, valid_player_patch_body
 
 players = Blueprint('players', __name__)
 
@@ -112,6 +112,33 @@ def delete_player(player_id):
             'deleted_id': player.id,
             'total_players': len(Player.query.all())
         }), 200
+
+    except Exception as error:
+        raise error
+
+
+@players.route('/players/<int:player_id>', methods=['PATCH'])
+def edit_player_details(player_id):
+    try:
+        player = Player.query.filter(Player.id == player_id).one_or_none()
+
+        if player is None:
+            abort(404)
+
+        body = request.get_json()
+
+        if not valid_player_patch_body(body):
+            abort(400)
+
+        for k, v in body.items():
+            setattr(player, k, v)
+
+        player.update()
+
+        return jsonify({
+            'success': True,
+            'updated_player': player.format_extended()
+        }), 201
 
     except Exception as error:
         raise error
