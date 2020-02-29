@@ -35,7 +35,8 @@ def get_all_players():
 
         return jsonify({
             'success': True,
-            'players': players
+            'players': players,
+            'total_players': len(players)
         }), 200
 
     except Exception as error:
@@ -45,6 +46,7 @@ def get_all_players():
 @players.route('/players/<int:player_id>', methods=['GET'])
 def get_specific_player_details(player_id):
     # will require authentication level 1
+    # TODO maybe add agent name to .format_extended
     try:
         player = Player.query.filter(Player.id ==
                                      player_id).first_or_404()
@@ -76,9 +78,8 @@ def add_player():
         new_player = Player(**body)
         new_player.insert()
 
-        current_players = paginate_players(request,
-                                           Player.query.order_by(
-                                               Player.id).all())
+        current_players = paginate_players(
+            request, Player.query.order_by(Player.id).all())
 
         return jsonify({
             'success': True,
@@ -90,8 +91,6 @@ def add_player():
 
     except json.decoder.JSONDecodeError:
         abort(400)
-    # except KeyError:
-    #     abort(400)
     except Exception as error:
         raise error
 
@@ -138,7 +137,7 @@ def edit_player_details(player_id):
         return jsonify({
             'success': True,
             'updated_player': player.format_extended()
-        }), 201
+        }), 200
 
     except Exception as error:
         raise error
