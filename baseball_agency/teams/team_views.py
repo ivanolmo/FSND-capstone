@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 
 from .. import app
 from ..models import Player, Team
-from .helpers import valid_team_body
+from .helpers import valid_team_body, valid_team_patch_body
 
 teams = Blueprint('teams', __name__)
 
@@ -32,7 +32,8 @@ def get_all_teams():
 
         return jsonify({
             'success': True,
-            'teams': all_teams
+            'teams': all_teams,
+            'total_teams': len(all_teams)
         }), 200
 
     except Exception as error:
@@ -43,7 +44,7 @@ def get_all_teams():
 def get_specific_team_details(team_id):
     # will require authentication level 1
     try:
-        team = Team.query.filter(Team.id == team_id).first_or_404()
+        team = Team.query.filter(Team.id == team_id).one_or_none()
 
         if team is None:
             abort(404)
@@ -52,6 +53,32 @@ def get_specific_team_details(team_id):
             'success': True,
             'team_details': team.format(),
             'total_teams': len(Team.query.all())
+        }), 200
+
+    except Exception as error:
+        raise error
+
+
+@teams.route('/teams/<int:team_id>/players', methods=['GET'])
+def get_team_players(team_id):
+    # will require authentication level 1
+    try:
+        team = Team.query.filter(Team.id == team_id).one_or_none()
+
+        if team is None:
+            abort(404)
+
+        team_players = Player.query.filter_by(team_id=team.id).all()
+
+        if team_players is None:
+            abort(404)
+
+        roster = [player.format() for player in team_players]
+
+        return jsonify({
+            'success': True,
+            'roster': roster,
+            'total_team_players': len(roster)
         }), 200
 
     except Exception as error:
@@ -114,6 +141,34 @@ def delete_team(team_id):
                        'reassign those players before deleting this team!',
             'players': team_roster,
             'total_players': len(team_roster)
-        })
+        }), 422
+    except Exception as error:
+        raise error
+
+
+@teams.route('/teams/<int:team_id>', methods=['PATCH'])
+def patch_team_details(team_id):
+    # will require authentication level 2
+    try:
+        team = Team.query.filter(Team.id == team_id).one_or_none()
+
+        if team is None:
+            abort(404)
+
+        body = request.get_json()
+
+        if not valid_team_patch_body(body):
+            abort(400)
+
+        for k, v in body.items():
+            setattr(team, k, v)
+
+        team.update()
+
+        return jsonify({
+            'success': True,
+            'updated_team': team.format()
+        }), 200
+
     except Exception as error:
         raise error
