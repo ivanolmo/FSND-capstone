@@ -35,7 +35,8 @@ def get_all_agents():
 
         return jsonify({
             'success': True,
-            'agents': all_agents
+            'agents': all_agents,
+            'total_agents': len(all_agents)
         }), 200
 
     except Exception as error:
@@ -55,6 +56,33 @@ def get_specific_agent_details(agent_id):
         return jsonify({
             'success': True,
             'agent': agent.format()
+        }), 200
+
+    except Exception as error:
+        raise error
+
+
+@agents.route('/agents/<int:agent_id>/clients', methods=['GET'])
+def get_agent_clients(agent_id):
+    # will require authentication level 1
+    try:
+        agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
+
+        if agent is None:
+            abort(404)
+
+        client_query = Player.query.filter_by(agent_id=agent.id).all()
+
+        if client_query is None:
+            abort(404)
+
+        clients = [player.format() for player in client_query]
+
+        return jsonify({
+            'success': True,
+            'agent_name': agent.name,
+            'clients': clients,
+            'total_agent_clients': len(clients)
         }), 200
 
     except Exception as error:
