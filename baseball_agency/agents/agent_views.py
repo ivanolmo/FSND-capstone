@@ -3,9 +3,8 @@ import json
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
-from .. import app
-from ..models import Player, Team, Agent
-from .helpers import valid_agent_body
+from ..models import Player, Agent
+from .helpers import valid_agent_body, valid_agent_patch_body
 
 agents = Blueprint('agents', __name__)
 
@@ -147,5 +146,33 @@ def delete_agent(agent_id):
             'client_ids': client_list,
             'total_clients': len(client_list)
         })
+    except Exception as error:
+        raise error
+
+
+@agents.route('/agents/<int:agent_id>', methods=['PATCH'])
+def patch_agent_details(agent_id):
+    # will require authentication level 3
+    try:
+        agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
+
+        if agent is None:
+            abort(404)
+
+        body = request.get_json()
+
+        if not valid_agent_patch_body(body):
+            abort(400)
+
+        for k, v in body.items():
+            setattr(agent, k, v)
+
+        agent.update()
+
+        return jsonify({
+            'success': True,
+            'updated_agent': agent.format()
+        }), 200
+
     except Exception as error:
         raise error
