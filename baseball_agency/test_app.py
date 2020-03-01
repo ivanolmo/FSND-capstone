@@ -17,11 +17,14 @@ class BaseballTestCase(unittest.TestCase):
             'postgres', 'asdf', 'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
         db.session.close()
-        db.drop_all()
-        db.create_all()
+        db_drop_and_create_all()
 
-        # mock player, team, and agent to test database functions
+        self.mock_player = Player(name='Test Name', number='00',
+                                  position='Test Position',
+                                  salary='1 Te$t', team_id=1,
+                                  agent_id=1)
 
+        # mock team and agent to test database functions
         with self.app.app_context():
             self.db = SQLAlchemy()
             self.db.init_app(self.app)
@@ -36,7 +39,6 @@ class BaseballTestCase(unittest.TestCase):
             )
             self.test_agent.insert()
             self.test_team.insert()
-            # self.db.create_all()
 
     def tearDown(self):
         pass
@@ -50,11 +52,9 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'index page works')
 
     def test_get_all_players(self):
-        test_get_all_players = Player(name='Test Player Delete', number='0',
-                                      position='TestPlayerDelete',
-                                      salary='1 USD Delete', team_id=1,
-                                      agent_id=1)
-        test_get_all_players.insert()
+        # add one player because db starts with empty player table
+        self.mock_player.insert()
+
         response = self.client().get('/players')
         data = json.loads(response.data)
 
@@ -64,22 +64,14 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['total_players'], 1)
 
     def test_get_player_by_id(self):
-        test_player = Player(
-            name='Test Name',
-            position='Test Position',
-            number='99',
-            salary='1 USD',
-            agent_id=1,
-            team_id=1
-        )
-        test_player.insert()
-        test_player_id = test_player.id
-        response = self.client().get(f'/players/{test_player_id}')
+        self.mock_player.insert()
+        mock_player_id = self.mock_player.id
+        response = self.client().get(f'/players/{mock_player_id}')
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['player_details']['id'], test_player_id)
+        self.assertEqual(data['player_details']['id'], mock_player_id)
         self.assertTrue(data['total_players'])
 
     def test_post_add_player(self):
@@ -110,12 +102,10 @@ class BaseballTestCase(unittest.TestCase):
 
     def test_delete_player(self):
         # add a mock player to test delete player
-        test_delete_player = Player(name='Test Player Delete', number='0',
-                                    position='TestPlayerDelete',
-                                    salary='1 USD Delete', team_id=1,
-                                    agent_id=1)
-        test_delete_player.insert()
-        test_player_id = test_delete_player.id
+        self.mock_player.insert()
+        test_player_id = self.mock_player.id
+
+        self.assertEqual(len(Player.query.all()), 1)
 
         response = self.client().delete(f'/players/{test_player_id}')
         data = json.loads(response.data)
@@ -126,20 +116,17 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['deleted_id'], test_player_id)
         self.assertEqual(player, None)
-        self.assertFalse(data['total_players'])
+        self.assertEqual(data['total_players'], 0)
 
     def test_patch_player(self):
-        test_player_to_edit = Player(name='Test Player Edit', number='0',
-                                     position='TestPlayerEdit',
-                                     salary='1 USD Delete', team_id=1,
-                                     agent_id=1)
-        test_player_to_edit.insert()
-        test_player_to_edit_id = test_player_to_edit.id
+        # insert mock player to edit
+        self.mock_player.insert()
+        test_player_to_edit_id = self.mock_player.id
 
         test_edit_body = {
-            'name': 'Post Edit Player',
+            'name': 'After Player Edit',
             'number': '99',
-            'position': 'PostPlayerEdit',
+            'position': 'AfterPlayerEdit',
             'salary': '999 million USD'
         }
 
@@ -166,6 +153,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['teams'])
+        self.assertEqual(data['total_teams'], 1)
 
     def test_get_team_by_id(self):
         response = self.client().get('/teams/1')
@@ -180,10 +168,22 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['team_details']['team_state'], 'Test State')
         self.assertTrue(data['total_teams'])
 
+    def test_get_team_players(self):
+        # add one player to team with team_id of 1 so query returns something
+        self.mock_player.insert()
+
+        response = self.client().get('/teams/1/players')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['roster'])
+        self.assertEqual(data['total_team_players'], 1)
+
     def test_post_team(self):
         # add a mock team to test add_team view
         test_team = {
-            "team_name": "Test Team",
+            "team_name": "New Test Team",
             "team_short": "TTT",
             "team_city": "Test City",
             "team_state": "Test State"
@@ -205,10 +205,50 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(data['total_teams'])
 
     def test_delete_team(self):
-        pass
+        # query mock team previously loaded into db
+        test_team_to_delete = Team.query.first_or_404()
+        delete_id = test_team_to_delete.id
+
+        self.assertEqual(len(Team.query.all()), 1)
+
+        response = self.client().delete(f'/teams/{delete_id}')
+        data = json.loads(response.data)
+
+        team = Team.query.filter(Team.id == delete_id).one_or_none()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['deleted_id'], delete_id)
+        self.assertEqual(team, None)
+        self.assertEqual(data['total_teams'], 0)
 
     def test_patch_team(self):
-        pass
+        # query existing mock team to edit
+        test_team_to_edit = Team.query.filter_by(id=1).one_or_none()
+        test_team_to_edit_id = test_team_to_edit.id
+
+        test_edit_body = {
+            'team_name': 'After Team Edit',
+            'team_short': 'EEE',
+            'team_city': 'AfterEdit City',
+            'team_state': 'AfterEdit State'
+        }
+
+        response = self.client().patch(f'/teams/{test_team_to_edit_id}',
+                                       json=test_edit_body)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['updated_team'])
+        self.assertEqual(data['updated_team']['team_name'], test_edit_body[
+            'team_name'])
+        self.assertEqual(data['updated_team']['team_short'], test_edit_body[
+            'team_short'])
+        self.assertEqual(data['updated_team']['team_city'], test_edit_body[
+            'team_city'])
+        self.assertEqual(data['updated_team']['team_state'], test_edit_body[
+            'team_state'])
 
     def test_get_all_agents(self):
         response = self.client().get('/agents')
@@ -217,6 +257,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['agents'])
+        self.assertEqual(data['total_agents'], 1)
 
     def test_get_agent_by_id(self):
         response = self.client().get('/agents/1')
@@ -227,9 +268,23 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['agent']['name'], 'Test Agent')
         self.assertEqual(data['agent']['id'], 1)
 
+    def test_get_agent_clients(self):
+        # add one player to agent with agent_id of 1 so query returns something
+        self.mock_player.insert()
+        agent = Agent.query.filter_by(id=1).one_or_none()
+
+        response = self.client().get('/agents/1/clients')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['clients'])
+        self.assertEqual(data['total_agent_clients'], 1)
+        self.assertEqual(data['agent_name'], agent.name)
+
     def test_post_agent(self):
         test_agent = {
-            "name": "Test Agent"
+            "name": "New Test Agent"
         }
         response = self.client().post('/agents', json=test_agent)
         data = json.loads(response.data)
@@ -242,20 +297,22 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(data['total_agents'])
 
     def test_delete_agent(self):
-        test_agent = Agent(name='Test Agent')
-        test_agent.insert()
-        test_agent_id = test_agent.id
+        # query mock agent previously loaded into db
+        test_agent_to_delete = Agent.query.first_or_404()
+        delete_id = test_agent_to_delete.id
 
-        response = self.client().delete(f'/agents/{test_agent_id}')
+        self.assertEqual(len(Agent.query.all()), 1)
+
+        response = self.client().delete(f'/agents/{delete_id}')
         data = json.loads(response.data)
 
-        agent = Agent.query.filter(Agent.id == test_agent_id).one_or_none()
+        agent = Agent.query.filter(Agent.id == delete_id).one_or_none()
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['deleted_id'], test_agent_id)
+        self.assertEqual(data['deleted_id'], delete_id)
         self.assertEqual(agent, None)
-        self.assertTrue(data['total_agents'])
+        self.assertEqual(data['total_agents'], 0)
 
     def test_patch_agent(self):
         pass
