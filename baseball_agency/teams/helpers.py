@@ -16,3 +16,20 @@ def valid_team_body(body):
         raise Exception
 
     return is_valid
+
+
+def valid_team_patch_body(body):
+    is_valid = True
+
+    possible_keys = [
+        'team_name', 'team_short', 'team_city', 'team_state'
+    ]
+
+    if body is None:
+        is_valid = False
+
+    for key in body.keys():
+        if key not in possible_keys:
+            is_valid = False
+
+    return is_valid
