@@ -25,7 +25,7 @@ from . import errors
 
 @app.route('/', methods=['GET'])
 def index():
-    # placeholder test endpoint
+    # TODO remove this placeholder test endpoint when done
     return jsonify({
         'success': True,
         'message': 'index page works'

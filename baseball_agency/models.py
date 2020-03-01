@@ -11,12 +11,6 @@ database_name = 'baseball'
 database_path = 'postgres://{}:{}@{}/{}'.format(
     'postgres', 'asdf', 'localhost:5432', database_name)
 
-# database_filename = 'baseball.db'
-# project_dir = os.path.dirname(os.path.abspath(__file__))
-# database_path = 'sqlite:///{}'.format(
-#     os.path.join(project_dir, database_filename)
-# )
-
 db = SQLAlchemy()
 
 

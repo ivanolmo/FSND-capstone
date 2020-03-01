@@ -31,12 +31,13 @@ def get_all_players():
         if not player_query:
             abort(404)
 
-        all_players = [player.format() for player in player_query]
+        paginated_players = paginate_players(
+            request, Player.query.order_by(Player.id).all())
 
         return jsonify({
             'success': True,
-            'players': all_players,
-            'total_players': len(all_players)
+            'players': paginated_players,
+            'total_players': len(paginated_players)
         }), 200
 
     except Exception as error:
