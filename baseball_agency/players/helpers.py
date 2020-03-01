@@ -1,3 +1,5 @@
+from sqlalchemy.exc import IntegrityError
+
 from ..models import Agent, Team
 
 
@@ -33,9 +35,6 @@ def valid_player_body(body):
     ]
 
     try:
-        if not isinstance(int(body['number']), int):
-            raise ValueError
-
         for key in string_keys:
             if key not in body.keys() or body[key] == '':
                 is_valid = False
@@ -61,6 +60,7 @@ def valid_player_body(body):
 
 
 def valid_player_patch_body(body):
+    # separate function to check patch body
     is_valid = True
 
     possible_keys = [
@@ -71,7 +71,15 @@ def valid_player_patch_body(body):
         is_valid = False
 
     for key in body.keys():
-        if key not in possible_keys:
+        if key not in possible_keys or body[key] == '':
             is_valid = False
+
+    if 'team_id' in body:
+        if not check_valid_team_id(body['team_id']):
+            return IntegrityError
+
+    if 'agent_id' in body:
+        if not check_valid_agent_id(body['agent_id']):
+            return IntegrityError
 
     return is_valid
