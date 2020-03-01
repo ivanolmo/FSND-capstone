@@ -1,6 +1,7 @@
 import json
 
 from flask import Blueprint, jsonify, request, abort
+from sqlalchemy.exc import IntegrityError
 
 from .. import app
 from ..models import Player, Agent, Team, db
@@ -31,12 +32,12 @@ def get_all_players():
         if not player_query:
             abort(404)
 
-        players = [player.format() for player in player_query]
+        all_players = [player.format() for player in player_query]
 
         return jsonify({
             'success': True,
-            'players': players,
-            'total_players': len(players)
+            'players': all_players,
+            'total_players': len(all_players)
         }), 200
 
     except Exception as error:
@@ -73,7 +74,7 @@ def add_player():
         body = json.loads(request.data)
 
         if not valid_player_body(body):
-            abort(422)
+            abort(400)
 
         new_player = Player(**body)
         new_player.insert()
@@ -117,7 +118,8 @@ def delete_player(player_id):
 
 
 @players.route('/players/<int:player_id>', methods=['PATCH'])
-def edit_player_details(player_id):
+def patch_player_details(player_id):
+    # will require authentication level 2
     try:
         player = Player.query.filter(Player.id == player_id).one_or_none()
 
@@ -139,5 +141,12 @@ def edit_player_details(player_id):
             'updated_player': player.format_extended()
         }), 200
 
+    except IntegrityError:
+        return jsonify({
+            'success': False,
+            'message': 'The team_id or agent_id you entered does not exist '
+                       'in the database. Please check your input and try '
+                       'again.'
+        }), 400
     except Exception as error:
         raise error
