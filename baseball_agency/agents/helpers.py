@@ -16,3 +16,20 @@ def valid_agent_body(body):
         raise Exception
 
     return is_valid
+
+
+def valid_agent_patch_body(body):
+    is_valid = True
+
+    possible_keys = [
+        'name'
+    ]
+
+    if body is None:
+        is_valid = False
+
+    for key in body.keys():
+        if key not in possible_keys or body[key] == '':
+            is_valid = False
+
+    return is_valid
