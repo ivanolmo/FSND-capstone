@@ -29,7 +29,7 @@ def valid_team_patch_body(body):
         is_valid = False
 
     for key in body.keys():
-        if key not in possible_keys:
+        if key not in possible_keys or body[key] == '':
             is_valid = False
 
     return is_valid

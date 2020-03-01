@@ -3,7 +3,6 @@ import json
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
-from .. import app
 from ..models import Player, Team
 from .helpers import valid_team_body, valid_team_patch_body
 
@@ -86,7 +85,7 @@ def get_team_players(team_id):
 
 
 @teams.route('/teams', methods=['POST'])
-def add_team():
+def post_team():
     # will require authentication level 2
     try:
         body = json.loads(request.data)

@@ -3,8 +3,7 @@ import json
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
-from .. import app
-from ..models import Player, Agent, Team, db
+from ..models import Player, Agent
 from .helpers import valid_player_body, valid_player_patch_body
 
 players = Blueprint('players', __name__)
@@ -47,7 +46,6 @@ def get_all_players():
 @players.route('/players/<int:player_id>', methods=['GET'])
 def get_specific_player_details(player_id):
     # will require authentication level 1
-    # TODO maybe add agent name to .format_extended
     try:
         player = Player.query.filter(Player.id ==
                                      player_id).first_or_404()

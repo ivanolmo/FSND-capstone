@@ -1,7 +1,6 @@
 import os
 
 # from dotenv import load_dotenv
-# from sqlalchemy import Column, String, Integer
 from flask_sqlalchemy import SQLAlchemy
 
 # load_dotenv()

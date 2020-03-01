@@ -21,7 +21,7 @@ class BaseballTestCase(unittest.TestCase):
 
         self.mock_player = Player(name='Test Name', number='00',
                                   position='Test Position',
-                                  salary='1 Te$t', team_id=1,
+                                  salary='Test Salary', team_id=1,
                                   agent_id=1)
 
         # mock team and agent to test database functions
@@ -66,6 +66,7 @@ class BaseballTestCase(unittest.TestCase):
     def test_get_player_by_id(self):
         self.mock_player.insert()
         mock_player_id = self.mock_player.id
+
         response = self.client().get(f'/players/{mock_player_id}')
         data = json.loads(response.data)
 
@@ -77,13 +78,14 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_add_player(self):
         # add a mock player to test add_player view
         test_player = {
-            "name": "Test Player",
-            "number": "1",
-            "position": "Test Position",
-            "salary": "Test Salary",
+            "name": "New Test Player",
+            "number": "99",
+            "position": "New Test Position",
+            "salary": "New Test Salary",
             "team_id": 1,
             "agent_id": 1
         }
+
         response = self.client().post('/players', json=test_player)
         data = json.loads(response.data)
 
@@ -181,12 +183,12 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['total_team_players'], 1)
 
     def test_post_team(self):
-        # add a mock team to test add_team view
+        # add a mock team to test post_team view
         test_team = {
             "team_name": "New Test Team",
-            "team_short": "TTT",
-            "team_city": "Test City",
-            "team_state": "Test State"
+            "team_short": "TEST",
+            "team_city": "New Test City",
+            "team_state": "New Test State"
         }
         response = self.client().post('/teams', json=test_team)
         data = json.loads(response.data)
@@ -229,7 +231,7 @@ class BaseballTestCase(unittest.TestCase):
 
         test_edit_body = {
             'team_name': 'After Team Edit',
-            'team_short': 'EEE',
+            'team_short': 'EDIT',
             'team_city': 'AfterEdit City',
             'team_state': 'AfterEdit State'
         }
@@ -283,6 +285,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['agent_name'], agent.name)
 
     def test_post_agent(self):
+        # add a mock agent to test post_agent view
         test_agent = {
             "name": "New Test Agent"
         }
@@ -315,7 +318,22 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['total_agents'], 0)
 
     def test_patch_agent(self):
-        pass
+        # query existing mock agent to edit
+        test_agent_to_edit = Agent.query.filter_by(id=1).one_or_none()
+        test_agent_to_edit_id = test_agent_to_edit.id
+
+        test_edit_body = {
+            'name': 'After Agent Edit'
+        }
+
+        response = self.client().patch(f'/agents/{test_agent_to_edit_id}',
+                                       json=test_edit_body)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['updated_agent'])
+        self.assertEqual(data['updated_agent']['name'], test_edit_body['name'])
 
 
 if __name__ == '__main__':
