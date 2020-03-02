@@ -67,7 +67,7 @@ def get_specific_player_details(player_id):
 
 
 @players.route('/players', methods=['POST'])
-def add_player():
+def post_player():
     # will require authentication level 2
     try:
         body = json.loads(request.data)
@@ -78,14 +78,10 @@ def add_player():
         new_player = Player(**body)
         new_player.insert()
 
-        current_players = paginate_players(
-            request, Player.query.order_by(Player.id).all())
-
         return jsonify({
             'success': True,
             'new_player_id': new_player.id,
             'new_player': new_player.format_extended(),
-            'players': current_players,
             'total_players': len(Player.query.all())
         }), 201
 
@@ -140,9 +136,12 @@ def patch_player_details(player_id):
             'updated_player': player.format_extended()
         }), 200
 
+    except json.decoder.JSONDecodeError:
+        abort(400)
     except IntegrityError:
         return jsonify({
             'success': False,
+            'error': 400,
             'message': 'The team_id or agent_id you entered does not exist '
                        'in the database. Please check your input and try '
                        'again.'

@@ -27,6 +27,9 @@ def get_all_teams():
     try:
         team_query = Team.query.all()
 
+        if not team_query:
+            abort(404)
+
         all_teams = [team.team_name for team in team_query]
 
         return jsonify({
@@ -91,19 +94,15 @@ def post_team():
         body = json.loads(request.data)
 
         if not valid_team_body(body):
-            abort(422)
+            abort(400)
 
         new_team = Team(**body)
         new_team.insert()
-
-        current_teams = paginate_teams(request,
-                                       Team.query.order_by(Team.id).all())
 
         return jsonify({
             'success': True,
             'new_team_id': new_team.id,
             'new_team': new_team.format(),
-            'teams': current_teams,
             'total_teams': len(Team.query.all())
         }), 201
 

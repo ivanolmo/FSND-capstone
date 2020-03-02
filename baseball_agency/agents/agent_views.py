@@ -89,25 +89,21 @@ def get_agent_clients(agent_id):
 
 
 @agents.route('/agents', methods=['POST'])
-def add_agent():
+def post_agent():
     # will require authentication level 3
     try:
         body = json.loads(request.data)
 
         if not valid_agent_body(body):
-            abort(422)
+            abort(400)
 
         new_agent = Agent(**body)
         new_agent.insert()
-
-        current_agents = paginate_agents(request, Agent.query.order_by(
-            Agent.id).all())
 
         return jsonify({
             'success': True,
             'new_agent_id': new_agent.id,
             'new_agent': new_agent.format(),
-            'agents': current_agents,
             'total_agents': len(Agent.query.all())
         }), 201
 
@@ -143,7 +139,7 @@ def delete_agent(agent_id):
             'message': 'This agent currently represents one or more players. '
                        'Please reassign those players before deleting this '
                        'agent!',
-            'client_ids': client_list,
+            'clients': client_list,
             'total_clients': len(client_list)
         })
     except Exception as error:

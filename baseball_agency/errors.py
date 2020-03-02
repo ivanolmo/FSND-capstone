@@ -1,5 +1,7 @@
 from flask import jsonify
 
+from sqlalchemy.exc import IntegrityError
+
 from . import app
 from auth.auth import AuthError
 
@@ -45,7 +47,9 @@ def bad_request(error):
     return jsonify({
         "success": False,
         "error": 400,
-        "message": error.description
+        "message": 'The browser (or proxy) sent a '
+                   'request that this server could '
+                   'not understand.'
     }), 400
 
 

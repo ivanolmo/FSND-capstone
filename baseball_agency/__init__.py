@@ -9,7 +9,6 @@ from .models import setup_db
 
 app = Flask(__name__)
 setup_db(app)
-# CORS(app, resource={r'/api/*': {'origins': '*'}})
 CORS(app)
 
 from . import errors
