@@ -46,7 +46,7 @@ def get_all_players():
 
 @players.route('/players/<int:player_id>', methods=['GET'])
 def get_specific_player_details(player_id):
-    # will require authentication level 1
+    # auth level 1
     try:
         player = Player.query.filter(Player.id ==
                                      player_id).first_or_404()
@@ -68,7 +68,7 @@ def get_specific_player_details(player_id):
 
 @players.route('/players', methods=['POST'])
 def post_player():
-    # will require authentication level 2
+    # auth level 2
     try:
         body = json.loads(request.data)
 

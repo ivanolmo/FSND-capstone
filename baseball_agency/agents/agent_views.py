@@ -24,6 +24,7 @@ def paginate_agents(request, selection):
 
 @agents.route('/agents', methods=['GET'])
 def get_all_agents():
+    # auth level 1
     try:
         agents_query = Agent.query.all()
 
@@ -44,7 +45,7 @@ def get_all_agents():
 
 @agents.route('/agents/<int:agent_id>', methods=['GET'])
 def get_specific_agent_details(agent_id):
-    # will require authentication level 1
+    # auth level 2
     try:
         agent = Agent.query.filter(Agent.id ==
                                    agent_id).first_or_404()
@@ -54,7 +55,7 @@ def get_specific_agent_details(agent_id):
 
         return jsonify({
             'success': True,
-            'agent': agent.format()
+            'agent': agent.format_extended()
         }), 200
 
     except Exception as error:
@@ -63,7 +64,7 @@ def get_specific_agent_details(agent_id):
 
 @agents.route('/agents/<int:agent_id>/clients', methods=['GET'])
 def get_agent_clients(agent_id):
-    # will require authentication level 1
+    # auth level 2
     try:
         agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
 
@@ -90,7 +91,7 @@ def get_agent_clients(agent_id):
 
 @agents.route('/agents', methods=['POST'])
 def post_agent():
-    # will require authentication level 3
+    # auth level 3
     try:
         body = json.loads(request.data)
 
@@ -115,7 +116,7 @@ def post_agent():
 
 @agents.route('/agents/<int:agent_id>', methods=['DELETE'])
 def delete_agent(agent_id):
-    # will require authentication level 3
+    # auth level 3
     try:
         agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
 
@@ -148,7 +149,7 @@ def delete_agent(agent_id):
 
 @agents.route('/agents/<int:agent_id>', methods=['PATCH'])
 def patch_agent_details(agent_id):
-    # will require authentication level 3
+    # auth level 3
     try:
         agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
 

@@ -24,6 +24,7 @@ def paginate_teams(request, selection):
 
 @teams.route('/teams', methods=['GET'])
 def get_all_teams():
+    # no auth
     try:
         team_query = Team.query.all()
 
@@ -44,7 +45,7 @@ def get_all_teams():
 
 @teams.route('/teams/<int:team_id>', methods=['GET'])
 def get_specific_team_details(team_id):
-    # will require authentication level 1
+    # auth level 1
     try:
         team = Team.query.filter(Team.id == team_id).one_or_none()
 
@@ -63,7 +64,7 @@ def get_specific_team_details(team_id):
 
 @teams.route('/teams/<int:team_id>/players', methods=['GET'])
 def get_team_players(team_id):
-    # will require authentication level 1
+    # auth level 1
     try:
         team = Team.query.filter(Team.id == team_id).one_or_none()
 
@@ -89,7 +90,7 @@ def get_team_players(team_id):
 
 @teams.route('/teams', methods=['POST'])
 def post_team():
-    # will require authentication level 2
+    # auth level 2
     try:
         body = json.loads(request.data)
 
@@ -114,7 +115,7 @@ def post_team():
 
 @teams.route('/teams/<int:team_id>', methods=['DELETE'])
 def delete_team(team_id):
-    # will require authentication level 3
+    # auth level 3
     try:
         team = Team.query.filter(Team.id == team_id).one_or_none()
 
@@ -146,7 +147,7 @@ def delete_team(team_id):
 
 @teams.route('/teams/<int:team_id>', methods=['PATCH'])
 def patch_team_details(team_id):
-    # will require authentication level 2
+    # auth level 2
     try:
         team = Team.query.filter(Team.id == team_id).one_or_none()
 
