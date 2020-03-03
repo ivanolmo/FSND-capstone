@@ -102,12 +102,15 @@ class Team(db.Model):
     team_short = db.Column(db.String)
     team_city = db.Column(db.String)
     team_state = db.Column(db.String)
+    total_payroll = db.Column(db.String)
 
-    def __init__(self, team_name, team_short, team_city, team_state):
+    def __init__(self, team_name, team_short, team_city, team_state,
+                 total_payroll):
         self.team_name = team_name
         self.team_short = team_short
         self.team_city = team_city
         self.team_state = team_state
+        self.total_payroll = total_payroll
 
     def __repr__(self):
         return f'The {self.team_name} ({self.team_short}) are based in ' \
@@ -133,15 +136,24 @@ class Team(db.Model):
             'team_state': self.team_state
         }
 
+    def format_extended(self):
+        return {
+            'id': self.id,
+            'team_name': self.team_name,
+            'total_payroll': self.total_payroll
+        }
+
 
 class Agent(db.Model):
     __tablename__ = 'agents'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
+    salary = db.Column(db.String)
 
-    def __init__(self, name):
+    def __init__(self, name, salary):
         self.name = name
+        self.salary = salary
 
     def __repr__(self):
         return f'{self.name} is a baseball player agent.'
@@ -161,4 +173,11 @@ class Agent(db.Model):
         return {
             'id': self.id,
             'name': self.name
+        }
+
+    def format_extended(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'salary': self.salary
         }
