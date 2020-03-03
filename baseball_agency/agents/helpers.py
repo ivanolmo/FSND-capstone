@@ -1,10 +1,12 @@
 def valid_agent_body(body):
     is_valid = True
 
-    expected_key = ['name']
+    expected_keys = [
+        'name', 'salary'
+    ]
 
     try:
-        for key in expected_key:
+        for key in expected_keys:
             if key not in body.keys() or body[key] == '':
                 is_valid = False
 
@@ -22,7 +24,7 @@ def valid_agent_patch_body(body):
     is_valid = True
 
     possible_keys = [
-        'name'
+        'name', 'salary'
     ]
 
     if body is None:

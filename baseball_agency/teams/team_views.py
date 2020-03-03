@@ -43,7 +43,7 @@ def get_all_teams():
         raise error
 
 
-@teams.route('/teams/<int:team_id>', methods=['GET'])
+@teams.route('/teams/<int:team_id>/details', methods=['GET'])
 def get_specific_team_details(team_id):
     # auth level 1
     try:
@@ -54,8 +54,7 @@ def get_specific_team_details(team_id):
 
         return jsonify({
             'success': True,
-            'team_details': team.format(),
-            'total_teams': len(Team.query.all())
+            'team_details': team.format_extended()
         }), 200
 
     except Exception as error:
@@ -103,7 +102,7 @@ def post_team():
         return jsonify({
             'success': True,
             'new_team_id': new_team.id,
-            'new_team': new_team.format(),
+            'new_team': new_team.format_extended(),
             'total_teams': len(Team.query.all())
         }), 201
 
@@ -166,7 +165,7 @@ def patch_team_details(team_id):
 
         return jsonify({
             'success': True,
-            'updated_team': team.format()
+            'updated_team': team.format_extended()
         }), 200
 
     except Exception as error:

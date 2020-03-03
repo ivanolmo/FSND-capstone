@@ -43,7 +43,7 @@ def get_all_agents():
         raise error
 
 
-@agents.route('/agents/<int:agent_id>', methods=['GET'])
+@agents.route('/agents/<int:agent_id>/details', methods=['GET'])
 def get_specific_agent_details(agent_id):
     # auth level 2
     try:
@@ -104,7 +104,7 @@ def post_agent():
         return jsonify({
             'success': True,
             'new_agent_id': new_agent.id,
-            'new_agent': new_agent.format(),
+            'new_agent': new_agent.format_extended(),
             'total_agents': len(Agent.query.all())
         }), 201
 
@@ -168,7 +168,7 @@ def patch_agent_details(agent_id):
 
         return jsonify({
             'success': True,
-            'updated_agent': agent.format()
+            'updated_agent': agent.format_extended()
         }), 200
 
     except Exception as error:

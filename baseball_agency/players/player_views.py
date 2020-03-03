@@ -44,22 +44,19 @@ def get_all_players():
         raise error
 
 
-@players.route('/players/<int:player_id>', methods=['GET'])
+@players.route('/players/<int:player_id>/details', methods=['GET'])
 def get_specific_player_details(player_id):
     # auth level 1
     try:
         player = Player.query.filter(Player.id ==
                                      player_id).first_or_404()
-        agent = Agent.query.filter(Agent.id ==
-                                   player.agent_id).first_or_404()
 
         if player is None:
             abort(404)
 
         return jsonify({
             'success': True,
-            'player_details': player.format_extended(),
-            'total_players': len(Player.query.all())
+            'player_details': player.format_extended()
         }), 200
 
     except Exception as error:

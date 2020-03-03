@@ -140,6 +140,9 @@ class Team(db.Model):
         return {
             'id': self.id,
             'team_name': self.team_name,
+            'team_short': self.team_short,
+            'team_city': self.team_city,
+            'team_state': self.team_state,
             'total_payroll': self.total_payroll
         }
 
