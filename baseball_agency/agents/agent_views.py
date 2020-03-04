@@ -34,11 +34,7 @@ def get_all_agents():
 def get_specific_agent_details(agent_id):
     # auth level 2
     try:
-        agent = Agent.query.filter(Agent.id ==
-                                   agent_id).first_or_404()
-
-        if agent is None:
-            abort(404)
+        agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
         return jsonify({
             'success': True,
@@ -53,21 +49,17 @@ def get_specific_agent_details(agent_id):
 def get_agent_clients(agent_id):
     # auth level 2
     try:
-        agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
-
-        if agent is None:
-            abort(404)
+        agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
         client_query = Player.query.filter_by(agent_id=agent.id).all()
 
-        if client_query is None:
-            abort(404)
-
+        # instead of returning 404, this will return an empty list and a
+        # client count of 0
         clients = [player.format() for player in client_query]
 
         return jsonify({
             'success': True,
-            'agent_name': agent.name,
+            'agent': agent.name,
             'clients': clients,
             'total_agent_clients': len(clients)
         }), 200

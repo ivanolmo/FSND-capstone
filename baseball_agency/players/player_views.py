@@ -48,11 +48,7 @@ def get_all_players():
 def get_specific_player_details(player_id):
     # auth level 1
     try:
-        player = Player.query.filter(Player.id ==
-                                     player_id).first_or_404()
-
-        if player is None:
-            abort(404)
+        player = Player.query.filter_by(id=player_id).first_or_404()
 
         return jsonify({
             'success': True,

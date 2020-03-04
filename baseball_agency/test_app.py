@@ -642,7 +642,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['team_details']['team_city'], 'Test City')
         self.assertEqual(data['team_details']['team_state'], 'Test State')
         self.assertEqual(data['team_details']['total_payroll'],
-                         '999 million USD')
+                         'Test Salary USD')
 
     def test_get_team_by_id_not_exist(self):
         response = self.client().get('/teams/9000/details')
@@ -1084,7 +1084,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(data['agent']['id'], 1)
         self.assertEqual(data['agent']['name'], 'Test Agent')
-        self.assertEqual(data['agent']['salary'], '250,000 USD')
+        self.assertEqual(data['agent']['salary'], 'Test Salary USD')
 
     def test_get_agent_by_id_not_exist(self):
         response = self.client().get('/agents/9000/details')

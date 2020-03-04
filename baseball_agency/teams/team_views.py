@@ -34,10 +34,7 @@ def get_all_teams():
 def get_specific_team_details(team_id):
     # auth level 1
     try:
-        team = Team.query.filter(Team.id == team_id).one_or_none()
-
-        if team is None:
-            abort(404)
+        team = Team.query.filter_by(id=team_id).first_or_404()
 
         return jsonify({
             'success': True,
@@ -52,20 +49,17 @@ def get_specific_team_details(team_id):
 def get_team_players(team_id):
     # auth level 1
     try:
-        team = Team.query.filter(Team.id == team_id).one_or_none()
+        team = Team.query.filter_by(id=team_id).first_or_404()
 
-        if team is None:
-            abort(404)
+        roster_query = Player.query.filter_by(team_id=team.id).all()
 
-        team_players = Player.query.filter_by(team_id=team.id).all()
-
-        if team_players is None:
-            abort(404)
-
-        roster = [player.format() for player in team_players]
+        # instead of returning 404, this will return an empty list and a
+        # player count of 0
+        roster = [player.format() for player in roster_query]
 
         return jsonify({
             'success': True,
+            'team': team.name,
             'roster': roster,
             'total_team_players': len(roster)
         }), 200
