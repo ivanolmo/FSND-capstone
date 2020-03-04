@@ -86,12 +86,9 @@ def post_player():
 
 @players.route('/players/<int:player_id>', methods=['DELETE'])
 def delete_player(player_id):
-    # will require authentication level 3
+    # auth level 3
     try:
-        player = Player.query.filter(Player.id == player_id).one_or_none()
-
-        if player is None:
-            abort(404)
+        player = Player.query.filter_by(id=player_id).first_or_404()
 
         player.delete()
 
@@ -107,12 +104,9 @@ def delete_player(player_id):
 
 @players.route('/players/<int:player_id>', methods=['PATCH'])
 def patch_player_details(player_id):
-    # will require authentication level 2
+    # auth level 2
     try:
-        player = Player.query.filter(Player.id == player_id).one_or_none()
-
-        if player is None:
-            abort(404)
+        player = Player.query.filter_by(id=player_id).first_or_404()
 
         body = request.get_json()
 

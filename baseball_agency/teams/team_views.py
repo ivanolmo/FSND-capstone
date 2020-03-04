@@ -97,13 +97,14 @@ def post_team():
 def delete_team(team_id):
     # auth level 3
     try:
-        team = Team.query.filter(Team.id == team_id).one_or_none()
+        team = Team.query.filter_by(id=team_id).first_or_404()
 
-        if team is None:
-            abort(404)
-
+        """Query players on team in case of IntegrityError, so that error
+        return function can display players on team. A team cannot be 
+        deleted if it has players assigned to it."""
         player_query = Player.query.filter(Player.team_id == team.id)
-        team_roster = [(player.id, player.name) for player in player_query]
+        team_roster = [(f'id: {player.id}', f'name: {player.name}') for
+                       player in player_query]
 
         team.delete()
 
@@ -129,10 +130,7 @@ def delete_team(team_id):
 def patch_team_details(team_id):
     # auth level 2
     try:
-        team = Team.query.filter(Team.id == team_id).one_or_none()
-
-        if team is None:
-            abort(404)
+        team = Team.query.filter_by(id=team_id).first_or_404()
 
         body = request.get_json()
 

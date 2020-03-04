@@ -97,13 +97,14 @@ def post_agent():
 def delete_agent(agent_id):
     # auth level 3
     try:
-        agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
+        agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
-        if agent is None:
-            abort(404)
-
+        """Query players assigned to agent in case of IntegrityError, 
+        so that the error return function can display players assigned to 
+        agent. An agent cannot be deleted if it has players assigned to it."""
         player_query = Player.query.filter(Player.agent_id == agent.id)
-        client_list = [(client.id, client.name) for client in player_query]
+        client_list = [(f'id: {client.id}', f'name: {client.name}') for client
+                       in player_query]
 
         agent.delete()
 
@@ -130,10 +131,7 @@ def delete_agent(agent_id):
 def patch_agent_details(agent_id):
     # auth level 3
     try:
-        agent = Agent.query.filter(Agent.id == agent_id).one_or_none()
-
-        if agent is None:
-            abort(404)
+        agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
         body = request.get_json()
 
