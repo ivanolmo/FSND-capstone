@@ -2,7 +2,7 @@ def valid_team_body(body):
     is_valid = True
 
     expected_key = [
-        'team_name', 'team_short', 'team_city', 'team_state', 'total_payroll'
+        'name', 'abbr', 'city', 'state', 'total_payroll'
     ]
 
     try:
@@ -24,7 +24,7 @@ def valid_team_patch_body(body):
     is_valid = True
 
     possible_keys = [
-        'team_name', 'team_short', 'team_city', 'team_state', 'total_payroll'
+        'name', 'abbr', 'city', 'state', 'total_payroll'
     ]
 
     if body is None:

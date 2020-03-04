@@ -36,11 +36,13 @@ def valid_player_body(body):
 
     try:
         for key in string_keys:
-            if key not in body.keys() or body[key] == '':
+            if key not in body.keys() or body[key] == '' or not isinstance(
+                    body[key], str):
                 is_valid = False
 
         for key in integer_keys:
-            if key not in body.keys() or body[key] == 0:
+            if key not in body.keys() or body[key] == 0 or not isinstance(
+                    body[key], int):
                 is_valid = False
 
         if not check_valid_agent_id(body['agent_id']):
