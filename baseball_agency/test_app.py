@@ -33,10 +33,10 @@ class BaseballTestCase(unittest.TestCase):
             salary='Test Salary USD'
         )
         self.mock_team = Team(
-            team_name='Test Team',
-            team_short='TTT',
-            team_city='Test City',
-            team_state='Test State',
+            name='Test Team',
+            abbr='TTT',
+            city='Test City',
+            state='Test State',
             total_payroll='Test Salary USD'
         )
 
@@ -147,7 +147,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(data['new_player_id'])
         self.assertTrue(data['total_players'])
 
-    def test_post_player_invalid_agent_id(self):
+    def test_post_player_invalid_agent_id_not_exist(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -172,7 +172,32 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_post_player_invalid_team_id(self):
+    def test_post_player_invalid_agent_id_not_integer(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # mock player to test post_player view
+        test_player = {
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': '1'
+        }
+
+        response = self.client().post('/players', json=test_player)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'The browser (or proxy) sent a '
+                                          'request that this server could '
+                                          'not understand.')
+
+    def test_post_player_invalid_team_id_not_exist(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -184,6 +209,31 @@ class BaseballTestCase(unittest.TestCase):
             'position': 'New Test Position',
             'salary': 'New Test Salary',
             'team_id': 9000,
+            'agent_id': 1
+        }
+
+        response = self.client().post('/players', json=test_player)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['error'], 400)
+        self.assertEqual(data['message'], 'The browser (or proxy) sent a '
+                                          'request that this server could '
+                                          'not understand.')
+
+    def test_post_player_invalid_team_id_not_integer(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # mock player to test post_player view
+        test_player = {
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': '1',
             'agent_id': 1
         }
 
@@ -637,10 +687,10 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(data['team_details']['id'], 1)
-        self.assertEqual(data['team_details']['team_name'], 'Test Team')
-        self.assertEqual(data['team_details']['team_short'], 'TTT')
-        self.assertEqual(data['team_details']['team_city'], 'Test City')
-        self.assertEqual(data['team_details']['team_state'], 'Test State')
+        self.assertEqual(data['team_details']['name'], 'Test Team')
+        self.assertEqual(data['team_details']['abbr'], 'TTT')
+        self.assertEqual(data['team_details']['city'], 'Test City')
+        self.assertEqual(data['team_details']['state'], 'Test State')
         self.assertEqual(data['team_details']['total_payroll'],
                          'Test Salary USD')
 
@@ -703,10 +753,10 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team(self):
         # add a mock team to test post_team view
         mock_team = {
-            'team_name': 'New Test Team',
-            'team_short': 'TEST',
-            'team_city': 'New Test City',
-            'team_state': 'New Test State',
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'city': 'New Test City',
+            'state': 'New Test State',
             'total_payroll': '1 million USD'
         }
 
@@ -715,14 +765,14 @@ class BaseballTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['new_team']['team_name'],
-                         mock_team['team_name'])
-        self.assertEqual(data['new_team']['team_short'],
-                         mock_team['team_short'])
-        self.assertEqual(data['new_team']['team_city'],
-                         mock_team['team_city'])
-        self.assertEqual(data['new_team']['team_state'],
-                         mock_team['team_state'])
+        self.assertEqual(data['new_team']['name'],
+                         mock_team['name'])
+        self.assertEqual(data['new_team']['abbr'],
+                         mock_team['abbr'])
+        self.assertEqual(data['new_team']['city'],
+                         mock_team['city'])
+        self.assertEqual(data['new_team']['state'],
+                         mock_team['state'])
         self.assertEqual(data['new_team']['total_payroll'],
                          mock_team['total_payroll'])
         self.assertTrue(data['new_team_id'])
@@ -732,7 +782,7 @@ class BaseballTestCase(unittest.TestCase):
         # add a mock team to test post_team view
         mock_team = {
             'tear_name': 'New Test Team',
-            'team_shortt': 'TEST',
+            'abbrt': 'TEST',
             'team_ciddy': 'New Test City',
             'tam_state': 'New Test State',
             'ttl_paryoll': '1 million USD'
@@ -748,12 +798,12 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_post_team_invalid_body_missing_team_name(self):
+    def test_post_team_invalid_body_missing_name(self):
         # add a mock team to test post_team view
         mock_team = {
-            'team_short': 'TEST',
-            'team_city': 'New Test City',
-            'team_state': 'New Test State'
+            'abbr': 'TEST',
+            'city': 'New Test City',
+            'state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -766,12 +816,12 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_post_team_invalid_body_missing_team_short(self):
+    def test_post_team_invalid_body_missing_abbr(self):
         # add a mock team to test post_team view
         mock_team = {
-            'team_name': 'New Test Team',
-            'team_city': 'New Test City',
-            'team_state': 'New Test State'
+            'name': 'New Test Team',
+            'city': 'New Test City',
+            'state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -784,12 +834,12 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_post_team_invalid_body_missing_team_city(self):
+    def test_post_team_invalid_body_missing_city(self):
         # add a mock team to test post_team view
         mock_team = {
-            'team_name': 'New Test Team',
-            'team_short': 'TEST',
-            'team_state': 'New Test State'
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -802,12 +852,12 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_post_team_invalid_body_missing_team_state(self):
+    def test_post_team_invalid_body_missing_state(self):
         # add a mock team to test post_team view
         mock_team = {
-            'team_name': 'New Test Team',
-            'team_short': 'TEST',
-            'team_city': 'New Test City'
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'city': 'New Test City'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -823,10 +873,10 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_missing_total_payroll(self):
         # add a mock team to test post_team view
         mock_team = {
-            'team_name': 'New Test Team',
-            'team_short': 'TEST',
-            'team_city': 'New Test City',
-            'team_state': 'New Test State'
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'city': 'New Test City',
+            'state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -876,10 +926,10 @@ class BaseballTestCase(unittest.TestCase):
         mock_team_id = self.mock_team.id
 
         test_edit_body = {
-            'team_name': 'After Team Edit',
-            'team_short': 'EDIT',
-            'team_city': 'AfterEdit City',
-            'team_state': 'AfterEdit State',
+            'name': 'After Team Edit',
+            'abbr': 'EDIT',
+            'city': 'AfterEdit City',
+            'state': 'AfterEdit State',
             'total_payroll': 'AfterEdit USD'
         }
 
@@ -890,14 +940,14 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertTrue(data['updated_team'])
-        self.assertEqual(data['updated_team']['team_name'], test_edit_body[
-            'team_name'])
-        self.assertEqual(data['updated_team']['team_short'], test_edit_body[
-            'team_short'])
-        self.assertEqual(data['updated_team']['team_city'], test_edit_body[
-            'team_city'])
-        self.assertEqual(data['updated_team']['team_state'], test_edit_body[
-            'team_state'])
+        self.assertEqual(data['updated_team']['name'], test_edit_body[
+            'name'])
+        self.assertEqual(data['updated_team']['abbr'], test_edit_body[
+            'abbr'])
+        self.assertEqual(data['updated_team']['city'], test_edit_body[
+            'city'])
+        self.assertEqual(data['updated_team']['state'], test_edit_body[
+            'state'])
         self.assertEqual(data['updated_team']['total_payroll'],
                          test_edit_body['total_payroll'])
 
@@ -921,7 +971,7 @@ class BaseballTestCase(unittest.TestCase):
 
         test_edit_body = {
             'tear_name': 'New Test Team',
-            'team_shortt': 'TEST',
+            'abbrt': 'TEST',
             'team_ciddy': 'New Test City',
             'tam_state': 'New Test State',
             'tolta_pryaoll': '1 million USD'
@@ -938,14 +988,14 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_patch_team_invalid_body_empty_team_name(self):
+    def test_patch_team_invalid_body_empty_name(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
 
         test_edit_body = {
-            'team_name': ''
+            'name': ''
         }
 
         response = self.client().patch(f'/teams/{mock_team_id}',
@@ -959,14 +1009,14 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_patch_team_invalid_body_empty_team_short(self):
+    def test_patch_team_invalid_body_empty_abbr(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
 
         test_edit_body = {
-            'team_short': ''
+            'abbr': ''
         }
 
         response = self.client().patch(f'/teams/{mock_team_id}',
@@ -980,14 +1030,14 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_patch_player_invalid_body_empty_team_city(self):
+    def test_patch_player_invalid_body_empty_city(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
 
         test_edit_body = {
-            'team_city': ''
+            'city': ''
         }
 
         response = self.client().patch(f'/teams/{mock_team_id}',
@@ -1001,14 +1051,14 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_patch_player_invalid_body_empty_team_state(self):
+    def test_patch_player_invalid_body_empty_state(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
 
         test_edit_body = {
-            'team_state': ''
+            'state': ''
         }
 
         response = self.client().patch(f'/teams/{mock_team_id}',
@@ -1116,7 +1166,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertTrue(data['clients'])
         self.assertEqual(data['total_agent_clients'], 1)
-        self.assertEqual(data['agent_name'], self.mock_agent.name)
+        self.assertEqual(data['agent'], self.mock_agent.name)
 
     def test_get_agent_clients_agent_not_exist(self):
         response = self.client().get('/agents/9000/players')
