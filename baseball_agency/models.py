@@ -98,23 +98,22 @@ class Team(db.Model):
     __tablename__ = 'teams'
 
     id = db.Column(db.Integer, primary_key=True)
-    team_name = db.Column(db.String)
-    team_short = db.Column(db.String)
-    team_city = db.Column(db.String)
-    team_state = db.Column(db.String)
+    name = db.Column(db.String)
+    abbr = db.Column(db.String)
+    city = db.Column(db.String)
+    state = db.Column(db.String)
     total_payroll = db.Column(db.String)
 
-    def __init__(self, team_name, team_short, team_city, team_state,
-                 total_payroll):
-        self.team_name = team_name
-        self.team_short = team_short
-        self.team_city = team_city
-        self.team_state = team_state
+    def __init__(self, name, abbr, city, state, total_payroll):
+        self.name = name
+        self.abbr = abbr
+        self.city = city
+        self.state = state
         self.total_payroll = total_payroll
 
     def __repr__(self):
-        return f'The {self.team_name} ({self.team_short}) are based in ' \
-               f'{self.team_city}, {self.team_state}.'
+        return f'The {self.name} ({self.abbr}) are based in ' \
+               f'{self.city}, {self.state}.'
 
     def insert(self):
         db.session.add(self)
@@ -130,19 +129,19 @@ class Team(db.Model):
     def format(self):
         return {
             'id': self.id,
-            'team_name': self.team_name,
-            'team_short': self.team_short,
-            'team_city': self.team_city,
-            'team_state': self.team_state
+            'name': self.name,
+            'abbr': self.abbr,
+            'city': self.city,
+            'state': self.state
         }
 
     def format_extended(self):
         return {
             'id': self.id,
-            'team_name': self.team_name,
-            'team_short': self.team_short,
-            'team_city': self.team_city,
-            'team_state': self.team_state,
+            'name': self.name,
+            'abbr': self.abbr,
+            'city': self.city,
+            'state': self.state,
             'total_payroll': self.total_payroll
         }
 
