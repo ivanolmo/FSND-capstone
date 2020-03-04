@@ -8,19 +8,6 @@ from .helpers import valid_team_body, valid_team_patch_body
 
 teams = Blueprint('teams', __name__)
 
-TEAMS_PER_PAGE = 10
-
-
-def paginate_teams(request, selection):
-    page = request.args.get('page', 1, type=int)
-    start = (page - 1) * TEAMS_PER_PAGE
-    end = start + TEAMS_PER_PAGE
-
-    teams = [team.format() for team in selection]
-    current_teams = teams[start:end]
-
-    return current_teams
-
 
 @teams.route('/teams', methods=['GET'])
 def get_all_teams():
@@ -31,7 +18,7 @@ def get_all_teams():
         if not team_query:
             abort(404)
 
-        all_teams = [team.team_name for team in team_query]
+        all_teams = [team.format() for team in team_query]
 
         return jsonify({
             'success': True,

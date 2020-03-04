@@ -13,7 +13,7 @@ class BaseballTestCase(unittest.TestCase):
         self.app = app
         self.client = self.app.test_client
         self.database_name = 'baseball_test'
-        self.database_path = "postgres://{}:{}@{}/{}".format(
+        self.database_path = 'postgres://{}:{}@{}/{}'.format(
             'postgres', 'asdf', 'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
         db.session.close()
@@ -21,23 +21,23 @@ class BaseballTestCase(unittest.TestCase):
 
         # create mock player, team, and agent to insert as needed
         self.mock_player = Player(
-            name='Test Name',
+            name='Test Player',
             number='00',
             position='Test Position',
-            salary='Test Salary',
+            salary='Test Salary USD',
             team_id=1,
             agent_id=1
         )
         self.mock_agent = Agent(
-            name="Test Agent",
-            salary="250,000 USD"
+            name='Test Agent',
+            salary='Test Salary USD'
         )
         self.mock_team = Team(
-            team_name="Test Team",
-            team_short="TTT",
-            team_city="Test City",
-            team_state="Test State",
-            total_payroll="999 million USD"
+            team_name='Test Team',
+            team_short='TTT',
+            team_city='Test City',
+            team_state='Test State',
+            total_payroll='Test Salary USD'
         )
 
         with self.app.app_context():
@@ -123,12 +123,12 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "team_id": 1,
-            "agent_id": 1
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -154,12 +154,12 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "team_id": 1,
-            "agent_id": 9000
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 9000
         }
 
         response = self.client().post('/players', json=test_player)
@@ -179,12 +179,12 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "team_id": 9000,
-            "agent_id": 1
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 9000,
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -204,12 +204,12 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "namme": "Test Name",
-            "nummmer": "99",
-            "possition": "New Test Position",
-            "saary": "New Test Salary",
-            "eam_id": 1,
-            "agnt_id": 1
+            'namme': 'Test Name',
+            'nummmer': '99',
+            'possition': 'New Test Position',
+            'saary': 'New Test Salary',
+            'eam_id': 1,
+            'agnt_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -229,11 +229,11 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "number": "99",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "team_id": 1,
-            "agent_id": 1
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -253,11 +253,11 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "team_id": 1,
-            "agent_id": 1
+            'name': 'New Test Player',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -277,11 +277,11 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "salary": "New Test Salary",
-            "team_id": 1,
-            "agent_id": 1
+            'name': 'New Test Player',
+            'number': '99',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -301,11 +301,11 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "position": "New Test Position",
-            "team_id": 1,
-            "agent_id": 1
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'team_id': 1,
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -325,11 +325,11 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "agent_id": 1
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'agent_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -349,11 +349,11 @@ class BaseballTestCase(unittest.TestCase):
 
         # mock player to test post_player view
         test_player = {
-            "name": "New Test Player",
-            "number": "99",
-            "position": "New Test Position",
-            "salary": "New Test Salary",
-            "team_id": 1
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1
         }
 
         response = self.client().post('/players', json=test_player)
@@ -456,7 +456,7 @@ class BaseballTestCase(unittest.TestCase):
         mock_player_id = self.mock_player.id
 
         test_edit_body = {
-            "agent_id": 9000
+            'agent_id': 9000
         }
 
         response = self.client().patch(f'/players/{mock_player_id}',
@@ -482,7 +482,7 @@ class BaseballTestCase(unittest.TestCase):
         mock_player_id = self.mock_player.id
 
         test_edit_body = {
-            "team_id": 9000
+            'team_id': 9000
         }
 
         response = self.client().patch(f'/players/{mock_player_id}',
@@ -600,6 +600,7 @@ class BaseballTestCase(unittest.TestCase):
     """
     Team Tests
     """
+
     def test_get_all_teams(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
@@ -702,11 +703,11 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team(self):
         # add a mock team to test post_team view
         mock_team = {
-            "team_name": "New Test Team",
-            "team_short": "TEST",
-            "team_city": "New Test City",
-            "team_state": "New Test State",
-            "total_payroll": "1 million USD"
+            'team_name': 'New Test Team',
+            'team_short': 'TEST',
+            'team_city': 'New Test City',
+            'team_state': 'New Test State',
+            'total_payroll': '1 million USD'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -730,11 +731,11 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_spelling(self):
         # add a mock team to test post_team view
         mock_team = {
-            "tear_name": "New Test Team",
-            "team_shortt": "TEST",
-            "team_ciddy": "New Test City",
-            "tam_state": "New Test State",
-            "ttl_paryoll": "1 million USD"
+            'tear_name': 'New Test Team',
+            'team_shortt': 'TEST',
+            'team_ciddy': 'New Test City',
+            'tam_state': 'New Test State',
+            'ttl_paryoll': '1 million USD'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -750,9 +751,9 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_missing_team_name(self):
         # add a mock team to test post_team view
         mock_team = {
-            "team_short": "TEST",
-            "team_city": "New Test City",
-            "team_state": "New Test State"
+            'team_short': 'TEST',
+            'team_city': 'New Test City',
+            'team_state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -768,9 +769,9 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_missing_team_short(self):
         # add a mock team to test post_team view
         mock_team = {
-            "team_name": "New Test Team",
-            "team_city": "New Test City",
-            "team_state": "New Test State"
+            'team_name': 'New Test Team',
+            'team_city': 'New Test City',
+            'team_state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -786,9 +787,9 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_missing_team_city(self):
         # add a mock team to test post_team view
         mock_team = {
-            "team_name": "New Test Team",
-            "team_short": "TEST",
-            "team_state": "New Test State"
+            'team_name': 'New Test Team',
+            'team_short': 'TEST',
+            'team_state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -804,9 +805,9 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_missing_team_state(self):
         # add a mock team to test post_team view
         mock_team = {
-            "team_name": "New Test Team",
-            "team_short": "TEST",
-            "team_city": "New Test City"
+            'team_name': 'New Test Team',
+            'team_short': 'TEST',
+            'team_city': 'New Test City'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -822,10 +823,10 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_team_invalid_body_missing_total_payroll(self):
         # add a mock team to test post_team view
         mock_team = {
-            "team_name": "New Test Team",
-            "team_short": "TEST",
-            "team_city": "New Test City",
-            "team_state": "New Test State"
+            'team_name': 'New Test Team',
+            'team_short': 'TEST',
+            'team_city': 'New Test City',
+            'team_state': 'New Test State'
         }
 
         response = self.client().post('/teams', json=mock_team)
@@ -919,11 +920,11 @@ class BaseballTestCase(unittest.TestCase):
         mock_team_id = self.mock_team.id
 
         test_edit_body = {
-            "tear_name": "New Test Team",
-            "team_shortt": "TEST",
-            "team_ciddy": "New Test City",
-            "tam_state": "New Test State",
-            "tolta_pryaoll": "1 million USD"
+            'tear_name': 'New Test Team',
+            'team_shortt': 'TEST',
+            'team_ciddy': 'New Test City',
+            'tam_state': 'New Test State',
+            'tolta_pryaoll': '1 million USD'
         }
 
         response = self.client().patch(f'/teams/{mock_team_id}',
@@ -1041,6 +1042,7 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'The browser (or proxy) sent a '
                                           'request that this server could '
                                           'not understand.')
+
     """
     Agent Tests
     """
@@ -1131,8 +1133,8 @@ class BaseballTestCase(unittest.TestCase):
     def test_post_agent(self):
         # mock agent to test post_agent view
         mock_agent = {
-            "name": "New Test Agent",
-            "salary": "1 million USD"
+            'name': 'New Test Agent',
+            'salary': '1 million USD'
         }
 
         response = self.client().post('/agents', json=mock_agent)
@@ -1147,8 +1149,8 @@ class BaseballTestCase(unittest.TestCase):
 
     def test_post_agent_invalid_body_spelling(self):
         mock_agent = {
-            "naaame": "New Test Agent",
-            "slaray": "1 million USD"
+            'naaame': 'New Test Agent',
+            'slaray': '1 million USD'
         }
 
         response = self.client().post('/agents', json=mock_agent)
