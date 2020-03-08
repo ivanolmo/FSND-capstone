@@ -37,7 +37,7 @@ def get_all_players():
         return jsonify({
             'success': True,
             'players': paginated_players,
-            'total_players': len(paginated_players)
+            'total_players': len(player_query)
         }), 200
 
     except Exception as error:
@@ -79,6 +79,8 @@ def post_player():
         }), 201
 
     except json.decoder.JSONDecodeError:
+        abort(400)
+    except TypeError:
         abort(400)
     except Exception as error:
         raise error

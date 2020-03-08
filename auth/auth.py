@@ -12,13 +12,11 @@ API_AUDIENCE = os.getenv('API_AUDIENCE')
 JWKS_URL = os.getenv('JWKS_URL')
 
 
-'''
-AuthError Exception
-A standardized way to communicate auth failure modes
-'''
-
-
 class AuthError(Exception):
+    """
+    AuthError Exception
+    A standardized way to communicate auth failure modes
+    """
     def __init__(self, error, status_code):
         self.error = error
         self.status_code = status_code

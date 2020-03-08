@@ -1,3 +1,6 @@
+import os
+
+from dotenv import load_dotenv
 from flask_cors import CORS
 from flask import Flask, jsonify
 
@@ -5,21 +8,11 @@ from .models import setup_db
 
 # from auth.auth import requires_auth
 
-# db_drop_and_create_all()
-
 app = Flask(__name__)
 setup_db(app)
 CORS(app)
 
 from . import errors
-
-# @app.after_request
-# def after_request(response):
-#     response.headers.add('Access-Control-Allow-Headers',
-#                          'Content-Type,Authorization')
-#     response.headers.add('Access-Control-Allow-Methods',
-#                          'GET,POST,PATCH,DELETE,OPTIONS')
-#     return response
 
 
 @app.route('/', methods=['GET'])
@@ -29,6 +22,10 @@ def index():
         'success': True,
         'message': 'index page works'
     }), 200
+
+
+# project_folder = os.path.join(os.path.dirname(__file__), '..')
+# load_dotenv(os.path.join(project_folder, '.env'))
 
 
 # set up flask blueprints

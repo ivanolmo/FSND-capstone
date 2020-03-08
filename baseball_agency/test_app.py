@@ -1,6 +1,8 @@
+import os
 import unittest
 import json
 
+from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
 from baseball_agency import app
@@ -13,7 +15,7 @@ class BaseballTestCase(unittest.TestCase):
         self.app = app
         self.client = self.app.test_client
         self.database_name = 'baseball_test'
-        self.database_path = 'postgres://{}:{}@{}/{}'.format(
+        self.database_path = "postgres://{}:{}@{}/{}".format(
             'postgres', 'asdf', 'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
         db.session.close()

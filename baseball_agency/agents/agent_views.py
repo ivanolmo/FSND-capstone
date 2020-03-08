@@ -89,6 +89,8 @@ def post_agent():
 
     except json.decoder.JSONDecodeError:
         abort(400)
+    except TypeError:
+        abort(400)
     except Exception as error:
         raise error
 
