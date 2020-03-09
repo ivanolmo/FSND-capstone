@@ -25,7 +25,7 @@ def paginate_players(request, selection):
 
 @players.route('/players', methods=['GET'])
 @requires_auth('get:players')
-def get_all_players():
+def get_all_players(jwt):
     try:
         player_query = Player.query.all()
 
@@ -47,7 +47,7 @@ def get_all_players():
 
 @players.route('/players/<int:player_id>/details', methods=['GET'])
 @requires_auth('get:player-details')
-def get_specific_player_details(player_id):
+def get_specific_player_details(jwt, player_id):
     try:
         player = Player.query.filter_by(id=player_id).first_or_404()
 
@@ -61,8 +61,8 @@ def get_specific_player_details(player_id):
 
 
 @players.route('/players', methods=['POST'])
-@requires_auth('post:player')
-def post_player():
+@requires_auth('post:players')
+def post_player(jwt):
     try:
         body = json.loads(request.data)
 
@@ -88,8 +88,8 @@ def post_player():
 
 
 @players.route('/players/<int:player_id>', methods=['DELETE'])
-@requires_auth('delete:player')
-def delete_player(player_id):
+@requires_auth('delete:players')
+def delete_player(jwt, player_id):
     try:
         player = Player.query.filter_by(id=player_id).first_or_404()
 
@@ -106,8 +106,8 @@ def delete_player(player_id):
 
 
 @players.route('/players/<int:player_id>', methods=['PATCH'])
-@requires_auth('patch:player')
-def patch_player_details(player_id):
+@requires_auth('patch:players')
+def patch_player_details(jwt, player_id):
     try:
         player = Player.query.filter_by(id=player_id).first_or_404()
 

@@ -12,7 +12,7 @@ agents = Blueprint('agents', __name__)
 
 @agents.route('/agents', methods=['GET'])
 @requires_auth('get:agents')
-def get_all_agents():
+def get_all_agents(jwt):
     try:
         agents_query = Agent.query.all()
 
@@ -32,8 +32,8 @@ def get_all_agents():
 
 
 @agents.route('/agents/<int:agent_id>/details', methods=['GET'])
-@requires_auth('get:agent_details')
-def get_specific_agent_details(agent_id):
+@requires_auth('get:agent-details')
+def get_specific_agent_details(jwt, agent_id):
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
@@ -48,7 +48,7 @@ def get_specific_agent_details(agent_id):
 
 @agents.route('/agents/<int:agent_id>/clients', methods=['GET'])
 @requires_auth('get:agent-clients')
-def get_agent_clients(agent_id):
+def get_agent_clients(jwt, agent_id):
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
@@ -70,8 +70,8 @@ def get_agent_clients(agent_id):
 
 
 @agents.route('/agents', methods=['POST'])
-@requires_auth('post:agent')
-def post_agent():
+@requires_auth('post:agents')
+def post_agent(jwt):
     try:
         body = json.loads(request.data)
 
@@ -97,8 +97,8 @@ def post_agent():
 
 
 @agents.route('/agents/<int:agent_id>', methods=['DELETE'])
-@requires_auth('delete:agent')
-def delete_agent(agent_id):
+@requires_auth('delete:agents')
+def delete_agent(jwt, agent_id):
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
@@ -131,8 +131,8 @@ def delete_agent(agent_id):
 
 
 @agents.route('/agents/<int:agent_id>', methods=['PATCH'])
-@requires_auth('patch:agent')
-def patch_agent_details(agent_id):
+@requires_auth('patch:agents')
+def patch_agent_details(jwt, agent_id):
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 

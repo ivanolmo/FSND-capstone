@@ -12,7 +12,7 @@ teams = Blueprint('teams', __name__)
 
 @teams.route('/teams', methods=['GET'])
 @requires_auth('get:teams')
-def get_all_teams():
+def get_all_teams(jwt):
     try:
         team_query = Team.query.all()
 
@@ -33,7 +33,7 @@ def get_all_teams():
 
 @teams.route('/teams/<int:team_id>/details', methods=['GET'])
 @requires_auth('get:team-details')
-def get_specific_team_details(team_id):
+def get_specific_team_details(jwt, team_id):
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
@@ -48,7 +48,7 @@ def get_specific_team_details(team_id):
 
 @teams.route('/teams/<int:team_id>/players', methods=['GET'])
 @requires_auth('get:team-roster')
-def get_team_players(team_id):
+def get_team_players(jwt, team_id):
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
@@ -70,8 +70,8 @@ def get_team_players(team_id):
 
 
 @teams.route('/teams', methods=['POST'])
-@requires_auth('post:team')
-def post_team():
+@requires_auth('post:teams')
+def post_team(jwt):
     try:
         body = json.loads(request.data)
 
@@ -97,8 +97,8 @@ def post_team():
 
 
 @teams.route('/teams/<int:team_id>', methods=['DELETE'])
-@requires_auth('delete:team')
-def delete_team(team_id):
+@requires_auth('delete:teams')
+def delete_team(jwt, team_id):
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
@@ -130,8 +130,8 @@ def delete_team(team_id):
 
 
 @teams.route('/teams/<int:team_id>', methods=['PATCH'])
-@requires_auth('patch:team')
-def patch_team_details(team_id):
+@requires_auth('patch:teams')
+def patch_team_details(jwt, team_id):
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
