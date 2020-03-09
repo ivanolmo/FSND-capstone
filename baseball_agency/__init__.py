@@ -5,8 +5,7 @@ from flask_cors import CORS
 from flask import Flask, jsonify
 
 from .models import setup_db
-
-# from auth.auth import requires_auth
+from auth.auth import requires_auth
 
 app = Flask(__name__)
 setup_db(app)

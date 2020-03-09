@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
+from auth.auth import requires_auth
 from ..models import Player, Agent
 from .helpers import valid_player_body, valid_player_patch_body
 
@@ -23,8 +24,8 @@ def paginate_players(request, selection):
 
 
 @players.route('/players', methods=['GET'])
+@requires_auth('get:players')
 def get_all_players():
-    # requires no authentication, public
     try:
         player_query = Player.query.all()
 
@@ -45,8 +46,8 @@ def get_all_players():
 
 
 @players.route('/players/<int:player_id>/details', methods=['GET'])
+@requires_auth('get:player-details')
 def get_specific_player_details(player_id):
-    # auth level 1
     try:
         player = Player.query.filter_by(id=player_id).first_or_404()
 
@@ -60,8 +61,8 @@ def get_specific_player_details(player_id):
 
 
 @players.route('/players', methods=['POST'])
+@requires_auth('post:player')
 def post_player():
-    # auth level 2
     try:
         body = json.loads(request.data)
 
@@ -87,8 +88,8 @@ def post_player():
 
 
 @players.route('/players/<int:player_id>', methods=['DELETE'])
+@requires_auth('delete:player')
 def delete_player(player_id):
-    # auth level 3
     try:
         player = Player.query.filter_by(id=player_id).first_or_404()
 
@@ -105,8 +106,8 @@ def delete_player(player_id):
 
 
 @players.route('/players/<int:player_id>', methods=['PATCH'])
+@requires_auth('patch:player')
 def patch_player_details(player_id):
-    # auth level 2
     try:
         player = Player.query.filter_by(id=player_id).first_or_404()
 

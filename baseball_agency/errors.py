@@ -1,7 +1,5 @@
 from flask import jsonify
 
-from sqlalchemy.exc import IntegrityError
-
 from . import app
 from auth.auth import AuthError
 

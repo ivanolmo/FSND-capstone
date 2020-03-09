@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
+from auth.auth import requires_auth
 from ..models import Player, Agent
 from .helpers import valid_agent_body, valid_agent_patch_body
 
@@ -10,8 +11,8 @@ agents = Blueprint('agents', __name__)
 
 
 @agents.route('/agents', methods=['GET'])
+@requires_auth('get:agents')
 def get_all_agents():
-    # auth level 1
     try:
         agents_query = Agent.query.all()
 
@@ -31,8 +32,8 @@ def get_all_agents():
 
 
 @agents.route('/agents/<int:agent_id>/details', methods=['GET'])
+@requires_auth('get:agent_details')
 def get_specific_agent_details(agent_id):
-    # auth level 2
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
@@ -46,8 +47,8 @@ def get_specific_agent_details(agent_id):
 
 
 @agents.route('/agents/<int:agent_id>/clients', methods=['GET'])
+@requires_auth('get:agent-clients')
 def get_agent_clients(agent_id):
-    # auth level 2
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
@@ -69,8 +70,8 @@ def get_agent_clients(agent_id):
 
 
 @agents.route('/agents', methods=['POST'])
+@requires_auth('post:agent')
 def post_agent():
-    # auth level 3
     try:
         body = json.loads(request.data)
 
@@ -96,8 +97,8 @@ def post_agent():
 
 
 @agents.route('/agents/<int:agent_id>', methods=['DELETE'])
+@requires_auth('delete:agent')
 def delete_agent(agent_id):
-    # auth level 3
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
@@ -130,8 +131,8 @@ def delete_agent(agent_id):
 
 
 @agents.route('/agents/<int:agent_id>', methods=['PATCH'])
+@requires_auth('patch:agent')
 def patch_agent_details(agent_id):
-    # auth level 3
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 

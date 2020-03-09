@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
+from auth.auth import requires_auth
 from ..models import Player, Team
 from .helpers import valid_team_body, valid_team_patch_body
 
@@ -10,8 +11,8 @@ teams = Blueprint('teams', __name__)
 
 
 @teams.route('/teams', methods=['GET'])
+@requires_auth('get:teams')
 def get_all_teams():
-    # no auth
     try:
         team_query = Team.query.all()
 
@@ -31,8 +32,8 @@ def get_all_teams():
 
 
 @teams.route('/teams/<int:team_id>/details', methods=['GET'])
+@requires_auth('get:team-details')
 def get_specific_team_details(team_id):
-    # auth level 1
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
@@ -46,8 +47,8 @@ def get_specific_team_details(team_id):
 
 
 @teams.route('/teams/<int:team_id>/players', methods=['GET'])
+@requires_auth('get:team-roster')
 def get_team_players(team_id):
-    # auth level 1
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
@@ -69,8 +70,8 @@ def get_team_players(team_id):
 
 
 @teams.route('/teams', methods=['POST'])
+@requires_auth('post:team')
 def post_team():
-    # auth level 2
     try:
         body = json.loads(request.data)
 
@@ -96,8 +97,8 @@ def post_team():
 
 
 @teams.route('/teams/<int:team_id>', methods=['DELETE'])
+@requires_auth('delete:team')
 def delete_team(team_id):
-    # auth level 3
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
@@ -129,8 +130,8 @@ def delete_team(team_id):
 
 
 @teams.route('/teams/<int:team_id>', methods=['PATCH'])
+@requires_auth('patch:team')
 def patch_team_details(team_id):
-    # auth level 2
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
