@@ -59,9 +59,9 @@ no `team` or `agent` can be deleted if either has a `player` assigned to it.
 ### Role Based Access Control
 There are 3 roles utilized in this project. They are `agent_assistant
 `, `agent`, and `executive_agent`. All endpoints except one will require the
- user to be authenticated with one of the roles listed above.
- ##### Permission Overview
-####`agent_assistant`  
+ user to be authenticated with one of the roles listed above.  
+##### Permission Overview
+#### agent_assistant  
 The agent assistant assists an agent in day to day operations, and thus
 needs access to player lists and player details, team rosters, and a list of
 agents.
@@ -70,7 +70,7 @@ agents.
 - `get:team-roster`
 - `get:agents`
 
-####`agent`  
+#### agent  
 An agent is what makes the business run. They sign new players, so in
 addition to an assistants permissions, an agent can also post, patch, or
 delete players and teams.
@@ -84,7 +84,7 @@ delete players and teams.
 - `delete:players`
 - `delete:teams`
 
-#### `executive_agent`  
+#### executive_agent  
 An executive agent is in charge of the big picture. They're not overly
 concerned with specific players or teams, so they don't require those
 permissions. Instead, they can post, patch, or delete agents, as well as
