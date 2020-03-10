@@ -46,7 +46,7 @@ def get_specific_team_details(jwt, team_id):
         raise error
 
 
-@teams.route('/teams/<int:team_id>/players', methods=['GET'])
+@teams.route('/teams/<int:team_id>/roster', methods=['GET'])
 @requires_auth('get:team-roster')
 def get_team_players(jwt, team_id):
     try:

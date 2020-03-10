@@ -24,8 +24,7 @@ def paginate_players(request, selection):
 
 
 @players.route('/players', methods=['GET'])
-@requires_auth('get:players')
-def get_all_players(jwt):
+def get_all_players():
     try:
         player_query = Player.query.all()
 

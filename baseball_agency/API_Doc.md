@@ -125,16 +125,15 @@ The API will return one of the following status codes when a request succeeds:
 - 201 - Created - a new resource was created successfully
 ```
 ## Endpoint Overview
-####`GET /players`
+#### GET /players  
 - Only endpoint that doesn't require authentication
 - Returns a paginated list of all players in the database, with 10 players per page
-- An optional argument can be appended to the end of the query to get a specific
-page of players.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- An optional argument can be appended to the end of the query to get a specific page of players
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found
 
-- Sample usage: `curl http://localhost:5000/players`
-- With optional argument: `curl http://localhost:5000/players?page=7`
-- Sample response:
+    - Sample usage: `curl http://localhost:5000/players`
+    - With optional argument: `curl http://localhost:5000/players?page=7`
+    - Sample response:
 ```
 {
     "players": [
@@ -149,9 +148,101 @@ page of players.
             next player...
         }
     ],
-    "success": True,
+    "success": true,
     "total_players": 100
 }
 ```
 
+#### GET /player/<int:player_id>/details
+- Requires authentication.
+- Returns one players specific details, which includes player salary.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/players/1/details -H "Authorization-Type: Bearer (insert bearer token here)"`
+    - Sample response:
+```
+{
+    "player_details": {
+            "agent_id": 1,
+            "id": "1",
+            "name": "Baseball Player",
+            "number": "10",
+            "position": "Pitcher",
+            "salary": "A LOT OF MONEY",
+            "team_id": 1
+    },
+    "success": true
+}
+```
 
+#### GET /teams
+- Requires authentication.
+- Returns a list of all teams in the database.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample response:
+```
+{
+    "success": true,
+    "teams": [
+        {
+            "abbr": "ABC",
+            "city": "Some Town",
+            "id": 1,
+            "name": "Some Town Ballers",
+            "state": "Some State"
+        },
+        {
+            next team...
+        }
+     ]
+}
+```
+
+#### GET /teams/<int:team_id/details
+- Requires authentication.
+- Returns one teams specific details, which includes team total_payroll.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample response:
+```
+{
+    "success": true,
+    "team_details": {
+            "abbr": "ABC",
+            "city": "Some Town",
+            "id": 1,
+            "name": "Some Town Ballers",
+            "state": "Some State",
+            "total_payroll": "SO. MUCH. MONEY"
+    }
+}
+```
+
+#### GET /teams/<int:team_id/roster
+- Requires authentication.
+- Returns a team's complete player roster.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/teams/1/roster -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample response:
+```
+{
+    "roster": [
+        {
+            "id": 1,
+            "name": "Baseball Player",
+            "number": "1",
+            "position": "Pitcher",
+            "team_id": 1
+        },
+        {
+            next player...
+        },
+        {
+            last player...
+        }
+    ],
+    "success": true,
+    "team": "Some Town Ballers",
+    "total_team_players": 27
+}
+```
