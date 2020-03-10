@@ -153,8 +153,8 @@ The API will return one of the following status codes when a request succeeds:
 }
 ```
 
-#### GET /player/<int:player_id>/details
-- Requires authentication.
+#### GET /player/<int:id>/details
+- Requires authentication (agent_assistant or above).
 - Returns one players specific details, which includes player salary.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
     - Sample usage: `curl http://localhost:5000/players/1/details -H "Authorization-Type: Bearer (insert bearer token here)"`
@@ -175,7 +175,7 @@ The API will return one of the following status codes when a request succeeds:
 ```
 
 #### GET /teams
-- Requires authentication.
+- Requires authentication (agent_assistant or above).
 - Returns a list of all teams in the database.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
     - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
@@ -198,8 +198,8 @@ The API will return one of the following status codes when a request succeeds:
 }
 ```
 
-#### GET /teams/<int:team_id/details
-- Requires authentication.
+#### GET /teams/<int:id>/details
+- Requires authentication (agent or above).
 - Returns one teams specific details, which includes team total_payroll.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
     - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
@@ -218,9 +218,9 @@ The API will return one of the following status codes when a request succeeds:
 }
 ```
 
-#### GET /teams/<int:team_id/roster
-- Requires authentication.
-- Returns a team's complete player roster.
+#### GET /teams/<int:id>/roster
+- Requires authentication (agent_assistant or above).
+- Returns a team's complete player roster, with info on each player.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
     - Sample usage: `curl http://localhost:5000/teams/1/roster -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
@@ -244,5 +244,81 @@ The API will return one of the following status codes when a request succeeds:
     "success": true,
     "team": "Some Town Ballers",
     "total_team_players": 27
+}
+```
+
+#### GET /agents
+- Requires authentication (agent or above).
+- Returns a list of all agents in the database, only showing name and id.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/agents -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample response:
+```
+{
+    "agents": [
+        {
+            "id": 1,
+            "name": "Superstar Agent"
+        },
+        {
+            "id": 2,
+            "name": "Rockstar Agent"
+        },
+        {
+            next agent...
+        }
+    ],
+    "success": true,
+    "total_agents": 10
+}
+```
+
+#### GET /agents/<int:id>/details
+- Requires authentication (executive_agent only).
+- Returns specific details for one agent, which includes salary.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/agents/1/details -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample response:
+```
+{
+    "agent": {
+        "id": 1,
+        "name": "Superstar Agent",
+        "salary": "10 million USD"
+    },
+    "success": true
+}
+```
+
+#### GET /agents/<int:id>/clients
+- Requires authentication.
+- Returns player/client list for one agent, with basic info on each player/client included.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+    - Sample usage: `curl http://localhost:5000/agents/1/clients -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample response:
+```
+{
+    "agent": "Superstar Agent",
+    "clients": [
+        {
+            "id": 1,
+            "name": "Baseball Player",
+            "number": "1",
+            "position": "Pitcher",
+            "team_id": 1
+        },
+        {
+            "id": 5,
+            "name": "Baseball Slugger",
+            "number": "99",
+            "position": "First Base",
+            "team_id": 4
+        },
+        {
+            next player/client...
+        }
+    ],
+    "success": true,
+    "total_agent_clients": 19
 }
 ```
