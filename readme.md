@@ -9,13 +9,47 @@ database. This project will also incorporate third-party authentication with
 Role Based Access Control using Auth0. The project doesn't utilize a frontend at
 this time.
 
-The premise of the baseball_agency API is a system that holds player, team, and
-agent information. Various data are stored about each entity, and are linked
-using db relationships. The db included in this project has full rosters for
-5 major league teams, information on those teams, as well as 10 agents. Players 
-are assigned to their real life teams, but randomly assigned to
+The premise of the baseball_agency API is a system that holds `player`, `team`, 
+and `agent` information. Various data are stored about each entity, and are
+linked using db relationships. The db included in this project has full
+rosters for 5 major league teams, information on those teams, as well as 10
 agents.
 
+`Players` are assigned to their real life `teams`, but randomly assigned to
+`agents`. When a `player` is added to the database, a `team_id` and `agent_id` 
+are **required**. Additionally, an `agent` or `team` can't be deleted from the
+database if `players` are assigned to either. A `player` can only be assigned to
+one `team` or `agent`, but a `team` or `agent` can have many `players` assigned
+to them.
+
+Each `player` has the following attributes:
+```
+name
+number
+position
+salary
+team_id
+agent_id
+```
+Each `team` has the following attributes:
+```
+name
+abbreviation
+city
+state
+total_payroll
+```
+Each `agent` has the following attributes:
+```
+name
+salary
+```  
+A `player`, `team`, or `agent` can be queried on an individual basis to
+retrieve more information on them. A `team` can be queried for it's roster, and 
+an `agent` can be queried to find their client list. Most endpoints require
+authorization using a standard JWT Bearer token.
+
+#### RBAC
 Each endpoint is access controlled using Auth0's Role Based Access Control
 (RBAC), with the exception of one publicly accessible endpoint. Specifics on
 each role and the permissions granted to each are in the API documentation at
@@ -54,7 +88,8 @@ or
 `psql baseball < baseball.psql`
 
 The new database will now be populated with 5 teams, their full rosters, and
-10 agents.
+10 agents. Further information on Postgresql usage can be found [in the docs
+](https://www.postgresql.org/docs/12/index.html).
 
 #### Environment Variables
 All variables are stored locally in the `.env` file. Take a look at the 
@@ -72,6 +107,7 @@ flask run
 Setting the `FLASK_ENV` variable to `development` will detect file changes and
 restart the server automatically.   
 Setting the `FLASK_APP` variable to `baseball_agency` directs Flask to use
-the `baseball_agency` directy and the `__init__.py` file to find and load the
+the `baseball_agency` directory and the `__init__.py` file to find and load the
 application.
 
+### Please see the section on API usage at [`baseball_agency/API_Doc.md`](baseball_agency/API_Doc.md).
