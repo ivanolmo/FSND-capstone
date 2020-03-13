@@ -53,9 +53,9 @@ def get_team_players(jwt, team_id):
         team = Team.query.filter_by(id=team_id).first_or_404()
 
         roster_query = Player.query.filter_by(team_id=team.id).all()
+        if len(roster_query) == 0:
+            abort(404)
 
-        # instead of returning 404, this will return an empty list and a
-        # player count of 0
         roster = [player.format() for player in roster_query]
 
         return jsonify({

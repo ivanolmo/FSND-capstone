@@ -53,9 +53,9 @@ def get_agent_clients(jwt, agent_id):
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
         client_query = Player.query.filter_by(agent_id=agent.id).all()
+        if len(client_query) == 0:
+            abort(404)
 
-        # instead of returning 404, this will return an empty list and a
-        # client count of 0
         clients = [player.format() for player in client_query]
 
         return jsonify({
