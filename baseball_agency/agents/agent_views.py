@@ -53,7 +53,7 @@ def get_agent_clients(jwt, agent_id):
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
         client_query = Player.query.filter_by(agent_id=agent.id).all()
-        if len(client_query) == 0:
+        if not client_query:
             abort(404)
 
         clients = [player.format() for player in client_query]
@@ -125,7 +125,7 @@ def delete_agent(jwt, agent_id):
                        'agent!',
             'clients': client_list,
             'total_clients': len(client_list)
-        })
+        }), 400
     except Exception as error:
         raise error
 

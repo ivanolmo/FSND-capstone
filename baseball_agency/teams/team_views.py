@@ -53,7 +53,7 @@ def get_team_players(jwt, team_id):
         team = Team.query.filter_by(id=team_id).first_or_404()
 
         roster_query = Player.query.filter_by(team_id=team.id).all()
-        if len(roster_query) == 0:
+        if not roster_query:
             abort(404)
 
         roster = [player.format() for player in roster_query]
@@ -124,7 +124,7 @@ def delete_team(jwt, team_id):
                        'reassign those players before deleting this team!',
             'players': team_roster,
             'total_players': len(team_roster)
-        }), 422
+        }), 400
     except Exception as error:
         raise error
 
