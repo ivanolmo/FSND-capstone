@@ -25,7 +25,7 @@ Additionally, any errors related to authentication will return one of the
 
 ### Database Schema
 
-Here is a representation of the db schema (`models.py`):
+Here is a representation of the db schema ([`models.py`](./models.py)):
 ```
 players
 - id (primary key)
@@ -97,7 +97,7 @@ Credentials and a JWT bearer token can be obtained by visiting:
     https://baseball-agency.auth0.com/authorize?audience=baseball-agency-api&response_type=token&client_id=pMeaPUNuDQgXjKVckrdVLkYZYVw3cZpx&redirect_uri=http://localhost:5000
 
 Users have already been set up with each of the 3 available roles (credentials will be provided 
-in the submission details). Once logged in, the JWT Bearer token can be extracted from the URL 
+in the project submission details). Once logged in, the JWT Bearer token can be extracted from the URL 
 bar in your browser. Use that bearer token to access the API endpoints.
 
 ## Requests
@@ -105,15 +105,15 @@ The Baseball Agency API endpoints are accessed using HTTP requests and JSON requ
 appropriate HTTP verb for the action it performs. This API utilizes the `GET`, `POST`, `PATCH`, and `DELETE` methods. 
 The most convenient method of accessing this API is using the Postman tool, however, the `curl` tool is also an option.
 
-**Method/Action**
+**Method/Action**  
 ```
-- GET - retrieves players, player details, teams, team details, team roster, agents, agent details, and agent clients
-- POST - creates new players, teams, or agents
-- PATCH - patches existing players, teams, or agents
-- DELETE - deletes existing players, teams, or agents
+- GET - retrieve players, player details, teams, team details, team roster, agents, agent details, and agent clients
+- POST - create a new player, team, or agent
+- PATCH - patch an existing player, team, or agent
+- DELETE - delete an existing player, team, or agent
 ```
 
-**Responses**\
+**Responses**  
 The API will return one of the following status codes when a request succeeds:
 ```
 - 200 - OK - request successful

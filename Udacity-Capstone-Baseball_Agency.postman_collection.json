@@ -1,0 +1,3158 @@
+{
+	"info": {
+		"_postman_id": "086b87c1-22f5-42c2-8a14-6e3543b34dd5",
+		"name": "Udacity-Capstone-Baseball_Agency",
+		"description": "Testing for each endpoint in the API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "public no auth",
+			"item": [
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10e200da-19f5-4902-9d9c-a04e0d6e6daa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains players array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.players).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b3f82452-a0bc-4c19-9047-b67e65ed2f82",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f7b950f-74b4-46b6-adb7-5c40835b9662",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8733240c-fff4-49e2-8986-86be12855ec1",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053ad4ac-4e51-4b44-ab7a-16845d63a70e",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5edd1b60-fcd4-425c-9176-1297af8ae8e4",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams roster",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b66d7645-2d88-4744-83d7-dfdae1b59eee",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/roster",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"roster"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9d1b755a-122f-4b54-84df-9af069e7dd92",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/clients",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d454c4c5-daf8-4127-bdf9-782236bb8d43",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Player\",\n\t\"number\": \"10\",\n\t\"position\": \"Pitcher\",\n\t\"salary\": \"1 million USD\",\n\t\"team_id\": 1,\n\t\"agent_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e2cd1ac-6cf0-45a0-a1c8-94d1ba9ca851",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5c9331c-4b1b-4e53-b9fe-6a582d9e380f",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aa38562b-dfa8-4f8f-b8b1-b4e38e0678f9",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball GOD\",\n\t\"number\": \"99\",\n\t\"position\": \"Ace Pitcher\",\n\t\"salary\": \"10 million USD\",\n\t\"team_id\": 2,\n\t\"agent_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4318759b-0335-4db4-99ac-e6656b970b49",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8443d79-af3b-4be1-8023-098aece03509",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a70761af-a923-4f4a-b35c-8a9a8fa6972e",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9abe86c1-b3dd-4db6-b201-710d6806bb7d",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f63bca3-7259-40c1-8ff7-7d097f8a5a3b",
+								"exec": [
+									"pm.test(\"Status code is 401 unauthorized\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "agent_assistant",
+			"item": [
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10e200da-19f5-4902-9d9c-a04e0d6e6daa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains players array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.players).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b3f82452-a0bc-4c19-9047-b67e65ed2f82",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains teams array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.teams).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f7b950f-74b4-46b6-adb7-5c40835b9662",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains agents array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.agents).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8733240c-fff4-49e2-8986-86be12855ec1",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains player_details object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.player_details).to.be.an('object')",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/95/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"95",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053ad4ac-4e51-4b44-ab7a-16845d63a70e",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5edd1b60-fcd4-425c-9176-1297af8ae8e4",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams roster",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b66d7645-2d88-4744-83d7-dfdae1b59eee",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains roster array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roster).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/roster",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"roster"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9d1b755a-122f-4b54-84df-9af069e7dd92",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/clients",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d454c4c5-daf8-4127-bdf9-782236bb8d43",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Player\",\n\t\"number\": \"10\",\n\t\"position\": \"Pitcher\",\n\t\"salary\": \"1 million USD\",\n\t\"team_id\": 1,\n\t\"agent_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e2cd1ac-6cf0-45a0-a1c8-94d1ba9ca851",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5c9331c-4b1b-4e53-b9fe-6a582d9e380f",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aa38562b-dfa8-4f8f-b8b1-b4e38e0678f9",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball GOD\",\n\t\"number\": \"99\",\n\t\"position\": \"Ace Pitcher\",\n\t\"salary\": \"10 million USD\",\n\t\"team_id\": 2,\n\t\"agent_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4318759b-0335-4db4-99ac-e6656b970b49",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8443d79-af3b-4be1-8023-098aece03509",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a70761af-a923-4f4a-b35c-8a9a8fa6972e",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9abe86c1-b3dd-4db6-b201-710d6806bb7d",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f63bca3-7259-40c1-8ff7-7d097f8a5a3b",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJhMmNjNmRiYzkwZDNkZTUxYjBhIiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDA1NTUxMSwiZXhwIjoxNTg0MTQxOTExLCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFnZW50cyIsImdldDpwbGF5ZXItZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyJdfQ.EBV56kUxOKj4KJf1VCat1unORtgUwq8BjKXP1xB9qJk1qMtjYf2BUR6NaBNNNZk526l7-DNeMWySOrQcqY-u5BHfjU4lDbS6z2NfhUWrzjf8Vt7-lgnPC0kCm09VZMJhUzLUEnusDDFXQE14w5ROIY8U-hdMJYJN3hbKQt2-8vTUC3OMEbpRYa3wx_AXk5Obe8A_LNG1sEvff0SpueVhBbrcWS2J8h5NAGqpzP58WXgWMRlWQ3THtwB_6aSDeO89-s480WYKJf-h8n-cUUBvuDeAGtr9LyWVX-UVkUdR0xpfJS8G1zqbzHMTSW9AikX_Sm4PQ6kW8l178SSZDcDIDQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "38306984-1a66-4873-a85f-b78d3112086f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "acc6b9b4-8df7-4ba3-aa26-cee38053469e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "agent",
+			"item": [
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10e200da-19f5-4902-9d9c-a04e0d6e6daa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains players array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.players).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b3f82452-a0bc-4c19-9047-b67e65ed2f82",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains teams array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.teams).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f7b950f-74b4-46b6-adb7-5c40835b9662",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains agents array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.agents).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8733240c-fff4-49e2-8986-86be12855ec1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains player_details object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.player_details).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053ad4ac-4e51-4b44-ab7a-16845d63a70e",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains teams object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.team_details).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5edd1b60-fcd4-425c-9176-1297af8ae8e4",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams roster",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b66d7645-2d88-4744-83d7-dfdae1b59eee",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains roster array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roster).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/roster",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"roster"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9d1b755a-122f-4b54-84df-9af069e7dd92",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/clients",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d454c4c5-daf8-4127-bdf9-782236bb8d43",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"value contains new_player\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.new_player).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Player\",\n\t\"number\": \"10\",\n\t\"position\": \"Pitcher\",\n\t\"salary\": \"1 million USD\",\n\t\"team_id\": 1,\n\t\"agent_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e2cd1ac-6cf0-45a0-a1c8-94d1ba9ca851",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"value contains new_team\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.new_team).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5c9331c-4b1b-4e53-b9fe-6a582d9e380f",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aa38562b-dfa8-4f8f-b8b1-b4e38e0678f9",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains updated_player\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.updated_player).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball GOD\",\n\t\"number\": \"99\",\n\t\"position\": \"Ace Pitcher\",\n\t\"salary\": \"10 million USD\",\n\t\"team_id\": 2,\n\t\"agent_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4318759b-0335-4db4-99ac-e6656b970b49",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains updated_team\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.updated_team).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8443d79-af3b-4be1-8023-098aece03509",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a70761af-a923-4f4a-b35c-8a9a8fa6972e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/105",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"105"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9abe86c1-b3dd-4db6-b201-710d6806bb7d",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/7",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f63bca3-7259-40c1-8ff7-7d097f8a5a3b",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJhZWJmN2ZlY2EwZDM0OTdiZjU1IiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDA1NTU1NywiZXhwIjoxNTg0MTQxOTU3LCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnBsYXllcnMiLCJkZWxldGU6dGVhbXMiLCJnZXQ6YWdlbnRzIiwiZ2V0OnBsYXllci1kZXRhaWxzIiwiZ2V0OnRlYW0tZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyIsInBhdGNoOnBsYXllcnMiLCJwYXRjaDp0ZWFtcyIsInBvc3Q6cGxheWVycyIsInBvc3Q6dGVhbXMiXX0.uGGJzbRIZYD4zl4Sy_cmXhT8oymrPzYYY9hJSMZRhGBq5t9O4zzEAHmaUtUtDeVlhxmVZ_-7vSJK2qJ6qyION5unW5qpkqO2lps0I5Wj79LIR0dl_yxjxRP1IsP20nVGuku_z64N_ZVWHfW2Nadn75bHzEglbSi1qQKEv7ICIjiNYL7sQjlrT2TuzltAY0eLYYb_7trPQOpG7cG0KVad-_BMp4pJ5eBsxQA0QUPbmqg7_tfif359ktBdukHr35XKybRNdnn8oz95z60NJ7clsAV3jsnC-1aqN17ePOi-mx-EtxxmOYA313jQnlQzqv9QQawR15QJCXW_92ojT1M-2A",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "bcf5c28b-9160-4971-858e-3eb8af80fb5d",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3ae82cb9-a385-4452-bec4-78b4ac4d0c97",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "executive_agent",
+			"item": [
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "10e200da-19f5-4902-9d9c-a04e0d6e6daa",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains players array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.players).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b3f82452-a0bc-4c19-9047-b67e65ed2f82",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains teams array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.teams).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1f7b950f-74b4-46b6-adb7-5c40835b9662",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains agents array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.agents).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8733240c-fff4-49e2-8986-86be12855ec1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains player_details object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.player_details).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "053ad4ac-4e51-4b44-ab7a-16845d63a70e",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains teams object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.team_details).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5edd1b60-fcd4-425c-9176-1297af8ae8e4",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains agent details object\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.agent).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/details",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams roster",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b66d7645-2d88-4744-83d7-dfdae1b59eee",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains roster array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.roster).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1/roster",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1",
+								"roster"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9d1b755a-122f-4b54-84df-9af069e7dd92",
+								"exec": [
+									"pm.test(\"Status code is 200 successful\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains clients array\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.clients).to.be.an('array')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1/clients",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1",
+								"clients"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d454c4c5-daf8-4127-bdf9-782236bb8d43",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Player\",\n\t\"number\": \"10\",\n\t\"position\": \"Pitcher\",\n\t\"salary\": \"1 million USD\",\n\t\"team_id\": 1,\n\t\"agent_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e2cd1ac-6cf0-45a0-a1c8-94d1ba9ca851",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b5c9331c-4b1b-4e53-b9fe-6a582d9e380f",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test(\"value contains new_agent\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.new_agent).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aa38562b-dfa8-4f8f-b8b1-b4e38e0678f9",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball GOD\",\n\t\"number\": \"99\",\n\t\"position\": \"Ace Pitcher\",\n\t\"salary\": \"10 million USD\",\n\t\"team_id\": 2,\n\t\"agent_id\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4318759b-0335-4db4-99ac-e6656b970b49",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Baseball Team\",\n\t\"abbr\": \"ABC\",\n\t\"city\": \"Some City\",\n\t\"state\": \"Some State\",\n\t\"total_payroll\": \"100 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8443d79-af3b-4be1-8023-098aece03509",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"value contains updated_agent\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.updated_agent).to.be.an('object')",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Superstar Agent\",\n\t\"salary\": \"1 million USD\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/players",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a70761af-a923-4f4a-b35c-8a9a8fa6972e",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/players/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"players",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9abe86c1-b3dd-4db6-b201-710d6806bb7d",
+								"exec": [
+									"pm.test(\"Status code is 403 unauthorized\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/teams/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/agents",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8f63bca3-7259-40c1-8ff7-7d097f8a5a3b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/agents/15",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"agents",
+								"15"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJiNTBmN2ZlY2EwZDM0OTdjMDM4IiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDA1NTU5MCwiZXhwIjoxNTg0MTQxOTkwLCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFnZW50cyIsImdldDphZ2VudC1jbGllbnRzIiwiZ2V0OmFnZW50LWRldGFpbHMiLCJnZXQ6YWdlbnRzIiwiZ2V0OnBsYXllci1kZXRhaWxzIiwiZ2V0OnRlYW0tZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyIsInBhdGNoOmFnZW50cyIsInBvc3Q6YWdlbnRzIl19.26gIsniYuwX4pVBsonGdFOGc4X9xrRdNc4hhce7RjtdqX3RdfhXEmRpD3A8eXpISJr-KaXXQI8FWYNCmTSh8fIHRvXowC35Luh_xQ42Jvar06F1gleGKapQuujWXKWMYtZz0LREbT3G5UNWTQQf-J8gy7pS-quYQ5HJ5C6n3wpStBS63VSsL4EmQQ2lEeW_3nfX7ObcY3dG5bBgof_aa7TUQlP43IM6B357Lc4K3QnZIMfuKbEqntVvouPqp0jwn3P3t_485w_7ybFMsZlC8goiSM6QBzg9Eekt4JpLxi-KFVJHsU5YdybaV0dWL9wcaxeCjgmF9BVi1cIUYih1mpg",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "380d0b4a-5cb5-4674-987c-28764a0c511a",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "9bb9d281-b028-4485-a8e4-21c6320f2f69",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
