@@ -57,26 +57,22 @@ no `team` or `agent` can be deleted if either has a `player` assigned to it.
 
 
 ### Role Based Access Control
-There are 3 roles utilized in this project. They are `agent_assistant
-`, `agent`, and `executive_agent`. All endpoints except one will require the
- user to be authenticated with one of the roles listed above.  
-##### Permission Overview
-#### agent_assistant  
-The agent assistant assists an agent in day to day operations, and thus
-needs access to player lists and player details, team rosters, and a list of
-agents.
+There are 3 roles utilized in this project. They are `agent_assistant`, `agent`, and `executive_agent`. 
+All endpoints except one will require the user to be authenticated with one of the roles listed above.  
+#### Permission Overview
+##### agent_assistant  
+The agent assistant assists an agent in day to day operations, and thus needs access to player lists 
+and player details, team rosters, and a list of agents.
 - `get:player-details`
 - `get:teams`
 - `get:team-roster`
 - `get:agents`
 
-#### agent  
-An agent is what makes the business run. They sign new players, so in
-addition to an assistants permissions, an agent can also post, patch, or
-delete players and teams.
+##### agent  
+An agent is what makes the business run. They sign new players, so in addition to an assistants 
+permissions, an agent can also post, patch, or delete players and teams.
 - *all permissions above, plus:*
 - `get:team-details`
-- `get:agent-clients`
 - `post:players`
 - `post:teams`
 - `patch:players`
@@ -84,13 +80,13 @@ delete players and teams.
 - `delete:players`
 - `delete:teams`
 
-#### executive_agent  
-An executive agent is in charge of the big picture. They're not overly
-concerned with specific players or teams, so they don't require those
-permissions. Instead, they can post, patch, or delete agents, as well as
-get an agents specific details.
-- *all `GET` operations above, plus:*
+##### executive_agent  
+An executive agent is in charge of the big picture. They're not overly concerned with adding new 
+players or teams, so they don't possess those permissions. Instead, they can `POST`, `PATCH`, or 
+`DELETE` an `agent`, as well as get `agent` specific details and their client list.
+- *all `GET` permissions above, plus:*
 - `get:agent-details`
+- `get:agent-clients`
 - `post:agents`
 - `patch:agents`
 - `delete:agents`
@@ -105,10 +101,9 @@ in the submission details). Once logged in, the JWT Bearer token can be extracte
 bar in your browser. Use that bearer token to access the API endpoints.
 
 ## Requests
-The Baseball Agency API endpoints are accessed using HTTP requests. Each endpoint uses the 
-appropriate HTTP verb for the action it performs. This API utilizes the `GET`, `POST`, `PATCH`, 
-and `DELETE` methods. The most convenient method of accessing this API is using the Postman tool,
-however, the `curl` tool is also an option.
+The Baseball Agency API endpoints are accessed using HTTP requests and JSON request bodies. Each endpoint uses the 
+appropriate HTTP verb for the action it performs. This API utilizes the `GET`, `POST`, `PATCH`, and `DELETE` methods. 
+The most convenient method of accessing this API is using the Postman tool, however, the `curl` tool is also an option.
 
 **Method/Action**
 ```
@@ -124,201 +119,504 @@ The API will return one of the following status codes when a request succeeds:
 - 200 - OK - request successful
 - 201 - Created - a new resource was created successfully
 ```
-## Endpoint Overview
+
+# Endpoint Overview
+## GET
 #### GET /players  
-- Only endpoint that doesn't require authentication
-- Returns a paginated list of all players in the database, with 10 players per page
-- An optional argument can be appended to the end of the query to get a specific page of players
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found
+- Only endpoint that doesn't require authentication.
+- Returns a paginated list of all players in the database, with 10 players per page.
+- An optional argument can be appended to the end of the query to get a specific page of players.
+- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
 
     - Sample usage: `curl http://localhost:5000/players`
     - With optional argument: `curl http://localhost:5000/players?page=7`
     - Sample response:
-```
-{
-    "players": [
-        {
-            "id": "1",
-            "name": "Baseball Player",
-            "number": "10",
-            "position": "Pitcher",
-            "team_id": 1
-        },
-        {
-            next player...
-        }
-    ],
-    "success": true,
-    "total_players": 100
-}
-```
+    ```
+    {
+        "players": [
+            {
+                "id": "1",
+                "name": "Baseball Player",
+                "number": "10",
+                "position": "Pitcher",
+                "team_id": 1
+            },
+            {
+                next 9 players...
+            }
+        ],
+        "success": true,
+        "total_players": 100
+    }
+    ```
 
 #### GET /player/<int:id>/details
-- Requires authentication (agent_assistant or above).
-- Returns one players specific details, which includes player salary.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- Requires authentication (`agent_assistant` user or above).
+- Returns specific details for the player, which includes the additional `salary` field.
+- The endpoint will return a status code of 200 if successful, or 404 if no player is found.
+
     - Sample usage: `curl http://localhost:5000/players/1/details -H "Authorization-Type: Bearer (insert bearer token here)"`
     - Sample response:
-```
-{
-    "player_details": {
-            "agent_id": 1,
-            "id": "1",
-            "name": "Baseball Player",
-            "number": "10",
-            "position": "Pitcher",
-            "salary": "A LOT OF MONEY",
-            "team_id": 1
-    },
-    "success": true
-}
-```
+    ```
+    {
+        "player_details": {
+                "agent_id": 1,
+                "id": "1",
+                "name": "Baseball Player",
+                "number": "10",
+                "position": "Pitcher",
+                "salary": "1 million USD",
+                "team_id": 1
+        },
+        "success": true
+    }
+    ```
 
 #### GET /teams
-- Requires authentication (agent_assistant or above).
+- Requires authentication (`agent_assistant` user or above).
 - Returns a list of all teams in the database.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- The endpoint will return a status code of 200 if successful, or 404 if no teams are found.
+
     - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
-```
-{
-    "success": true,
-    "teams": [
-        {
-            "abbr": "ABC",
-            "city": "Some Town",
-            "id": 1,
-            "name": "Some Town Ballers",
-            "state": "Some State"
-        },
-        {
-            next team...
-        }
-     ]
-}
-```
+    ```
+    {
+        "success": true,
+        "teams": [
+            {
+                "abbr": "ABC",
+                "city": "Some Town",
+                "id": 1,
+                "name": "Some Town Ballers",
+                "state": "Some State"
+            },
+            {
+                next team...
+            }
+        ],
+        "total_teams": 5
+    }
+    ```
 
 #### GET /teams/<int:id>/details
-- Requires authentication (agent or above).
-- Returns one teams specific details, which includes team total_payroll.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- Requires authentication (`agent` user or above).
+- Returns specific details for the team, which includes the additional `total_payroll` field.
+- The endpoint will return a status code of 200 if successful, or 404 if no team is found.
+
     - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
-```
-{
-    "success": true,
-    "team_details": {
+    ```
+    {
+        "success": true,
+        "team_details": {
             "abbr": "ABC",
             "city": "Some Town",
             "id": 1,
             "name": "Some Town Ballers",
             "state": "Some State",
             "total_payroll": "SO. MUCH. MONEY"
+        }
     }
-}
-```
+    ```
 
 #### GET /teams/<int:id>/roster
-- Requires authentication (agent_assistant or above).
-- Returns a team's complete player roster, with info on each player.
+- Requires authentication (`agent_assistant` user or above).
+- Returns a team's complete player roster, including the id, name, number, and position of each player.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+
     - Sample usage: `curl http://localhost:5000/teams/1/roster -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
-```
-{
-    "roster": [
-        {
-            "id": 1,
-            "name": "Baseball Player",
-            "number": "1",
-            "position": "Pitcher",
-            "team_id": 1
-        },
-        {
-            next player...
-        },
-        {
-            last player...
-        }
-    ],
-    "success": true,
-    "team": "Some Town Ballers",
-    "total_team_players": 27
-}
-```
+    ```
+    {
+        "roster": [
+            {
+                "id": 1,
+                "name": "Baseball Player",
+                "number": "1",
+                "position": "Pitcher",
+                "team_id": 1
+            },
+            {
+                next player...
+            },
+            {
+                last player...
+            }
+        ],
+        "success": true,
+        "team": "Some Town Ballers",
+        "total_team_players": 27
+    }
+    ```
 
 #### GET /agents
-- Requires authentication (agent or above).
-- Returns a list of all agents in the database, only showing name and id.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- Requires authentication (`agent` user or above).
+- Returns a list of all agents in the database. This endpoint only shows name and id.
+- The endpoint will return a status code of 200 if successful, or 404 if no agents are found.
+
     - Sample usage: `curl http://localhost:5000/agents -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
-```
-{
-    "agents": [
-        {
-            "id": 1,
-            "name": "Superstar Agent"
-        },
-        {
-            "id": 2,
-            "name": "Rockstar Agent"
-        },
-        {
-            next agent...
-        }
-    ],
-    "success": true,
-    "total_agents": 10
-}
-```
+    ```
+    {
+        "agents": [
+            {
+                "id": 1,
+                "name": "Superstar Agent"
+            },
+            {
+                "id": 2,
+                "name": "Rockstar Agent"
+            },
+            {
+                next agent...
+            }
+        ],
+        "success": true,
+        "total_agents": 10
+    }
+    ```
 
 #### GET /agents/<int:id>/details
-- Requires authentication (executive_agent only).
-- Returns specific details for one agent, which includes salary.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- Requires authentication (`executive_agent` user only).
+- Returns specific details for the agent, which includes the additional `salary` field.
+- The endpoint will return a status code of 200 if successful, or 404 if no agent is found.
+
     - Sample usage: `curl http://localhost:5000/agents/1/details -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
-```
-{
-    "agent": {
-        "id": 1,
-        "name": "Superstar Agent",
-        "salary": "10 million USD"
-    },
-    "success": true
-}
-```
+    ```
+    {
+        "agent": {
+            "id": 1,
+            "name": "Superstar Agent",
+            "salary": "10 million USD"
+        },
+        "success": true
+    }
+    ```
 
 #### GET /agents/<int:id>/clients
-- Requires authentication.
-- Returns player/client list for one agent, with basic info on each player/client included.
-- The endpoint will return a status code of 200 if successful, or 404 if no players are found.
+- Requires authentication (`executive_agent` user only).
+- Returns the player/client list for one agent, including the id, name, number, and position of each player.
+- The endpoint will return a status code of 200 if successful, or 404 if no player/clients are assigned to the agent.
+
     - Sample usage: `curl http://localhost:5000/agents/1/clients -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
-```
-{
-    "agent": "Superstar Agent",
-    "clients": [
-        {
-            "id": 1,
+    ```
+    {
+        "agent": "Superstar Agent",
+        "clients": [
+            {
+                "id": 1,
+                "name": "Baseball Player",
+                "number": "1",
+                "position": "Pitcher",
+                "team_id": 1
+            },
+            {
+                "id": 5,
+                "name": "Baseball Slugger",
+                "number": "99",
+                "position": "First Base",
+                "team_id": 4
+            },
+            {
+                next player/client...
+            }
+        ],
+        "success": true,
+        "total_agent_clients": 19
+    }
+    ```
+
+## POST
+#### POST /players
+- Requires authentication (`agent` user only).
+- Will insert a new player into the database if the json body is valid.
+- The endpoint will return a status code of 201 if successful, 400 if the request is malformed, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- All fields in the request body are required and cannot be empty.
+- `team_id` and `agent_id` are integers and must already exist in the database.
+- `name`, `number`, `position`, and `salary` are string fields.
+  
+    - Sample request body format:
+    ```
+    {
+        "name": "Baseball Player",
+        "number": "10",
+        "position": "Pitcher",
+        "salary": "1 million USD",
+        "team_id": 1,
+        "agent_id": 1
+    }
+    ```
+    - Sample usage: `curl -X POST http://localhost:5000/players -H 'Authorization: Bearer (insert bearer token here)'
+      -H 'content-type: application/json' -d '{"name": "Baseball Player", "number": "10", "position": "Pitcher",
+      "salary": "1 million USD", "team_id": 1, "agent_id": 1}'`
+    - Sample response:
+    ```
+    {
+        "new_player": {
+            "agent_id": 1,
+            "id": "1",
             "name": "Baseball Player",
-            "number": "1",
+            "number": "10",
             "position": "Pitcher",
+            "salary": "1 million USD",
             "team_id": 1
         },
-        {
-            "id": 5,
-            "name": "Baseball Slugger",
-            "number": "99",
-            "position": "First Base",
-            "team_id": 4
+        "new_player_id": 1,
+        "success": true,
+        "total_players": 101
+    }
+    ```
+  
+#### POST /teams
+- Requires authentication (`agent` user only).
+- Will insert a new team into the database if the json body is valid.
+- The endpoint will return a status code of 201 if successful, 400 if the request is malformed, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- All fields in the request body are required and cannot be empty.
+- All fields are string fields.
+  
+    - Sample request body format:
+    ```
+    {
+        "name": "Some Town Ballers",
+        "abbr": "ABC",
+        "city": "Some Town",
+        "state": "Some State",
+        "total_payroll": "100 million USD"
+    }
+    ```
+    - Sample usage: `curl -X POST http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'
+      -H 'content-type: application/json' -d '{"name": "Some Town Ballers", "abbr": "ABC", "city": "Some Town", "state": 
+      "Some State", "total_payroll": "100 million USD"}'`
+    - Sample response:
+    ```
+    {
+        "new_team": {
+            "abbr": "ABC",
+            "city": "Some Town",
+            "id": "1",
+            "name": "Some Town Ballers",
+            "state": "Some State",
+            "total_payroll": "100 million USD"
         },
-        {
-            next player/client...
-        }
-    ],
-    "success": true,
-    "total_agent_clients": 19
-}
-```
+        "new_team_id": 1,
+        "success": true,
+        "total_teams": 5
+    }
+    ```
+
+#### POST /agents
+- Requires authentication (`executive_agent` user only).
+- Will insert a new agent into the database if the json body is valid.
+- The endpoint will return a status code of 201 if successful, 400 if the request is malformed, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- All fields in the request body are required and cannot be empty.
+- All fields are string fields.
+  
+    - Sample request body format:
+    ```
+    {
+        "name": "Superstar Agent",
+        "salary": "1 million USD"
+    }
+    ```
+    - Sample usage: `curl -X POST http://localhost:5000/agents -H 'Authorization: Bearer (insert bearer token here)'
+      -H 'content-type: application/json' -d '{"name": "Superstar Agent", "salary": "1 million USD"}'`
+    - Sample response:
+    ```
+    {
+        "new_agent": {
+            "id": 1,
+            "name": "Superstar Agent",
+            "salary": "1 million USD"
+        },
+        "new_agent_id": 1,
+        "success": true,
+        "total_agents": 11
+    }
+    ```
+
+## PATCH
+#### PATCH /players/<int:id>
+- Requires authentication (`agent` user only).
+- Will patch an existing player ID in the database if the json body is valid.
+- The endpoint will return a status code of 200 if successful, 400 if the request is malformed, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- You can pick and choose which field(s) to edit, i.e. one, some, or all fields can be edited simultaneously.
+- `team_id` and `agent_id` are integers and must already exist in the database (if included in the request body).
+- `name`, `number`, `position`, and `salary` are string fields and cannot be empty (if included in the request body).
+  
+    - Sample request body format:
+    ```
+    {
+        "name": "Baseball Guy",
+        "number": "99",
+        "position": "Catcher",
+        "salary": "5 million USD",
+        "team_id": 5,
+        "agent_id": 9
+    }
+    ```
+    - Sample usage: `curl -X PATCH http://localhost:5000/players/1 -H 'Authorization: Bearer (insert bearer token here)'
+      -H 'content-type: application/json' -d '{"name": "Baseball Guy", "number": "99", "position": "Catcher",
+      "salary": "5 million USD", "team_id": 5, "agent_id": 9}'`
+    - Sample response:
+    ```
+    {
+        "success": true,
+        "updated_player": {
+            "agent_id": 9,
+            "id": "1",
+            "name": "Baseball Guy",
+            "number": "99",
+            "position": "Catcher",
+            "salary": "5 million USD",
+            "team_id": 5
+        },
+    }
+    ```
+  
+#### PATCH /teams/<int:id>
+- Requires authentication (`agent` user only).
+- Will patch an existing team ID in the database if the json body is valid.
+- The endpoint will return a status code of 200 if successful, 400 if the request is malformed, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- You can pick and choose which field(s) to edit, i.e. one, some, or all fields can be edited simultaneously.
+- All fields are string fields and cannot be empty (if included in the request body).
+  
+    - Sample request body format:
+    ```
+    {
+        "name": "That Town Aces",
+        "abbr": "XYZ",
+        "city": "That Town",
+        "state": "Whatever State",
+        "total_payroll": "250 million USD"
+    }
+    ```
+    - Sample usage: `curl -X PATCH http://localhost:5000/teams/1 -H 'Authorization: Bearer (insert bearer token here)'
+      -H 'content-type: application/json' -d '{"name": "That Town Aces", "abbr": "XYZ", "city": "That Town", "state": 
+      "Whatever State", "total_payroll": "250 million USD"}'`
+    - Sample response:
+    ```
+    {
+        "success": true,
+        "updated_team": {
+            "abbr": "XYZ",
+            "city": "That Town",
+            "id": "1",
+            "name": "That Town Aces",
+            "state": "Whatever State",
+            "total_payroll": "250 million USD"
+        },
+    }
+    ```
+
+#### PATCH /agents/<int:id>
+- Requires authentication (`executive_agent` user only).
+- Will patch an existing agent in the database if the json body is valid.
+- The endpoint will return a status code of 200 if successful, 400 if the request is malformed, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- You can pick and choose which field(s) to edit, i.e. one or both fields can be edited simultaneously.
+- Both fields are string fields and cannot be empty (if included in the request body).
+  
+    - Sample request body format:
+    ```
+    {
+        "name": "Flashiest Agent",
+        "salary": "5 million USD"
+    }
+    ```
+    - Sample usage: `curl -X PATCH http://localhost:5000/agents/1 -H 'Authorization: Bearer (insert bearer token here)'
+      -H 'content-type: application/json' -d '{"name": "Flashiest Agent", "salary": "5 million USD"}'`
+    - Sample response:
+    ```
+    {
+        "success": true,
+        "updated_agent": {
+            "id": 1,
+            "name": "Flashiest Agent",
+            "salary": "5 million USD"
+        },
+    }
+    ```
+
+## DELETE
+#### DELETE /players/<int:id>
+- Requires authentication (`agent` user only).
+- Will delete an existing player id from the database.
+- The endpoint will return a status code of 200 if successful, 404 if the player id isn't found, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+
+    - Sample usage: `curl -X DELETE http://localhost:5000/players/1`
+    - Sample response:
+    ```
+    {
+        "deleted_id": 1,
+        "success": true,
+        "total_players": 100
+    }
+    ```
+  
+#### DELETE /teams/<int:id>
+- Requires authentication (`agent` user only).
+- Will delete an existing team from the database.
+- The endpoint will return a status code of 200 if successful, 404 if the team id isn't found, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- **IMPORTANT** A team _cannot_ be removed if any player has a team_id equal to the team id you're trying to delete.
+- In the above case, a response will be returned informing the user the team has one (or more) player(s) assigned, and will also
+  return a list of any assigned player(s).
+
+    - Sample response when trying to delete a team with one (or more) player(s) assigned to it:
+    ```
+    {
+        "message": "This team currently has one or more players. Please reassign those players before deleting this team!",
+        "players": [
+            list of players...
+        ],
+        "success": false,
+        "total_players": 30
+    }
+    ```
+    - Sample usage: `curl -X DELETE http://localhost:5000/teams/1`
+    - Sample response:
+    ```
+    {
+        "deleted_id": 1,
+        "success": true,
+        "total_teams": 4
+    }
+    ```
+
+#### DELETE /agents/<int:id>
+- Requires authentication (`executive_agent` user only).
+- Will delete an existing agent from the database.
+- The endpoint will return a status code of 200 if successful, 404 if the agent id isn't found, 401 if no authorization 
+  header is present, or 403 if authorization is present but permission is not found.
+- **IMPORTANT** An agent _cannot_ be removed if any player has an agent_id equal to the agent id you're trying to delete.
+- In the above case, a response will be returned informing the user the agent has one (or more) player(s) assigned, and will also
+  return a list of any assigned player(s).
+
+    - Sample response when trying to delete an agent with one (or more) player(s) assigned to it:
+    ```
+    {
+        "clients": [
+            list of player/clients...
+        ],
+        "message": "This agent currently represents one or more players. Please reassign those players before deleting this agent!",
+        "success": false,
+        "total_clients": 21
+    }
+    ```
+    - Sample usage: `curl -X DELETE http://localhost:5000/agents/1`
+    - Sample response:
+    ```
+    {
+        "deleted_id": 1,
+        "success": true,
+        "total_agents": 10
+    }
+    ```
