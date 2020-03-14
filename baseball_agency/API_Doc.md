@@ -1,60 +1,95 @@
 # API Usage
+### Testing and mock data  
+Mock data has been pre-loaded into the database so that `DELETE /endpoint` functions correctly during
+testing, with no side effects to other tests. Running tests will alter database data, so it's recommended
+to run any tests on a secondary _test_ database so that the live database won't be affected. The test database
+can be dropped and recreated for the next round of testing, if necessary. The mock data were given an `id` of 
+500 to simplify distinguishing them from the rest of the data.
+
+Mock data:
+
+    /players/500
+    {
+        "id": 500,
+        "name": "Alex Verdugo",
+        "number": "99",
+        "position": "Right Field",
+        "salary": "583,000 USD",
+        "team_id": 1,
+        "agent_id": 1
+    }
+    
+    /teams/500
+    {
+        "id": 500,
+        "name": "Boston Red Sox",
+        "abbr": "BOS",
+        "city": "Boston",
+        "state": "MA",
+        "total_payroll": "180.4 million USD"
+    }
+    
+    /agents/500
+    {
+        "id": 500,
+        "name": "Dan Lozano",
+        "salary": "250,000 USD"
+    }
+
 ### Error handling
 Errors are returned as a JSON object, and are formatted as follows:
-```
-{
-    "success": False,
-    "error": 400,
-    "message": "The browser (or proxy) sent a request that this server could not understand."
-}
-```
+
+    {
+        "success": False,
+        "error": 400,
+        "message": "The browser (or proxy) sent a request that this server could not understand."
+    }
 
 The API will return one of the following errors when a request fails:
-```
-- 400 -- Bad Request - The request could not be understood by the server
-- 404 -- Not Found - The requested resource could not be found
-- 405 -- Method Not Allowed - The specified method is not allowed for the endpoint
-- 500 -- Internal Server Error - The server encountered an unexpected condition
-```
+
+    - 400 -- Bad Request - The request could not be understood by the server
+    - 404 -- Not Found - The requested resource could not be found
+    - 405 -- Method Not Allowed - The specified method is not allowed for the endpoint
+    - 500 -- Internal Server Error - The server encountered an unexpected condition
+
 Additionally, any errors related to authentication will return one of the
  following:
-```
-- 401 -- Unauthorized - The server could not verify your authorization.
-- 403 -- Forbidden - Authorized, but you don't have permission to access the requested resource.
-```
+
+    - 401 -- Unauthorized - The server could not verify your authorization.
+    - 403 -- Forbidden - Authorized, but you don't have permission to access the requested resource.
+
 
 ### Database Schema
 
 Here is a representation of the db schema ([`models.py`](./models.py)):
-```
-players
-- id (primary key)
-- name
-- number
-- position
-- salary
-- team_id (foreign key to teams.id)
-- agent_id (foreign key to agents.id)
-```
-```
-teams
-- id (primary key, links to players table through players.team_id)
-- name
-- abbreviation
-- city
-- state
-- total_payroll
-```
-```
-agents
-- id (primary key, links to players table through players.agent_id)
-- name
-- salary
-```
+
+    players
+    - id (primary key)
+    - name
+    - number
+    - position
+    - salary
+    - team_id (foreign key to teams.id)
+    - agent_id (foreign key to agents.id)
+    ```
+    ```
+    teams
+    - id (primary key, links to players table through players.team_id)
+    - name
+    - abbreviation
+    - city
+    - state
+    - total_payroll
+    ```
+    ```
+    agents
+    - id (primary key, links to players table through players.agent_id)
+    - name
+    - salary
+
 Every field must be populated, so `NOT NULL` constraints are enforced in the backend. A `player`
 cannot be inserted if the `team_id` or `agent_id` do not already exist in the database. Additionally,
-no `team` or `agent` can be deleted if either has a `player` assigned to it.
-
+no `team` or `agent` can be deleted if either has a `player` assigned to it.  
 
 ### Role Based Access Control
 There are 3 roles utilized in this project. They are `agent_assistant`, `agent`, and `executive_agent`. 
@@ -63,33 +98,36 @@ All endpoints except one will require the user to be authenticated with one of t
 ##### agent_assistant  
 The agent assistant assists an agent in day to day operations, and thus needs access to player lists 
 and player details, team rosters, and a list of agents.
-- `get:player-details`
-- `get:teams`
-- `get:team-roster`
-- `get:agents`
+
+    - get:player-details
+    - get:teams
+    - get:team-roster
+    - get:agents
 
 ##### agent  
 An agent is what makes the business run. They sign new players, so in addition to an assistants 
 permissions, an agent can also post, patch, or delete players and teams.
-- *all permissions above, plus:*
-- `get:team-details`
-- `post:players`
-- `post:teams`
-- `patch:players`
-- `patch:teams`
-- `delete:players`
-- `delete:teams`
+
+    - *all permissions above, plus:*
+    - get:team-details
+    - post:players
+    - post:teams
+    - patch:players
+    - patch:teams
+    - delete:players
+    - delete:teams
 
 ##### executive_agent  
 An executive agent is in charge of the big picture. They're not overly concerned with adding new 
 players or teams, so they don't possess those permissions. Instead, they can `POST`, `PATCH`, or 
 `DELETE` an `agent`, as well as get `agent` specific details and their client list.
-- *all `GET` permissions above, plus:*
-- `get:agent-details`
-- `get:agent-clients`
-- `post:agents`
-- `patch:agents`
-- `delete:agents`
+
+    - *all GET permissions above, plus:*
+    - get:agent-details
+    - get:agent-clients
+    - post:agents
+    - patch:agents
+    - delete:agents
 
 With the exception of `GET /players`, all endpoints will require authentication using a JWT Bearer token. 
 Credentials and a JWT bearer token can be obtained by visiting:
@@ -106,19 +144,17 @@ appropriate HTTP verb for the action it performs. This API utilizes the `GET`, `
 The most convenient method of accessing this API is using the Postman tool, however, the `curl` tool is also an option.
 
 **Method/Action**  
-```
-- GET - retrieve players, player details, teams, team details, team roster, agents, agent details, and agent clients
-- POST - create a new player, team, or agent
-- PATCH - patch an existing player, team, or agent
-- DELETE - delete an existing player, team, or agent
-```
+
+    - GET - retrieve players, player details, teams, team details, team roster, agents, agent details, and agent clients
+    - POST - create a new player, team, or agent
+    - PATCH - patch an existing player, team, or agent
+    - DELETE - delete an existing player, team, or agent
 
 **Responses**  
 The API will return one of the following status codes when a request succeeds:
-```
-- 200 - OK - request successful
-- 201 - Created - a new resource was created successfully
-```
+
+    - 200 - OK - request successful
+    - 201 - Created - a new resource was created successfully
 
 # Endpoint Overview
 ## GET
