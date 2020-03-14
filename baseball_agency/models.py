@@ -2,9 +2,11 @@ import os
 
 from flask_sqlalchemy import SQLAlchemy
 
-database_name = 'baseball'
-database_path = 'postgres://{}:{}@{}/{}'.format(
-    'postgres', 'asdf', 'localhost:5432', database_name)
+# database_name = 'baseball'
+# database_path = 'postgres://{}:{}@{}/{}'.format(
+#     'postgres', 'asdf', 'localhost:5432', database_name)
+
+database_path = os.environ['DATABASE_URL']
 
 db = SQLAlchemy()
 
