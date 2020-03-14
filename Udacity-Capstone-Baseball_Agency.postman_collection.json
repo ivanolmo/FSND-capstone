@@ -893,7 +893,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/95/details",
+							"raw": "http://127.0.0.1:5000/players/1/details",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -904,7 +904,7 @@
 							"port": "5000",
 							"path": [
 								"players",
-								"95",
+								"1",
 								"details"
 							]
 						}
@@ -1500,7 +1500,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJhMmNjNmRiYzkwZDNkZTUxYjBhIiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDA1NTUxMSwiZXhwIjoxNTg0MTQxOTExLCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFnZW50cyIsImdldDpwbGF5ZXItZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyJdfQ.EBV56kUxOKj4KJf1VCat1unORtgUwq8BjKXP1xB9qJk1qMtjYf2BUR6NaBNNNZk526l7-DNeMWySOrQcqY-u5BHfjU4lDbS6z2NfhUWrzjf8Vt7-lgnPC0kCm09VZMJhUzLUEnusDDFXQE14w5ROIY8U-hdMJYJN3hbKQt2-8vTUC3OMEbpRYa3wx_AXk5Obe8A_LNG1sEvff0SpueVhBbrcWS2J8h5NAGqpzP58WXgWMRlWQ3THtwB_6aSDeO89-s480WYKJf-h8n-cUUBvuDeAGtr9LyWVX-UVkUdR0xpfJS8G1zqbzHMTSW9AikX_Sm4PQ6kW8l178SSZDcDIDQ",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJhMmNjNmRiYzkwZDNkZTUxYjBhIiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDE0MjUwMCwiZXhwIjoxNTg0MjI4OTAwLCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZ2V0OmFnZW50cyIsImdldDpwbGF5ZXItZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyJdfQ.n4w2U5hjKJAkplf-0F9i3cmLzLdfKd8n5AFJK9vKykAcJdlaxQXbzelr3OnHTidpz2gbhF30pig0hnrn23ZqZQ2DC9dyh89yrj7-vyo2we9zTOtzSSN2kqnDbLxlUFGLbZgeoBqNc00JQ0PAHSKp_IETeyvkQQBsnKk8UQxMzuOre6l0E14iRkPDqFb34M6KxaNvH-gLWOdic_81cEkmRpeLIGP9_nA_BFqQ5q5G9DPagGpgcuRKI3HuhB1Q6N1SUlMpuchrQFb3Q5TjOhGRGUCuVOyqjE30IkoXZ0D8vsMZx7IOUnnXGeUR2NLNkYP8n_fStP0RvekpadB7VQSK8w",
 						"type": "string"
 					}
 				]
@@ -2215,7 +2215,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/105",
+							"raw": "http://127.0.0.1:5000/players/500",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -2226,7 +2226,7 @@
 							"port": "5000",
 							"path": [
 								"players",
-								"105"
+								"500"
 							]
 						}
 					},
@@ -2252,7 +2252,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/7",
+							"raw": "http://127.0.0.1:5000/teams/500",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -2263,7 +2263,7 @@
 							"port": "5000",
 							"path": [
 								"teams",
-								"7"
+								"500"
 							]
 						}
 					},
@@ -2289,7 +2289,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
+							"raw": "http://127.0.0.1:5000/agents/5",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -2300,7 +2300,7 @@
 							"port": "5000",
 							"path": [
 								"agents",
-								"1"
+								"5"
 							]
 						}
 					},
@@ -2312,7 +2312,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJhZWJmN2ZlY2EwZDM0OTdiZjU1IiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDA1NTU1NywiZXhwIjoxNTg0MTQxOTU3LCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnBsYXllcnMiLCJkZWxldGU6dGVhbXMiLCJnZXQ6YWdlbnRzIiwiZ2V0OnBsYXllci1kZXRhaWxzIiwiZ2V0OnRlYW0tZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyIsInBhdGNoOnBsYXllcnMiLCJwYXRjaDp0ZWFtcyIsInBvc3Q6cGxheWVycyIsInBvc3Q6dGVhbXMiXX0.uGGJzbRIZYD4zl4Sy_cmXhT8oymrPzYYY9hJSMZRhGBq5t9O4zzEAHmaUtUtDeVlhxmVZ_-7vSJK2qJ6qyION5unW5qpkqO2lps0I5Wj79LIR0dl_yxjxRP1IsP20nVGuku_z64N_ZVWHfW2Nadn75bHzEglbSi1qQKEv7ICIjiNYL7sQjlrT2TuzltAY0eLYYb_7trPQOpG7cG0KVad-_BMp4pJ5eBsxQA0QUPbmqg7_tfif359ktBdukHr35XKybRNdnn8oz95z60NJ7clsAV3jsnC-1aqN17ePOi-mx-EtxxmOYA313jQnlQzqv9QQawR15QJCXW_92ojT1M-2A",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJhZWJmN2ZlY2EwZDM0OTdiZjU1IiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDE0MjU4MCwiZXhwIjoxNTg0MjI4OTgwLCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOnBsYXllcnMiLCJkZWxldGU6dGVhbXMiLCJnZXQ6YWdlbnRzIiwiZ2V0OnBsYXllci1kZXRhaWxzIiwiZ2V0OnRlYW0tZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyIsInBhdGNoOnBsYXllcnMiLCJwYXRjaDp0ZWFtcyIsInBvc3Q6cGxheWVycyIsInBvc3Q6dGVhbXMiXX0.tS3u4jv3DJu3YVlxncf_Y1WJH7OBoRK5_5E2h8KTTn4-kVa70eq7SkYQjCkRF7lc0TRlyHHSwzGiKv_mcBDA1HD1loBAMx-FyU0jt5poQQ-j-NqhexP5Aga6BdHYCxUWwlZTIHgd1KQhGmXALxZH_PsNq-ZjTlzbjdvoD87msgreAeJcVIxGwckKKmfMFXT4icuope2BA2a1wdfafHxXw-p-9pd3lpFsxvs5wDpJuWmLiZKVb0Jk4n55d943E9ahdNekGLUhnVt2FzJpFtrm7q4hOwPxyDd27GUvZcEGrKAx4QzJ7T8VzQ2db42qsZDUDjLXd9QfGo4Fv0SDjqNJdQ",
 						"type": "string"
 					}
 				]
@@ -3101,7 +3101,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/15",
+							"raw": "http://127.0.0.1:5000/agents/500",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -3112,7 +3112,7 @@
 							"port": "5000",
 							"path": [
 								"agents",
-								"15"
+								"500"
 							]
 						}
 					},
@@ -3124,7 +3124,7 @@
 				"bearer": [
 					{
 						"key": "token",
-						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJiNTBmN2ZlY2EwZDM0OTdjMDM4IiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDA1NTU5MCwiZXhwIjoxNTg0MTQxOTkwLCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFnZW50cyIsImdldDphZ2VudC1jbGllbnRzIiwiZ2V0OmFnZW50LWRldGFpbHMiLCJnZXQ6YWdlbnRzIiwiZ2V0OnBsYXllci1kZXRhaWxzIiwiZ2V0OnRlYW0tZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyIsInBhdGNoOmFnZW50cyIsInBvc3Q6YWdlbnRzIl19.26gIsniYuwX4pVBsonGdFOGc4X9xrRdNc4hhce7RjtdqX3RdfhXEmRpD3A8eXpISJr-KaXXQI8FWYNCmTSh8fIHRvXowC35Luh_xQ42Jvar06F1gleGKapQuujWXKWMYtZz0LREbT3G5UNWTQQf-J8gy7pS-quYQ5HJ5C6n3wpStBS63VSsL4EmQQ2lEeW_3nfX7ObcY3dG5bBgof_aa7TUQlP43IM6B357Lc4K3QnZIMfuKbEqntVvouPqp0jwn3P3t_485w_7ybFMsZlC8goiSM6QBzg9Eekt4JpLxi-KFVJHsU5YdybaV0dWL9wcaxeCjgmF9BVi1cIUYih1mpg",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9ESTRNREZGUXpJeVJEQkROVU15TnpRd09VVTFPVEJFTWpVME1VUXhPVEUzT1VRNVJrWkVSZyJ9.eyJpc3MiOiJodHRwczovL2Jhc2ViYWxsLWFnZW5jeS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWU2NWJiNTBmN2ZlY2EwZDM0OTdjMDM4IiwiYXVkIjoiYmFzZWJhbGwtYWdlbmN5LWFwaSIsImlhdCI6MTU4NDE0MjYyNCwiZXhwIjoxNTg0MjI5MDI0LCJhenAiOiJwTWVhUFVOdURRZ1hqS1Zja3JkVkxrWVpZVnczY1pweCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiZGVsZXRlOmFnZW50cyIsImdldDphZ2VudC1jbGllbnRzIiwiZ2V0OmFnZW50LWRldGFpbHMiLCJnZXQ6YWdlbnRzIiwiZ2V0OnBsYXllci1kZXRhaWxzIiwiZ2V0OnRlYW0tZGV0YWlscyIsImdldDp0ZWFtLXJvc3RlciIsImdldDp0ZWFtcyIsInBhdGNoOmFnZW50cyIsInBvc3Q6YWdlbnRzIl19.yD56Yp-SEPnS00DDRaE7BvLdAy7VxhHcxNy3KLA2uFGOlOn7sHxn6r8GH8k32DhTGmTI-vPrT2o74CxBUB_m207YQIJ_kvmeN-DWaoLNgY1rRPOSMJICGYkwbLU1oN_dzaCV9pVi5vsp8k4BO8poUTpRf9O1wZzO1vLOwdjLI_fXl7rbGGp5q-0KNHRtGiuzNB3TY4R7pjOMxw1N3m1_Nb7BqEIAzGrIq9z3XL1piy9kfdp2et5oY7ethV96Do-VKEfA4cxoHrdfJRm7JHbucvjFPcdTXFezg5ZJt6gaksd6hF6QDDtQA9oSZCIZ5M0vPU3af67FOzVMUEC-2ClJ0Q",
 						"type": "string"
 					}
 				]

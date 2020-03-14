@@ -110,4 +110,4 @@ Setting the `FLASK_APP` variable to `baseball_agency` directs Flask to use
 the `baseball_agency` directory and the `__init__.py` file to find and load the
 application.
 
-### Please see the section on API usage at [`baseball_agency/API_Doc.md`](baseball_agency/API_Doc.md).
+### Please see the documentation on API usage at [`baseball_agency/API_Doc.md`](baseball_agency/API_Doc.md).
