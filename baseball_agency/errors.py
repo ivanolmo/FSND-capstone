@@ -45,9 +45,7 @@ def bad_request(error):
     return jsonify({
         "success": False,
         "error": 400,
-        "message": 'The browser (or proxy) sent a '
-                   'request that this server could '
-                   'not understand.'
+        "message": error.description
     }), 400
 
 
