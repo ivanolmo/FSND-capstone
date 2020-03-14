@@ -5,10 +5,8 @@ from flask_cors import CORS
 from flask import Flask, jsonify
 
 from .models import setup_db
-from auth.auth import requires_auth
 
 app = Flask(__name__)
-setup_db(app)
 CORS(app)
 
 from . import errors
@@ -24,8 +22,10 @@ def index():
 
 
 # project_folder = os.path.join(os.path.dirname(__file__), '..')
-# load_dotenv(os.path.join(project_folder, '.env'))
+# env_path = os.path.join(project_folder, '.env')
+# load_dotenv()
 
+setup_db(app)
 
 # set up flask blueprints
 from .players.player_views import players

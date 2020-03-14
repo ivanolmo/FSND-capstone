@@ -1,9 +1,6 @@
 import os
 
-from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
-
-# database_path = os.getenv('DATABASE_URI')
 
 database_name = 'baseball'
 database_path = 'postgres://{}:{}@{}/{}'.format(
