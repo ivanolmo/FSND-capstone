@@ -17,7 +17,7 @@ def index():
     # TODO remove this placeholder test endpoint when done
     return jsonify({
         'success': True,
-        'message': 'index page works'
+        'message': 'Welcome to the FSND Baseball API'
     }), 200
 
 
