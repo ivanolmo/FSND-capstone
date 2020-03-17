@@ -24,10 +24,9 @@ def paginate_players(request, selection):
 
 @players_bp.route('/', methods=['GET'])
 def index():
-    # TODO remove this placeholder test endpoint when done
     return jsonify({
         'success': True,
-        'message': 'Welcome to the FSND Baseball API'
+        'message': 'Welcome to the FSND Baseball Agency API'
     }), 200
 
 

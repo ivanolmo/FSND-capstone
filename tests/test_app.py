@@ -2,11 +2,9 @@ import os
 import unittest
 import json
 
-from dotenv import load_dotenv
-from flask_sqlalchemy import SQLAlchemy
-
 from baseball_agency import create_app, db
 from baseball_agency.models import db_drop_and_create_all, Player, Team, Agent
+from . import test_data
 from config import Config
 
 
@@ -59,7 +57,8 @@ class BaseballTestCase(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['message'], 'index page works')
+        self.assertEqual(data['message'], 'Welcome to the FSND Baseball '
+                                          'Agency API')
 
     """
     Player Tests
@@ -93,7 +92,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_get_player_by_id(self):
+    def test_get_player_details_by_id_no_token(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -106,12 +105,71 @@ class BaseballTestCase(unittest.TestCase):
         response = self.client().get(f'/players/{mock_player_id}/details')
         data = json.loads(response.data)
 
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_get_player_details_by_id_assistant_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to test post_player view
+        self.mock_player.insert()
+
+        mock_player_id = self.mock_player.id
+
+        response = self.client().get(
+            f'/players/{mock_player_id}/details',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(data['player_details']['id'], mock_player_id)
 
-    def test_get_player_by_id_not_exist(self):
-        response = self.client().get('/players/9000/details')
+    def test_get_player_details_by_id_agent_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to test post_player view
+        self.mock_player.insert()
+
+        mock_player_id = self.mock_player.id
+
+        response = self.client().get(
+            f'/players/{mock_player_id}/details',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['player_details']['id'], mock_player_id)
+
+    def test_get_player_details_by_id_executive_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to test post_player view
+        self.mock_player.insert()
+
+        mock_player_id = self.mock_player.id
+
+        response = self.client().get(
+            f'/players/{mock_player_id}/details',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['player_details']['id'], mock_player_id)
+
+    def test_get_player_details_by_id_not_exist(self):
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().get(
+            '/players/9000/details',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -122,7 +180,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_post_player(self):
+    def test_post_player_no_token(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -137,7 +195,57 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_post_player_assistant_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # mock player to test post_player view
+        test_player = {
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
+        }
+
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_post_player_agent_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # mock player to test post_player view
+        test_player = {
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
+        }
+
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 201)
@@ -153,7 +261,32 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(data['new_player_id'])
         self.assertTrue(data['total_players'])
 
+    def test_post_player_executive_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # mock player to test post_player view
+        test_player = {
+            'name': 'New Test Player',
+            'number': '99',
+            'position': 'New Test Position',
+            'salary': 'New Test Salary',
+            'team_id': 1,
+            'agent_id': 1
+        }
+
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
     def test_post_player_invalid_agent_id_not_exist(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -168,7 +301,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 9000
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -179,6 +315,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_agent_id_not_integer(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -193,7 +330,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': '1'
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -204,6 +344,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_team_id_not_exist(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -218,7 +359,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -229,6 +373,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_team_id_not_integer(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -243,7 +388,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -254,6 +402,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_spelling(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -268,7 +417,10 @@ class BaseballTestCase(unittest.TestCase):
             'agnt_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -279,6 +431,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_missing_name(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -292,7 +445,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -303,6 +459,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_missing_number(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -316,7 +473,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -327,6 +487,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_missing_position(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -340,7 +501,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -351,6 +515,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_missing_salary(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -364,7 +529,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -375,6 +543,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_missing_team_id(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -388,7 +557,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -399,6 +571,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_player_invalid_body_missing_agent_id(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -412,7 +585,10 @@ class BaseballTestCase(unittest.TestCase):
             'team_id': 1
         }
 
-        response = self.client().post('/players', json=test_player)
+        response = self.client().post(
+            '/players',
+            json=test_player,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -422,7 +598,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_delete_player(self):
+    def test_delete_player_no_token(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -433,7 +609,50 @@ class BaseballTestCase(unittest.TestCase):
 
         self.assertEqual(len(Player.query.all()), 1)
 
-        response = self.client().delete(f'/players/{mock_player_id}')
+        response = self.client().delete(
+            f'/players/{mock_player_id}')
+        data = json.loads(response.data)
+
+        player = Player.query.filter(Player.id == mock_player_id).one_or_none()
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_delete_player_assistant_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to test delete player
+        self.mock_player.insert()
+        mock_player_id = self.mock_player.id
+
+        self.assertEqual(len(Player.query.all()), 1)
+
+        response = self.client().delete(
+            f'/players/{mock_player_id}',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        player = Player.query.filter(Player.id == mock_player_id).one_or_none()
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_delete_player_agent_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to test delete player
+        self.mock_player.insert()
+        mock_player_id = self.mock_player.id
+
+        self.assertEqual(len(Player.query.all()), 1)
+
+        response = self.client().delete(
+            f'/players/{mock_player_id}',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         player = Player.query.filter(Player.id == mock_player_id).one_or_none()
@@ -444,8 +663,32 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(player, None)
         self.assertEqual(data['total_players'], 0)
 
+    def test_delete_player_executive_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to test delete player
+        self.mock_player.insert()
+        mock_player_id = self.mock_player.id
+
+        self.assertEqual(len(Player.query.all()), 1)
+
+        response = self.client().delete(
+            f'/players/{mock_player_id}',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        player = Player.query.filter(Player.id == mock_player_id).one_or_none()
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
     def test_delete_player_not_exist(self):
-        response = self.client().delete('/players/9000')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().delete(
+            '/players/9000',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -456,7 +699,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_patch_player(self):
+    def test_patch_player_no_token(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -473,8 +716,61 @@ class BaseballTestCase(unittest.TestCase):
             'salary': '999 million USD'
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_patch_player_assistant_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to patch
+        self.mock_player.insert()
+
+        mock_player_id = self.mock_player.id
+
+        test_edit_body = {
+            'name': 'After Player Edit',
+            'number': '99',
+            'position': 'AfterPlayerEdit',
+            'salary': '999 million USD'
+        }
+
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_patch_player_agent_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to patch
+        self.mock_player.insert()
+
+        mock_player_id = self.mock_player.id
+
+        test_edit_body = {
+            'name': 'After Player Edit',
+            'number': '99',
+            'position': 'AfterPlayerEdit',
+            'salary': '999 million USD'
+        }
+
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -489,19 +785,44 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['updated_player']['salary'], test_edit_body[
             'salary'])
 
+    def test_patch_player_executive_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        # insert a mock player to patch
+        self.mock_player.insert()
+
+        mock_player_id = self.mock_player.id
+
+        test_edit_body = {
+            'name': 'After Player Edit',
+            'number': '99',
+            'position': 'AfterPlayerEdit',
+            'salary': '999 million USD'
+        }
+
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
     def test_patch_player_not_exist(self):
-        response = self.client().patch('/players/9000')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().patch(
+            '/players/9000',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
         self.assertEqual(data['success'], False)
-        self.assertEqual(data['error'], 404)
-        self.assertEqual(data['message'], 'The requested URL was not found '
-                                          'on the server. If you entered the '
-                                          'URL manually please check your '
-                                          'spelling and try again.')
 
     def test_patch_player_invalid_agent_id(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -515,8 +836,10 @@ class BaseballTestCase(unittest.TestCase):
             'agent_id': 9000
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -528,6 +851,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'and try again.')
 
     def test_patch_player_invalid_team_id(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -541,8 +865,10 @@ class BaseballTestCase(unittest.TestCase):
             'team_id': 9000
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -554,6 +880,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'and try again.')
 
     def test_patch_player_invalid_body_empty_name(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -567,8 +894,10 @@ class BaseballTestCase(unittest.TestCase):
             'name': ''
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -579,6 +908,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_player_invalid_body_empty_number(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -592,8 +922,10 @@ class BaseballTestCase(unittest.TestCase):
             'number': ''
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -604,6 +936,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_player_invalid_body_empty_position(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -617,8 +950,10 @@ class BaseballTestCase(unittest.TestCase):
             'position': ''
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -629,6 +964,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_player_invalid_body_empty_salary(self):
+        # uses agent token, previous test already verified the token is valid
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -642,8 +978,10 @@ class BaseballTestCase(unittest.TestCase):
             'salary': ''
         }
 
-        response = self.client().patch(f'/players/{mock_player_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/players/{mock_player_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -657,11 +995,53 @@ class BaseballTestCase(unittest.TestCase):
     Team Tests
     """
 
-    def test_get_all_teams(self):
+    def test_get_all_teams_no_token(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
-        response = self.client().get('/teams')
+        response = self.client().get(
+            '/teams'
+        )
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_get_all_teams_assistant_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        response = self.client().get(
+            '/teams',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['teams'])
+        self.assertEqual(data['total_teams'], 1)
+
+    def test_get_all_teams_agent_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        response = self.client().get(
+            '/teams',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['teams'])
+        self.assertEqual(data['total_teams'], 1)
+
+    def test_get_all_teams_executive_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        response = self.client().get(
+            '/teams',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -670,7 +1050,10 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['total_teams'], 1)
 
     def test_get_all_teams_emtpy_database(self):
-        response = self.client().get('/teams')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().get(
+            '/teams',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -681,13 +1064,63 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_get_team_by_id(self):
+    def test_get_team_details_by_id_no_token(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
 
-        response = self.client().get(f'/teams/{mock_team_id}/details')
+        response = self.client().get(
+            f'/teams/{mock_team_id}/details')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_get_team_details_by_id_assistant_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        response = self.client().get(
+            f'/teams/{mock_team_id}/details',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_get_team_details_by_id_agent_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        response = self.client().get(
+            f'/teams/{mock_team_id}/details',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['team_details']['id'], 1)
+        self.assertEqual(data['team_details']['name'], 'Test Team')
+        self.assertEqual(data['team_details']['abbr'], 'TTT')
+        self.assertEqual(data['team_details']['city'], 'Test City')
+        self.assertEqual(data['team_details']['state'], 'Test State')
+        self.assertEqual(data['team_details']['total_payroll'],
+                         'Test Salary USD')
+
+    def test_get_team_details_by_id_executive_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        response = self.client().get(
+            f'/teams/{mock_team_id}/details',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -701,7 +1134,10 @@ class BaseballTestCase(unittest.TestCase):
                          'Test Salary USD')
 
     def test_get_team_by_id_not_exist(self):
-        response = self.client().get('/teams/9000/details')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().get(
+            '/teams/9000/details',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -712,7 +1148,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_get_team_players(self):
+    def test_get_team_players_no_token(self):
         # posting a player requires pre-existing team and agent in db
         self.mock_agent.insert()
         self.mock_team.insert()
@@ -723,7 +1159,69 @@ class BaseballTestCase(unittest.TestCase):
         # something
         self.mock_player.insert()
 
-        response = self.client().get(f'/teams/{mock_team_id}/players')
+        response = self.client().get(
+            f'/teams/{mock_team_id}/players')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_get_team_players_assistant_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        # insert one player to team with team_id of 1 so query returns
+        # something
+        self.mock_player.insert()
+
+        response = self.client().get(
+            f'/teams/{mock_team_id}/players',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['roster'])
+        self.assertEqual(data['total_team_players'], 1)
+
+    def test_get_team_players_agent_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        # insert one player to team with team_id of 1 so query returns
+        # something
+        self.mock_player.insert()
+
+        response = self.client().get(
+            f'/teams/{mock_team_id}/players',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['roster'])
+        self.assertEqual(data['total_team_players'], 1)
+
+    def test_get_team_players_executive_token(self):
+        # posting a player requires pre-existing team and agent in db
+        self.mock_agent.insert()
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        # insert one player to team with team_id of 1 so query returns
+        # something
+        self.mock_player.insert()
+
+        response = self.client().get(
+            f'/teams/{mock_team_id}/players',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -732,20 +1230,24 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['total_team_players'], 1)
 
     def test_get_team_players_empty_roster(self):
+        # uses agent token, previous test already verified the token is valid
         # insert mock team because db initializes empty
         self.mock_team.insert()
         mock_team_id = self.mock_team.id
 
-        response = self.client().get(f'/teams/{mock_team_id}/players')
+        response = self.client().get(
+            f'/teams/{mock_team_id}/players',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data['total_team_players'], 0)
-        self.assertFalse(data['roster'])
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(data['success'], False)
 
     def test_get_team_players_team_not_exist(self):
-        response = self.client().get('/teams/9000/players')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().get(
+            f'/teams/9000/players',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -756,7 +1258,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_post_team(self):
+    def test_post_team_no_token(self):
         # add a mock team to test post_team view
         mock_team = {
             'name': 'New Test Team',
@@ -766,7 +1268,47 @@ class BaseballTestCase(unittest.TestCase):
             'total_payroll': '1 million USD'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_post_team_assistant_token(self):
+        # add a mock team to test post_team view
+        mock_team = {
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'city': 'New Test City',
+            'state': 'New Test State',
+            'total_payroll': '1 million USD'
+        }
+
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_post_team_agent_token(self):
+        # add a mock team to test post_team view
+        mock_team = {
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'city': 'New Test City',
+            'state': 'New Test State',
+            'total_payroll': '1 million USD'
+        }
+
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 201)
@@ -784,8 +1326,28 @@ class BaseballTestCase(unittest.TestCase):
         self.assertTrue(data['new_team_id'])
         self.assertTrue(data['total_teams'])
 
-    def test_post_team_invalid_body_spelling(self):
+    def test_post_team_executive_token(self):
         # add a mock team to test post_team view
+        mock_team = {
+            'name': 'New Test Team',
+            'abbr': 'TEST',
+            'city': 'New Test City',
+            'state': 'New Test State',
+            'total_payroll': '1 million USD'
+        }
+
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_post_team_invalid_body_spelling(self):
+        # uses agent token, previous test already verified the token is valid
+        # mock team to test post_team view
         mock_team = {
             'tear_name': 'New Test Team',
             'abbrt': 'TEST',
@@ -794,7 +1356,10 @@ class BaseballTestCase(unittest.TestCase):
             'ttl_paryoll': '1 million USD'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -805,14 +1370,18 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_team_invalid_body_missing_name(self):
-        # add a mock team to test post_team view
+        # uses agent token, previous test already verified the token is valid
+        # mock team to test post_team view
         mock_team = {
             'abbr': 'TEST',
             'city': 'New Test City',
             'state': 'New Test State'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -823,14 +1392,18 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_team_invalid_body_missing_abbr(self):
-        # add a mock team to test post_team view
+        # uses agent token, previous test already verified the token is valid
+        # mock team to test post_team view
         mock_team = {
             'name': 'New Test Team',
             'city': 'New Test City',
             'state': 'New Test State'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -841,14 +1414,18 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_team_invalid_body_missing_city(self):
-        # add a mock team to test post_team view
+        # uses agent token, previous test already verified the token is valid
+        # mock team to test post_team view
         mock_team = {
             'name': 'New Test Team',
             'abbr': 'TEST',
             'state': 'New Test State'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -859,14 +1436,18 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_team_invalid_body_missing_state(self):
-        # add a mock team to test post_team view
+        # uses agent token, previous test already verified the token is valid
+        # mock team to test post_team view
         mock_team = {
             'name': 'New Test Team',
             'abbr': 'TEST',
             'city': 'New Test City'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -877,7 +1458,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_post_team_invalid_body_missing_total_payroll(self):
-        # add a mock team to test post_team view
+        # uses agent token, previous test already verified the token is valid
+        # mock team to test post_team view
         mock_team = {
             'name': 'New Test Team',
             'abbr': 'TEST',
@@ -885,7 +1467,10 @@ class BaseballTestCase(unittest.TestCase):
             'state': 'New Test State'
         }
 
-        response = self.client().post('/teams', json=mock_team)
+        response = self.client().post(
+            '/teams',
+            json=mock_team,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -895,7 +1480,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'request that this server could '
                                           'not understand.')
 
-    def test_delete_team(self):
+    def test_delete_team_no_token(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
 
@@ -903,7 +1488,44 @@ class BaseballTestCase(unittest.TestCase):
 
         self.assertEqual(len(Team.query.all()), 1)
 
-        response = self.client().delete(f'/teams/{mock_team_id}')
+        response = self.client().delete(
+            f'/teams/{mock_team_id}')
+        data = json.loads(response.data)
+
+        team = Team.query.filter(Team.id == mock_team_id).one_or_none()
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_delete_team_assistant_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        self.assertEqual(len(Team.query.all()), 1)
+
+        response = self.client().delete(
+            f'/teams/{mock_team_id}',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        team = Team.query.filter(Team.id == mock_team_id).one_or_none()
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_delete_team_agent_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        self.assertEqual(len(Team.query.all()), 1)
+
+        response = self.client().delete(
+            f'/teams/{mock_team_id}',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         team = Team.query.filter(Team.id == mock_team_id).one_or_none()
@@ -914,8 +1536,29 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(team, None)
         self.assertEqual(data['total_teams'], 0)
 
+    def test_delete_team_executive_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+
+        mock_team_id = self.mock_team.id
+
+        self.assertEqual(len(Team.query.all()), 1)
+
+        response = self.client().delete(
+            f'/teams/{mock_team_id}',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        team = Team.query.filter(Team.id == mock_team_id).one_or_none()
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
     def test_delete_team_not_exist(self):
-        response = self.client().delete('/teams/9000')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().delete(
+            '/teams/9000',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -926,7 +1569,7 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_patch_team(self):
+    def test_patch_team_no_token(self):
         # insert mock team because db initializes empty
         self.mock_team.insert()
         mock_team_id = self.mock_team.id
@@ -939,8 +1582,53 @@ class BaseballTestCase(unittest.TestCase):
             'total_payroll': 'AfterEdit USD'
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body)
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_patch_team_assistant_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+        mock_team_id = self.mock_team.id
+
+        test_edit_body = {
+            'name': 'After Team Edit',
+            'abbr': 'EDIT',
+            'city': 'AfterEdit City',
+            'state': 'AfterEdit State',
+            'total_payroll': 'AfterEdit USD'
+        }
+
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_patch_team_agent_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+        mock_team_id = self.mock_team.id
+
+        test_edit_body = {
+            'name': 'After Team Edit',
+            'abbr': 'EDIT',
+            'city': 'AfterEdit City',
+            'state': 'AfterEdit State',
+            'total_payroll': 'AfterEdit USD'
+        }
+
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -957,8 +1645,33 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['updated_team']['total_payroll'],
                          test_edit_body['total_payroll'])
 
+    def test_patch_team_executive_token(self):
+        # insert mock team because db initializes empty
+        self.mock_team.insert()
+        mock_team_id = self.mock_team.id
+
+        test_edit_body = {
+            'name': 'After Team Edit',
+            'abbr': 'EDIT',
+            'city': 'AfterEdit City',
+            'state': 'AfterEdit State',
+            'total_payroll': 'AfterEdit USD'
+        }
+
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
     def test_patch_team_not_exist(self):
-        response = self.client().patch('/teams/9000')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().patch(
+            f'/teams/9000',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -970,7 +1683,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'spelling and try again.')
 
     def test_patch_team_invalid_body_spelling(self):
-        # insert mock team because db initializes empty
+        # uses agent token, previous test already verified the token is valid
+        # mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
@@ -983,8 +1697,10 @@ class BaseballTestCase(unittest.TestCase):
             'tolta_pryaoll': '1 million USD'
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -995,7 +1711,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_team_invalid_body_empty_name(self):
-        # insert mock team because db initializes empty
+        # uses agent token, previous test already verified the token is valid
+        # mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
@@ -1004,8 +1721,10 @@ class BaseballTestCase(unittest.TestCase):
             'name': ''
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -1016,7 +1735,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_team_invalid_body_empty_abbr(self):
-        # insert mock team because db initializes empty
+        # uses agent token, previous test already verified the token is valid
+        # mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
@@ -1025,8 +1745,10 @@ class BaseballTestCase(unittest.TestCase):
             'abbr': ''
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -1037,7 +1759,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_player_invalid_body_empty_city(self):
-        # insert mock team because db initializes empty
+        # uses agent token, previous test already verified the token is valid
+        # mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
@@ -1046,8 +1769,10 @@ class BaseballTestCase(unittest.TestCase):
             'city': ''
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -1058,7 +1783,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_player_invalid_body_empty_state(self):
-        # insert mock team because db initializes empty
+        # uses agent token, previous test already verified the token is valid
+        # mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
@@ -1067,8 +1793,10 @@ class BaseballTestCase(unittest.TestCase):
             'state': ''
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -1079,7 +1807,8 @@ class BaseballTestCase(unittest.TestCase):
                                           'not understand.')
 
     def test_patch_player_invalid_body_empty_total_payroll(self):
-        # insert mock team because db initializes empty
+        # uses agent token, previous test already verified the token is valid
+        # mock team because db initializes empty
         self.mock_team.insert()
 
         mock_team_id = self.mock_team.id
@@ -1088,8 +1817,10 @@ class BaseballTestCase(unittest.TestCase):
             'total_payroll': ''
         }
 
-        response = self.client().patch(f'/teams/{mock_team_id}',
-                                       json=test_edit_body)
+        response = self.client().patch(
+            f'/teams/{mock_team_id}',
+            json=test_edit_body,
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 400)
@@ -1103,11 +1834,52 @@ class BaseballTestCase(unittest.TestCase):
     Agent Tests
     """
 
-    def test_get_all_agents(self):
+    def test_get_all_agents_no_token(self):
         # insert mock agent because db initializes empty
         self.mock_agent.insert()
 
-        response = self.client().get('/agents')
+        response = self.client().get(
+            '/agents')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_get_all_agents_assistant_token(self):
+        # insert mock agent because db initializes empty
+        self.mock_agent.insert()
+
+        response = self.client().get(
+            '/agents',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['agents'])
+        self.assertEqual(data['total_agents'], 1)
+
+    def test_get_all_agents_agent_token(self):
+        # insert mock agent because db initializes empty
+        self.mock_agent.insert()
+
+        response = self.client().get(
+            '/agents',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertTrue(data['agents'])
+        self.assertEqual(data['total_agents'], 1)
+
+    def test_get_all_agents_executive_token(self):
+        # insert mock agent because db initializes empty
+        self.mock_agent.insert()
+
+        response = self.client().get(
+            '/agents',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -1116,7 +1888,10 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['total_agents'], 1)
 
     def test_get_all_agents_empty_database(self):
-        response = self.client().get('/agents')
+        # uses agent token, previous test already verified the token is valid
+        response = self.client().get(
+            '/agents',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
@@ -1127,13 +1902,56 @@ class BaseballTestCase(unittest.TestCase):
                                           'URL manually please check your '
                                           'spelling and try again.')
 
-    def test_get_agent_by_id(self):
+    def test_get_agent_details_by_id_no_token(self):
         # insert mock agent because db initializes empty
         self.mock_agent.insert()
 
         mock_agent_id = self.mock_agent.id
 
-        response = self.client().get(f'/agents/{mock_agent_id}/details')
+        response = self.client().get(
+            f'/agents/{mock_agent_id}/details')
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(data['success'], False)
+
+    def test_get_agent_details_by_id_assistant_token(self):
+        # insert mock agent because db initializes empty
+        self.mock_agent.insert()
+
+        mock_agent_id = self.mock_agent.id
+
+        response = self.client().get(
+            f'/agents/{mock_agent_id}/details',
+            headers={'Authorization': f'Bearer {test_data.assistant_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_get_agent_details_by_id_agent_token(self):
+        # insert mock agent because db initializes empty
+        self.mock_agent.insert()
+
+        mock_agent_id = self.mock_agent.id
+
+        response = self.client().get(
+            f'/agents/{mock_agent_id}/details',
+            headers={'Authorization': f'Bearer {test_data.agent_jwt}'})
+        data = json.loads(response.data)
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(data['success'], False)
+
+    def test_get_agent_details_by_id_executive_token(self):
+        # insert mock agent because db initializes empty
+        self.mock_agent.insert()
+
+        mock_agent_id = self.mock_agent.id
+
+        response = self.client().get(
+            f'/agents/{mock_agent_id}/details',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 200)
@@ -1143,7 +1961,11 @@ class BaseballTestCase(unittest.TestCase):
         self.assertEqual(data['agent']['salary'], 'Test Salary USD')
 
     def test_get_agent_by_id_not_exist(self):
-        response = self.client().get('/agents/9000/details')
+        # uses executive token, previous test already verified the token is
+        # valid
+        response = self.client().get(
+            '/agents/9000/details',
+            headers={'Authorization': f'Bearer {test_data.executive_jwt}'})
         data = json.loads(response.data)
 
         self.assertEqual(response.status_code, 404)
