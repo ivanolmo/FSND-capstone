@@ -1,10 +1,11 @@
 # API Usage
+The API can be accessed at **https://baseball-agency-api.herokuapp.com**.
+
 ### Testing and mock data  
-Mock data has been pre-loaded into the database so that `DELETE /endpoint` functions correctly during
-testing, with no side effects to other tests. Running tests will alter database data, so it's recommended
-to run any tests on a secondary _test_ database so that the live database won't be affected. The test database
-can be dropped and recreated for the next round of testing, if necessary. The mock data were given an `id` of 
-500 to simplify distinguishing them from the rest of the data.
+Mock data has been loaded into the database so that `DELETE` endpoints function correctly during testing. Running 
+curl or Postman tests will alter database data (unittests do not), so it's recommended to run any tests on a secondary 
+_test_ database so that the live database won't be affected. The test database can be dropped and recreated for the 
+next round of testing, if necessary. The mock data were given an `id` of 500 to distinguish them from the rest of the data.
 
 Mock data:
 
@@ -87,7 +88,7 @@ Here is a representation of the db schema ([`models.py`](./models.py)):
     - name
     - salary
 
-Every field must be populated, so `NOT NULL` constraints are enforced in the backend. A `player`
+Every field must be populated. Constraints are enforced in the backend so that no fields are null. A `player`
 cannot be inserted if the `team_id` or `agent_id` do not already exist in the database. Additionally,
 no `team` or `agent` can be deleted if either has a `player` assigned to it.  
 
@@ -119,8 +120,8 @@ permissions, an agent can also post, patch, or delete players and teams.
 
 ##### executive_agent  
 An executive agent is in charge of the big picture. They're not overly concerned with adding new 
-players or teams, so they don't possess those permissions. Instead, they can `POST`, `PATCH`, or 
-`DELETE` an `agent`, as well as get `agent` specific details and their client list.
+players or teams, so they don't possess those permissions. Instead, they can post, patch, or delete
+an agent, as well as get agent specific details and their client list.
 
     - *all GET permissions above, plus:*
     - get:agent-details
@@ -132,7 +133,7 @@ players or teams, so they don't possess those permissions. Instead, they can `PO
 With the exception of `GET /players`, all endpoints will require authentication using a JWT Bearer token. 
 Credentials and a JWT bearer token can be obtained by visiting:
 
-    https://baseball-agency.auth0.com/authorize?audience=baseball-agency-api&response_type=token&client_id=pMeaPUNuDQgXjKVckrdVLkYZYVw3cZpx&redirect_uri=http://localhost:5000
+    https://baseball-agency.auth0.com/authorize?audience=baseball-agency-api&response_type=token&client_id=pMeaPUNuDQgXjKVckrdVLkYZYVw3cZpx&redirect_uri=https://baseball-agency-api.herokuapp.com
 
 Users have already been set up with each of the 3 available roles (credentials will be provided 
 in the project submission details). Once logged in, the JWT Bearer token can be extracted from the URL 
@@ -153,8 +154,8 @@ The most convenient method of accessing this API is using the Postman tool, howe
 **Responses**  
 The API will return one of the following status codes when a request succeeds:
 
-    - 200 - OK - request successful
-    - 201 - Created - a new resource was created successfully
+    - 200 -- OK - request successful
+    - 201 -- Created - a new resource was created successfully
 
 # Endpoint Overview
 ## GET
@@ -164,8 +165,8 @@ The API will return one of the following status codes when a request succeeds:
 - An optional argument can be appended to the end of the query to get a specific page of players.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
 
-    - Sample usage: `curl http://localhost:5000/players`
-    - With optional argument: `curl http://localhost:5000/players?page=7`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/players`
+    - With optional argument: `curl https://baseball-agency-api.herokuapp.com/players?page=7`
     - Sample response:
     ```
     {
@@ -191,7 +192,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns specific details for the player, which includes the additional `salary` field.
 - The endpoint will return a status code of 200 if successful, or 404 if no player is found.
 
-    - Sample usage: `curl http://localhost:5000/players/1/details -H "Authorization-Type: Bearer (insert bearer token here)"`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/players/1/details -H "Authorization-Type: Bearer (insert bearer token here)"`
     - Sample response:
     ```
     {
@@ -213,7 +214,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns a list of all teams in the database.
 - The endpoint will return a status code of 200 if successful, or 404 if no teams are found.
 
-    - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/teams -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
     ```
     {
@@ -239,7 +240,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns specific details for the team, which includes the additional `total_payroll` field.
 - The endpoint will return a status code of 200 if successful, or 404 if no team is found.
 
-    - Sample usage: `curl http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/teams -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
     ```
     {
@@ -260,7 +261,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns a team's complete player roster, including the id, name, number, and position of each player.
 - The endpoint will return a status code of 200 if successful, or 404 if no players are found.
 
-    - Sample usage: `curl http://localhost:5000/teams/1/roster -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/teams/1/roster -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
     ```
     {
@@ -290,7 +291,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns a list of all agents in the database. This endpoint only shows name and id.
 - The endpoint will return a status code of 200 if successful, or 404 if no agents are found.
 
-    - Sample usage: `curl http://localhost:5000/agents -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/agents -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
     ```
     {
@@ -317,7 +318,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns specific details for the agent, which includes the additional `salary` field.
 - The endpoint will return a status code of 200 if successful, or 404 if no agent is found.
 
-    - Sample usage: `curl http://localhost:5000/agents/1/details -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/agents/1/details -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
     ```
     {
@@ -335,7 +336,7 @@ The API will return one of the following status codes when a request succeeds:
 - Returns the player/client list for one agent, including the id, name, number, and position of each player.
 - The endpoint will return a status code of 200 if successful, or 404 if no player/clients are assigned to the agent.
 
-    - Sample usage: `curl http://localhost:5000/agents/1/clients -H 'Authorization: Bearer (insert bearer token here)'`
+    - Sample usage: `curl https://baseball-agency-api.herokuapp.com/agents/1/clients -H 'Authorization: Bearer (insert bearer token here)'`
     - Sample response:
     ```
     {
@@ -385,7 +386,7 @@ The API will return one of the following status codes when a request succeeds:
         "agent_id": 1
     }
     ```
-    - Sample usage: `curl -X POST http://localhost:5000/players -H 'Authorization: Bearer (insert bearer token here)'
+    - Sample usage: `curl -X POST https://baseball-agency-api.herokuapp.com/players -H 'Authorization: Bearer (insert bearer token here)'
       -H 'content-type: application/json' -d '{"name": "Baseball Player", "number": "10", "position": "Pitcher",
       "salary": "1 million USD", "team_id": 1, "agent_id": 1}'`
     - Sample response:
@@ -424,7 +425,7 @@ The API will return one of the following status codes when a request succeeds:
         "total_payroll": "100 million USD"
     }
     ```
-    - Sample usage: `curl -X POST http://localhost:5000/teams -H 'Authorization: Bearer (insert bearer token here)'
+    - Sample usage: `curl -X POST https://baseball-agency-api.herokuapp.com/teams -H 'Authorization: Bearer (insert bearer token here)'
       -H 'content-type: application/json' -d '{"name": "Some Town Ballers", "abbr": "ABC", "city": "Some Town", "state": 
       "Some State", "total_payroll": "100 million USD"}'`
     - Sample response:
@@ -459,7 +460,7 @@ The API will return one of the following status codes when a request succeeds:
         "salary": "1 million USD"
     }
     ```
-    - Sample usage: `curl -X POST http://localhost:5000/agents -H 'Authorization: Bearer (insert bearer token here)'
+    - Sample usage: `curl -X POST https://baseball-agency-api.herokuapp.com/agents -H 'Authorization: Bearer (insert bearer token here)'
       -H 'content-type: application/json' -d '{"name": "Superstar Agent", "salary": "1 million USD"}'`
     - Sample response:
     ```
@@ -496,7 +497,7 @@ The API will return one of the following status codes when a request succeeds:
         "agent_id": 9
     }
     ```
-    - Sample usage: `curl -X PATCH http://localhost:5000/players/1 -H 'Authorization: Bearer (insert bearer token here)'
+    - Sample usage: `curl -X PATCH https://baseball-agency-api.herokuapp.com/players/1 -H 'Authorization: Bearer (insert bearer token here)'
       -H 'content-type: application/json' -d '{"name": "Baseball Guy", "number": "99", "position": "Catcher",
       "salary": "5 million USD", "team_id": 5, "agent_id": 9}'`
     - Sample response:
@@ -533,7 +534,7 @@ The API will return one of the following status codes when a request succeeds:
         "total_payroll": "250 million USD"
     }
     ```
-    - Sample usage: `curl -X PATCH http://localhost:5000/teams/1 -H 'Authorization: Bearer (insert bearer token here)'
+    - Sample usage: `curl -X PATCH https://baseball-agency-api.herokuapp.com/teams/1 -H 'Authorization: Bearer (insert bearer token here)'
       -H 'content-type: application/json' -d '{"name": "That Town Aces", "abbr": "XYZ", "city": "That Town", "state": 
       "Whatever State", "total_payroll": "250 million USD"}'`
     - Sample response:
@@ -566,7 +567,7 @@ The API will return one of the following status codes when a request succeeds:
         "salary": "5 million USD"
     }
     ```
-    - Sample usage: `curl -X PATCH http://localhost:5000/agents/1 -H 'Authorization: Bearer (insert bearer token here)'
+    - Sample usage: `curl -X PATCH https://baseball-agency-api.herokuapp.com/agents/1 -H 'Authorization: Bearer (insert bearer token here)'
       -H 'content-type: application/json' -d '{"name": "Flashiest Agent", "salary": "5 million USD"}'`
     - Sample response:
     ```
@@ -587,7 +588,7 @@ The API will return one of the following status codes when a request succeeds:
 - The endpoint will return a status code of 200 if successful, 404 if the player id isn't found, 401 if no authorization 
   header is present, or 403 if authorization is present but permission is not found.
 
-    - Sample usage: `curl -X DELETE http://localhost:5000/players/1`
+    - Sample usage: `curl -X DELETE https://baseball-agency-api.herokuapp.com/players/1`
     - Sample response:
     ```
     {
@@ -617,7 +618,7 @@ The API will return one of the following status codes when a request succeeds:
         "total_players": 30
     }
     ```
-    - Sample usage: `curl -X DELETE http://localhost:5000/teams/1`
+    - Sample usage: `curl -X DELETE https://baseball-agency-api.herokuapp.com/teams/1`
     - Sample response:
     ```
     {
@@ -647,7 +648,7 @@ The API will return one of the following status codes when a request succeeds:
         "total_clients": 21
     }
     ```
-    - Sample usage: `curl -X DELETE http://localhost:5000/agents/1`
+    - Sample usage: `curl -X DELETE https://baseball-agency-api.herokuapp.com/agents/1`
     - Sample response:
     ```
     {

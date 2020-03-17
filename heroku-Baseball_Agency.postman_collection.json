@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "086b87c1-22f5-42c2-8a14-6e3543b34dd5",
-		"name": "local-Baseball_Agency",
+		"_postman_id": "36930f6c-99c6-42b4-a39d-5313887c0609",
+		"name": "heroku-Baseball_Agency",
 		"description": "Testing for each endpoint in the API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -34,15 +34,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -70,15 +68,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -106,15 +102,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -142,15 +136,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1",
@@ -180,15 +172,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -218,15 +208,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -256,15 +244,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/roster",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/roster",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -294,15 +280,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/clients",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/clients",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -348,15 +332,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -400,15 +382,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -452,15 +432,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -504,15 +482,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -557,15 +533,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -610,15 +584,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1"
@@ -647,15 +619,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -684,15 +654,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -721,15 +689,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1"
@@ -769,15 +735,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -810,15 +774,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -851,15 +813,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -893,15 +853,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1",
@@ -931,15 +889,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -969,15 +925,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -1012,15 +966,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/roster",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/roster",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -1050,15 +1002,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/clients",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/clients",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -1104,15 +1054,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -1156,15 +1104,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -1208,15 +1154,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -1260,15 +1204,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -1313,15 +1255,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -1366,15 +1306,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1"
@@ -1403,15 +1341,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -1440,15 +1376,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -1477,15 +1411,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1"
@@ -1567,15 +1499,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -1608,15 +1538,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -1649,15 +1577,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -1690,15 +1616,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1",
@@ -1733,15 +1657,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -1771,15 +1693,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -1814,15 +1734,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/roster",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/roster",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -1852,15 +1770,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/clients",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/clients",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -1911,15 +1827,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -1968,15 +1882,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -2020,15 +1932,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -2077,15 +1987,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -2135,15 +2043,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -2188,15 +2094,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1"
@@ -2225,15 +2129,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/500",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/500",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"500"
@@ -2262,15 +2164,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/500",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/500",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"500"
@@ -2299,15 +2199,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/5",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/5",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"5"
@@ -2379,15 +2277,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -2420,15 +2316,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -2461,15 +2355,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -2502,15 +2394,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1",
@@ -2545,15 +2435,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -2588,15 +2476,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/details",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/details",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -2631,15 +2517,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1/roster",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1/roster",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1",
@@ -2674,15 +2558,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1/clients",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1/clients",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1",
@@ -2728,15 +2610,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players"
 							]
@@ -2780,15 +2660,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams"
 							]
@@ -2837,15 +2715,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents"
 							]
@@ -2889,15 +2765,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -2942,15 +2816,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -3000,15 +2872,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"1"
@@ -3037,15 +2907,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/players/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/players/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"players",
 								"1"
@@ -3074,15 +2942,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/teams/1",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/teams/1",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"teams",
 								"1"
@@ -3111,15 +2977,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:5000/agents/500",
-							"protocol": "http",
+							"raw": "https://baseball-agency-api.herokuapp.com/agents/500",
+							"protocol": "https",
 							"host": [
-								"127",
-								"0",
-								"0",
-								"1"
+								"baseball-agency-api",
+								"herokuapp",
+								"com"
 							],
-							"port": "5000",
 							"path": [
 								"agents",
 								"500"
