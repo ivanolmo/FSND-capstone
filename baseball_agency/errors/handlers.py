@@ -1,10 +1,11 @@
 from flask import jsonify
 
-from . import app
+# TODO fix this from baseball_agency import db (to do a db rollback for 500)
+from baseball_agency.errors import errors_bp
 from auth.auth import AuthError
 
 
-@app.errorhandler(404)
+@errors_bp.app_errorhandler(404)
 def not_found(error):
     return jsonify({
         "success": False,
@@ -13,7 +14,7 @@ def not_found(error):
     }), 404
 
 
-@app.errorhandler(401)
+@errors_bp.app_errorhandler(401)
 def unauthorized(error):
     return jsonify({
         'success': False,
@@ -22,7 +23,7 @@ def unauthorized(error):
     }), 401
 
 
-@app.errorhandler(403)
+@errors_bp.app_errorhandler(403)
 def unauthorized(error):
     return jsonify({
         'success': False,
@@ -31,7 +32,7 @@ def unauthorized(error):
     }), 403
 
 
-@app.errorhandler(422)
+@errors_bp.app_errorhandler(422)
 def unprocessable(error):
     return jsonify({
         "success": False,
@@ -40,7 +41,7 @@ def unprocessable(error):
     }), 422
 
 
-@app.errorhandler(400)
+@errors_bp.app_errorhandler(400)
 def bad_request(error):
     return jsonify({
         "success": False,
@@ -49,7 +50,7 @@ def bad_request(error):
     }), 400
 
 
-@app.errorhandler(405)
+@errors_bp.app_errorhandler(405)
 def method_not_allowed(error):
     return jsonify({
         "success": False,
@@ -58,7 +59,7 @@ def method_not_allowed(error):
     }), 405
 
 
-@app.errorhandler(500)
+@errors_bp.app_errorhandler(500)
 def internal_server_error(error):
     return jsonify({
         "success": False,
@@ -67,7 +68,7 @@ def internal_server_error(error):
     }), 500
 
 
-@app.errorhandler(AuthError)
+@errors_bp.app_errorhandler(AuthError)
 def authentication_error(error):
     return jsonify({
         'success': False,

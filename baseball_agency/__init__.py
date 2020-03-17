@@ -1,37 +1,46 @@
 import os
 
-from dotenv import load_dotenv
 from flask_cors import CORS
 from flask import Flask, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
-from .models import setup_db
+from config import Config
 
-app = Flask(__name__)
-CORS(app)
-
-from . import errors
-
-
-@app.route('/', methods=['GET'])
-def index():
-    # TODO remove this placeholder test endpoint when done
-    return jsonify({
-        'success': True,
-        'message': 'Welcome to the FSND Baseball API'
-    }), 200
+db = SQLAlchemy()
+migrate = Migrate()
 
 
-# project_folder = os.path.join(os.path.dirname(__file__), '..')
-# env_path = os.path.join(project_folder, '.env')
-# load_dotenv()
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+    CORS(app)
 
-setup_db(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
 
-# set up flask blueprints
-from .players.player_views import players
-from .teams.team_views import teams
-from .agents.agent_views import agents
+    # set up flask blueprints
+    from .players.player_views import players_bp
+    app.register_blueprint(players_bp)
 
-app.register_blueprint(players)
-app.register_blueprint(teams)
-app.register_blueprint(agents)
+    from .teams.team_views import teams_bp
+    app.register_blueprint(teams_bp)
+
+    from .agents.agent_views import agents_bp
+    app.register_blueprint(agents_bp)
+
+    from .errors import errors_bp
+    app.register_blueprint(errors_bp)
+
+    return app
+
+# @app.route('/', methods=['GET'])
+# def index():
+#     # TODO remove this placeholder test endpoint when done
+#     return jsonify({
+#         'success': True,
+#         'message': 'Welcome to the FSND Baseball API'
+#     }), 200
+
+
+from baseball_agency import models

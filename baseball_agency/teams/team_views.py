@@ -1,16 +1,15 @@
 import json
 
-from flask import Blueprint, jsonify, request, abort
+from flask import jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth
 from ..models import Player, Team
 from .helpers import valid_team_body, valid_team_patch_body
+from baseball_agency.teams import teams_bp
 
-teams = Blueprint('teams', __name__)
 
-
-@teams.route('/teams', methods=['GET'])
+@teams_bp.route('/teams', methods=['GET'])
 @requires_auth('get:teams')
 def get_all_teams(jwt):
     try:
@@ -31,7 +30,7 @@ def get_all_teams(jwt):
         raise error
 
 
-@teams.route('/teams/<int:team_id>/details', methods=['GET'])
+@teams_bp.route('/teams/<int:team_id>/details', methods=['GET'])
 @requires_auth('get:team-details')
 def get_specific_team_details(jwt, team_id):
     try:
@@ -46,7 +45,7 @@ def get_specific_team_details(jwt, team_id):
         raise error
 
 
-@teams.route('/teams/<int:team_id>/roster', methods=['GET'])
+@teams_bp.route('/teams/<int:team_id>/roster', methods=['GET'])
 @requires_auth('get:team-roster')
 def get_team_players(jwt, team_id):
     try:
@@ -69,7 +68,7 @@ def get_team_players(jwt, team_id):
         raise error
 
 
-@teams.route('/teams', methods=['POST'])
+@teams_bp.route('/teams', methods=['POST'])
 @requires_auth('post:teams')
 def post_team(jwt):
     try:
@@ -96,7 +95,7 @@ def post_team(jwt):
         raise error
 
 
-@teams.route('/teams/<int:team_id>', methods=['DELETE'])
+@teams_bp.route('/teams/<int:team_id>', methods=['DELETE'])
 @requires_auth('delete:teams')
 def delete_team(jwt, team_id):
     try:
@@ -129,7 +128,7 @@ def delete_team(jwt, team_id):
         raise error
 
 
-@teams.route('/teams/<int:team_id>', methods=['PATCH'])
+@teams_bp.route('/teams/<int:team_id>', methods=['PATCH'])
 @requires_auth('patch:teams')
 def patch_team_details(jwt, team_id):
     try:

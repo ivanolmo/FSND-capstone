@@ -1,16 +1,15 @@
 import json
 
-from flask import Blueprint, jsonify, request, abort
+from flask import jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth
 from ..models import Player, Agent
 from .helpers import valid_agent_body, valid_agent_patch_body
+from baseball_agency.agents import agents_bp
 
-agents = Blueprint('agents', __name__)
 
-
-@agents.route('/agents', methods=['GET'])
+@agents_bp.route('/agents', methods=['GET'])
 @requires_auth('get:agents')
 def get_all_agents(jwt):
     try:
@@ -31,7 +30,7 @@ def get_all_agents(jwt):
         raise error
 
 
-@agents.route('/agents/<int:agent_id>/details', methods=['GET'])
+@agents_bp.route('/agents/<int:agent_id>/details', methods=['GET'])
 @requires_auth('get:agent-details')
 def get_specific_agent_details(jwt, agent_id):
     try:
@@ -46,7 +45,7 @@ def get_specific_agent_details(jwt, agent_id):
         raise error
 
 
-@agents.route('/agents/<int:agent_id>/clients', methods=['GET'])
+@agents_bp.route('/agents/<int:agent_id>/clients', methods=['GET'])
 @requires_auth('get:agent-clients')
 def get_agent_clients(jwt, agent_id):
     try:
@@ -69,7 +68,7 @@ def get_agent_clients(jwt, agent_id):
         raise error
 
 
-@agents.route('/agents', methods=['POST'])
+@agents_bp.route('/agents', methods=['POST'])
 @requires_auth('post:agents')
 def post_agent(jwt):
     try:
@@ -96,7 +95,7 @@ def post_agent(jwt):
         raise error
 
 
-@agents.route('/agents/<int:agent_id>', methods=['DELETE'])
+@agents_bp.route('/agents/<int:agent_id>', methods=['DELETE'])
 @requires_auth('delete:agents')
 def delete_agent(jwt, agent_id):
     try:
@@ -130,7 +129,7 @@ def delete_agent(jwt, agent_id):
         raise error
 
 
-@agents.route('/agents/<int:agent_id>', methods=['PATCH'])
+@agents_bp.route('/agents/<int:agent_id>', methods=['PATCH'])
 @requires_auth('patch:agents')
 def patch_agent_details(jwt, agent_id):
     try:

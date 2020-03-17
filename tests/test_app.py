@@ -5,19 +5,23 @@ import json
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
 
-from baseball_agency import app
-from baseball_agency.models import db, setup_db, db_drop_and_create_all, \
-    Player, Team, Agent
+from baseball_agency import create_app, db
+from baseball_agency.models import db_drop_and_create_all, Player, Team, Agent
+from config import Config
+
+
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.getenv('TEST_DATABASE_URL')
 
 
 class BaseballTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = app
+        self.app = create_app(TestConfig)
         self.client = self.app.test_client
-        self.database_name = 'baseball_test'
-        self.database_path = "postgres://{}:{}@{}/{}".format(
-            'postgres', 'asdf', 'localhost:5432', self.database_name)
-        setup_db(self.app, self.database_path)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+
         db.session.close()
         db_drop_and_create_all()
 
@@ -42,9 +46,9 @@ class BaseballTestCase(unittest.TestCase):
             total_payroll='Test Salary USD'
         )
 
-        with self.app.app_context():
-            self.db = SQLAlchemy()
-            self.db.init_app(self.app)
+        # with self.app.app_context():
+        #     self.db = SQLAlchemy()
+        #     self.db.init_app(self.app)
 
     def tearDown(self):
         pass

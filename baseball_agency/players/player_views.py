@@ -1,13 +1,12 @@
 import json
 
-from flask import Blueprint, jsonify, request, abort
+from flask import jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth
-from ..models import Player, Agent
+from ..models import Player
 from .helpers import valid_player_body, valid_player_patch_body
-
-players = Blueprint('players', __name__)
+from baseball_agency.players import players_bp
 
 PLAYERS_PER_PAGE = 10
 
@@ -23,7 +22,7 @@ def paginate_players(request, selection):
     return current_players
 
 
-@players.route('/players', methods=['GET'])
+@players_bp.route('/players', methods=['GET'])
 def get_all_players():
     try:
         player_query = Player.query.all()
@@ -44,7 +43,7 @@ def get_all_players():
         raise error
 
 
-@players.route('/players/<int:player_id>/details', methods=['GET'])
+@players_bp.route('/players/<int:player_id>/details', methods=['GET'])
 @requires_auth('get:player-details')
 def get_specific_player_details(jwt, player_id):
     try:
@@ -59,7 +58,7 @@ def get_specific_player_details(jwt, player_id):
         raise error
 
 
-@players.route('/players', methods=['POST'])
+@players_bp.route('/players', methods=['POST'])
 @requires_auth('post:players')
 def post_player(jwt):
     try:
@@ -86,7 +85,7 @@ def post_player(jwt):
         raise error
 
 
-@players.route('/players/<int:player_id>', methods=['DELETE'])
+@players_bp.route('/players/<int:player_id>', methods=['DELETE'])
 @requires_auth('delete:players')
 def delete_player(jwt, player_id):
     try:
@@ -104,7 +103,7 @@ def delete_player(jwt, player_id):
         raise error
 
 
-@players.route('/players/<int:player_id>', methods=['PATCH'])
+@players_bp.route('/players/<int:player_id>', methods=['PATCH'])
 @requires_auth('patch:players')
 def patch_player_details(jwt, player_id):
     try:
