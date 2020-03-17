@@ -34,13 +34,5 @@ def create_app(config_class=Config):
 
     return app
 
-# @app.route('/', methods=['GET'])
-# def index():
-#     # TODO remove this placeholder test endpoint when done
-#     return jsonify({
-#         'success': True,
-#         'message': 'Welcome to the FSND Baseball API'
-#     }), 200
-
 
 from baseball_agency import models

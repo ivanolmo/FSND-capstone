@@ -22,6 +22,15 @@ def paginate_players(request, selection):
     return current_players
 
 
+@players_bp.route('/', methods=['GET'])
+def index():
+    # TODO remove this placeholder test endpoint when done
+    return jsonify({
+        'success': True,
+        'message': 'Welcome to the FSND Baseball API'
+    }), 200
+
+
 @players_bp.route('/players', methods=['GET'])
 def get_all_players():
     try:
