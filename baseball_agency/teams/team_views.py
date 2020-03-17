@@ -4,9 +4,9 @@ from flask import jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth
-from ..models import Player, Team
-from .helpers import valid_team_body, valid_team_patch_body
 from baseball_agency.teams import teams_bp
+from .helpers import valid_team_body, valid_team_patch_body
+from ..models import Player, Team
 
 
 @teams_bp.route('/teams', methods=['GET'])
@@ -101,8 +101,8 @@ def delete_team(jwt, team_id):
     try:
         team = Team.query.filter_by(id=team_id).first_or_404()
 
-        """Query players on team in case of IntegrityError, so that error
-        return function can display players on team. A team cannot be 
+        """First query players on team in case of IntegrityError, so that error
+        return function can display the players on team, since a team cannot be
         deleted if it has players assigned to it."""
         player_query = Player.query.filter(Player.team_id == team.id)
         team_roster = [(f'id: {player.id}', f'name: {player.name}') for

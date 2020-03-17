@@ -4,9 +4,9 @@ from flask import jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth
-from ..models import Player
-from .helpers import valid_player_body, valid_player_patch_body
 from baseball_agency.players import players_bp
+from .helpers import valid_player_body, valid_player_patch_body
+from ..models import Player
 
 PLAYERS_PER_PAGE = 10
 

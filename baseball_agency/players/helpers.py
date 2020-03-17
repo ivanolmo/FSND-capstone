@@ -7,7 +7,7 @@ def check_valid_agent_id(id):
     is_valid = True
     valid_agent_ids = [agent.id for agent in Agent.query.all()]
 
-    if not id in valid_agent_ids:
+    if id not in valid_agent_ids:
         is_valid = False
 
     return is_valid
@@ -17,7 +17,7 @@ def check_valid_team_id(id):
     is_valid = True
     valid_team_ids = [team.id for team in Team.query.all()]
 
-    if not id in valid_team_ids:
+    if id not in valid_team_ids:
         is_valid = False
 
     return is_valid

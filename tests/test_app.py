@@ -1,11 +1,11 @@
+import json
 import os
 import unittest
-import json
 
 from baseball_agency import create_app, db
 from baseball_agency.models import db_drop_and_create_all, Player, Team, Agent
-from . import test_data
 from config import Config
+from . import test_data
 
 
 class TestConfig(Config):

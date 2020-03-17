@@ -4,9 +4,9 @@ from flask import jsonify, request, abort
 from sqlalchemy.exc import IntegrityError
 
 from auth.auth import requires_auth
-from ..models import Player, Agent
-from .helpers import valid_agent_body, valid_agent_patch_body
 from baseball_agency.agents import agents_bp
+from .helpers import valid_agent_body, valid_agent_patch_body
+from ..models import Player, Agent
 
 
 @agents_bp.route('/agents', methods=['GET'])
@@ -101,9 +101,10 @@ def delete_agent(jwt, agent_id):
     try:
         agent = Agent.query.filter_by(id=agent_id).first_or_404()
 
-        """Query players assigned to agent in case of IntegrityError, 
-        so that the error return function can display players assigned to 
-        agent. An agent cannot be deleted if it has players assigned to it."""
+        """First query players assigned to agent in case of IntegrityError,
+        so that the error return function can display players assigned to
+        agent, since an agent cannot be deleted if it has players assigned to
+        it."""
         player_query = Player.query.filter(Player.agent_id == agent.id)
         client_list = [(f'id: {client.id}', f'name: {client.name}') for client
                        in player_query]
