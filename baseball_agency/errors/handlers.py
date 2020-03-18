@@ -1,8 +1,8 @@
 from flask import jsonify
 
-# TODO fix this from baseball_agency import db (to do a db rollback for 500)
-from baseball_agency.errors import errors_bp
 from auth.auth import AuthError
+from baseball_agency.errors import errors_bp
+from .. import db
 
 
 @errors_bp.app_errorhandler(404)
@@ -61,11 +61,23 @@ def method_not_allowed(error):
 
 @errors_bp.app_errorhandler(500)
 def internal_server_error(error):
+    db.session.rollback()
     return jsonify({
         "success": False,
         "error": 500,
         "message": error.description
     }), 500
+
+
+@errors_bp.app_errorhandler(503)
+def internal_server_error(error):
+    """Added because of occasional Heroku latency causing this error"""
+    db.session.rollback()
+    return jsonify({
+        "success": False,
+        "error": 503,
+        "message": error.description
+    }), 503
 
 
 @errors_bp.app_errorhandler(AuthError)
