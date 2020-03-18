@@ -98,6 +98,13 @@ All variables are stored locally in the `.env` file. Take a look at the
 like. Please ensure the `DATABASE_URL` is accurate for your system if running
 this project locally.
 
+#### Local Testing
+To test your local installation, run the following command from the root folder:  
+    
+    pytest
+
+If all tests pass, your local installation is set up correctly.
+
 #### Running the server
 From within the root directory, first ensure you're working with your created
 venv. To run the server, execute the following:
